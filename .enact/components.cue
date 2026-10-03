@@ -329,7 +329,7 @@ pipeline: schema.#Pipeline & {
 				include: ["e2e"]
 			}
 			target_scope: {
-				fallback: "none"
+				fallback: "all"
 			}
 			test: {
 				command: "../helpers/vitest-runner.sh {relative_targets}"
