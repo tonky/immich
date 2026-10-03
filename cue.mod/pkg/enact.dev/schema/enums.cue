@@ -5,14 +5,27 @@ package schema
 	Go:         "go"
 	Rust:       "rust"
 	TypeScript: "typescript"
+	JavaScript: "javascript"
 	Python:     "python"
+	Cue:        "cue"
 	Docker:     "docker"
 	Infra:      "infra"
 	Postgres:   "postgres"
 	Redis:      "redis"
 	ClickHouse: "clickhouse"
 	Kafka:      "kafka"
+	Protobuf:   "protobuf"
+	Yaml:       "yaml"
+	Playwright: "playwright"
 }
+
+// Strongly typed disjunction of supported component technologies
+#TechnologyMode: #Technology.Go | #Technology.Rust | #Technology.TypeScript |
+	#Technology.JavaScript | #Technology.Python | #Technology.Cue |
+	#Technology.Docker | #Technology.Infra | #Technology.Postgres |
+	#Technology.Redis | #Technology.ClickHouse | #Technology.Kafka |
+	#Technology.Protobuf | #Technology.Yaml | #Technology.Playwright
+
 
 // Communication & architectural protocols for component relationships
 #Protocol: {
@@ -229,3 +242,19 @@ package schema
 	H100: "nvidia-h100"
 }
 #GpuTierMode: #GpuTier.None | #GpuTier.T4 | #GpuTier.A10g | #GpuTier.A100 | #GpuTier.H100
+
+// Standard runner preset tiers (GitHub Actions cloud, AWS/GCP on-demand, self-hosted bare metal)
+#RunnerPreset: {
+	GithubPublic:       "github-public"
+	GithubPrivate:      "github-private"
+	CloudMedium:        "cloud-medium"
+	CloudLarge:         "cloud-large"
+	CloudXlarge:        "cloud-xlarge"
+	SelfHostedStandard: "self-hosted-standard"
+	SelfHostedLarge:    "self-hosted-large"
+	SelfHostedBeast:    "self-hosted-beast"
+}
+#RunnerPresetMode: #RunnerPreset.GithubPublic | #RunnerPreset.GithubPrivate |
+	#RunnerPreset.CloudMedium | #RunnerPreset.CloudLarge | #RunnerPreset.CloudXlarge |
+	#RunnerPreset.SelfHostedStandard | #RunnerPreset.SelfHostedLarge | #RunnerPreset.SelfHostedBeast
+

@@ -40,10 +40,11 @@ package schema
 
 // Worker / Runner pool definition in CI
 #WorkerSpec: {
-	name?: string
-	labels: [...string]
-	cpus:          number
-	memory_mb:     int
+	name?:   string
+	preset?: #RunnerPresetMode
+	labels?: [...string]
+	cpus?:          number
+	memory_mb?:     int
 	max_parallel?: int
 	available?:    int
 	cost_per_min?: number

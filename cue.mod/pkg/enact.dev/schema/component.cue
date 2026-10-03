@@ -19,9 +19,8 @@ package schema
 	title?:       string
 	description?: string
 	tags?: [...string]
-	// `infra` components provide shared services: they start first and get the
-	// infrastructure layout in the UI.
-	technology?: string
+	// Architectural technology classification (strongly typed enum or list of enums).
+	technology?: #TechnologyMode | [...#TechnologyMode]
 	// Browsers the component's tests drive; CI provisions them for its matrix entries.
 	browsers?: #Browsers
 

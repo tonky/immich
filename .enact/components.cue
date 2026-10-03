@@ -149,7 +149,7 @@ pipeline: schema.#Pipeline & {
 			name:  "@immich/web"
 			title: "Immich SvelteKit Web Frontend"
 			root:  "web"
-			watch_paths: ["web/**"]
+			watch_paths: ["web/**", "i18n/**"]
 			depends_on: [components.root]
 			workspace_scope: {
 				include_dependencies: true
@@ -221,13 +221,6 @@ pipeline: schema.#Pipeline & {
 				include_dependencies: true
 				include: ["packages/sdk"]
 			}
-			target_scope: {
-				fallback: "all"
-				rules: [{
-					match: ["packages/sdk/**/*.ts"]
-					engine: "typescript"
-				}]
-			}
 			lint: {
 				command: "../../helpers/lint-runner.sh {relative_changed_files}"
 				filter: {
@@ -237,9 +230,6 @@ pipeline: schema.#Pipeline & {
 			}
 			typecheck: {
 				command: "../../helpers/typecheck-runner.sh"
-			}
-			test: {
-				command: "echo '✓ SDK build and types verified'"
 			}
 		}
 
@@ -306,9 +296,6 @@ pipeline: schema.#Pipeline & {
 					include: ["**/*.dart"]
 					on_empty: "skip"
 				}
-			}
-			test: {
-				command: "echo '✓ Mobile unit tests passed (hermetic mode)'"
 			}
 		}
 
