@@ -127,9 +127,10 @@ pipeline: schema.#Pipeline & {
 			name:  "@immich/server"
 			title: "Immich Backend REST API & Queue Engine"
 			root:  "server"
-			// As upstream's `server` change filter: the medium specs run the core plugin.
-			watch_paths: ["server/**", "packages/plugin-core/**", "packages/plugin-sdk/**"]
-			depends_on: [components.root]
+			watch_paths: ["server/**"]
+			// The medium workflow specs run the core plugin, as upstream's `server` change
+			// filter (`packages/plugin-core/**`, `packages/plugin-sdk/**`).
+			depends_on: [components.root, components.plugin_core]
 			workspace_scope: {
 				include_dependencies: true
 				include: ["server", "packages"]
@@ -238,6 +239,32 @@ pipeline: schema.#Pipeline & {
 			}
 		}
 
+		// Built for the server (helpers/build-core-plugin.sh), as upstream's `//:plugins`;
+		// upstream runs no checks of their own.
+		plugin_sdk: {
+			name:  "@immich/plugin-sdk"
+			title: "Immich Plugin SDK"
+			root:  "packages/plugin-sdk"
+			watch_paths: ["packages/plugin-sdk/**"]
+			depends_on: [components.root, components.sdk]
+			workspace_scope: {
+				include_dependencies: true
+				include: ["packages/plugin-sdk"]
+			}
+		}
+
+		plugin_core: {
+			name:  "@immich/plugin-core"
+			title: "Immich Core Plugin (wasm)"
+			root:  "packages/plugin-core"
+			watch_paths: ["packages/plugin-core/**"]
+			depends_on: [components.root, components.sdk, components.plugin_sdk]
+			workspace_scope: {
+				include_dependencies: true
+				include: ["packages/plugin-core"]
+			}
+		}
+
 		sdk: {
 			name:  "@immich/sdk"
 			title: "Immich OpenAPI Generated TypeScript SDK"
@@ -327,7 +354,8 @@ pipeline: schema.#Pipeline & {
 			title: "Immich End-to-End Full Stack Integration"
 			root:  "e2e"
 			watch_paths: ["e2e/**"]
-			depends_on: [components.server, components.cli]
+			// Its server runs the core plugin, as the image ships it (start-immich-server.sh).
+			depends_on: [components.server, components.cli, components.plugin_core]
 			// The server specs run against the real server with machine learning
 			// disabled, as upstream's docker-compose does.
 			services: [

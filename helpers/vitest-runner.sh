@@ -18,6 +18,12 @@ fi
 
 TARGETS=("$@")
 
+# As `pnpm run` (upstream runs `pnpm test`): the package's and the workspace's bins first.
+# The cli e2e specs spawn `pnpm exec immich` in packages/cli, which finds `immich` only on
+# the PATH it inherits (e2e links the cli's bin, the cli does not link its own).
+PATH="$PWD/node_modules/.bin:$REPO_ROOT/node_modules/.bin:$PATH"
+export PATH
+
 VITEST_CMD=()
 if [ -x "./node_modules/.bin/vitest" ]; then
   VITEST_CMD=("./node_modules/.bin/vitest")

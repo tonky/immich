@@ -23,6 +23,10 @@ PATH="$(helpers/pinned-tool.sh jellyfin-ffmpeg):$PATH"
 export PATH
 
 helpers/provision-geodata.sh "${IMMICH_BUILD_DATA:?}/geodata"
+# The image ships the core plugin at /build/plugins/immich-plugin-core (manifest + dist).
+helpers/build-core-plugin.sh
+mkdir -p "$IMMICH_BUILD_DATA/plugins"
+ln -sfn "$PWD/packages/plugin-core" "$IMMICH_BUILD_DATA/plugins/immich-plugin-core"
 mkdir -p "${IMMICH_MEDIA_LOCATION:?}"
 
 exec node server/dist/main.js

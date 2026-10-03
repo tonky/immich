@@ -143,7 +143,7 @@ phase_e2e() {
   rm -rf "$COVERAGE" "$WORK/windows"
   mkdir -p "$COVERAGE"
   NODE_V8_COVERAGE=$COVERAGE NODE_OPTIONS="--require $ROOT/$TRACE/coverage-hook.cjs" services_up immich-server
-  await immich-server curl -sf http://127.0.0.1:3001/api/server/ping
+  await immich-server curl -sf http://127.0.0.1:2285/api/server/ping
   take_window 000-boot
   THREADS=$(coverage_files "$WORK/windows/000-boot")
   echo "📡 server ready: $THREADS coverage threads"

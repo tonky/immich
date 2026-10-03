@@ -40,8 +40,7 @@ profiles: dev: schema.#Profile & {
 				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
 			}
 		}
-		// As upstream's compose (`valkey/valkey:9`). Named for what runs: enve infers a
-		// `redis` service's package from its name even beside an explicit `package`.
+		// As upstream's compose (`valkey/valkey:9`).
 		valkey: {
 			name:    "valkey"
 			package: pkgs.valkey & {version: "9"}
@@ -50,12 +49,26 @@ profiles: dev: schema.#Profile & {
 		"immich-server": {
 			name:    "immich-server"
 			command: "sh -c helpers/start-immich-server.sh"
-			port:    3001
+			// As upstream's e2e docker-compose: the cli specs expect 127.0.0.1:2285.
+			port: 2285
 			dependsOn: [{service: "postgres"}, {service: "valkey"}]
-			// As upstream's e2e docker-compose: testing mode, no machine learning.
+			// As upstream's e2e docker-compose (testing mode, no machine learning, all
+			// telemetry) and its server image (production node, build metadata from the
+			// compose build args).
 			environment: {
 				IMMICH_ENV:                       "testing"
 				IMMICH_MACHINE_LEARNING_ENABLED:  "false"
+				IMMICH_TELEMETRY_INCLUDE:         "all"
+				NODE_ENV:                         "production"
+				IMMICH_BUILD:                     "1234567890"
+				IMMICH_BUILD_URL:                 "https://github.com/immich-app/immich/actions/runs/1234567890"
+				IMMICH_BUILD_IMAGE:               "e2e"
+				IMMICH_BUILD_IMAGE_URL:           "https://github.com/immich-app/immich/pkgs/container/immich-server"
+				IMMICH_REPOSITORY:                "immich-app/immich"
+				IMMICH_REPOSITORY_URL:            "https://github.com/immich-app/immich"
+				IMMICH_SOURCE_REF:                "e2e"
+				IMMICH_SOURCE_COMMIT:             "e2eeeeeeeeeeeeeeeeee"
+				IMMICH_SOURCE_URL:                "https://github.com/immich-app/immich/commit/e2eeeeeeeeeeeeeeeeee"
 				DB_HOSTNAME:                      "127.0.0.1"
 				DB_PORT:                          "5432"
 				DB_DATABASE_NAME:                 "immich"
@@ -63,7 +76,7 @@ profiles: dev: schema.#Profile & {
 				DB_PASSWORD:                      ""
 				REDIS_HOSTNAME:                   "127.0.0.1"
 				REDIS_PORT:                       "6379"
-				IMMICH_PORT:                      "3001"
+				IMMICH_PORT:                      "2285"
 				IMMICH_HOST:                      "127.0.0.1"
 				IMMICH_MEDIA_LOCATION:            "/tmp/immich-upload"
 				IMMICH_BUILD_DATA:                "/tmp/immich-build"
@@ -71,8 +84,8 @@ profiles: dev: schema.#Profile & {
 				IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
 			}
 			readinessProbe: {
-				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:3001/api/server/ping || exit 1"
-				port:    3001
+				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:2285/api/server/ping || exit 1"
+				port:    2285
 				// Headroom for building server/dist and running migrations on a cold runner.
 				timeout: "240s"
 			}
@@ -105,8 +118,8 @@ profiles: dev: schema.#Profile & {
 		DB_PASSWORD:                 ""
 		REDIS_HOSTNAME:              "127.0.0.1"
 		REDIS_PORT:                  "6379"
-		IMMICH_SERVER_URL:           "http://127.0.0.1:3001"
-		PLAYWRIGHT_BASE_URL:         "http://127.0.0.1:3001"
+		IMMICH_SERVER_URL:           "http://127.0.0.1:2285"
+		PLAYWRIGHT_BASE_URL:         "http://127.0.0.1:2285"
 		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5432/mich"
 	}
 }
