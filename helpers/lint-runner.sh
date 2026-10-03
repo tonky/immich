@@ -51,14 +51,24 @@ pids=()
 if [ ${#ts_files[@]} -gt 0 ]; then
   (
     ESLINT_BIN=""
-    if [ -x "./node_modules/.bin/eslint" ]; then
-      ESLINT_BIN="./node_modules/.bin/eslint"
-    elif [ -x "$REPO_ROOT/server/node_modules/.bin/eslint" ]; then
-      ESLINT_BIN="$REPO_ROOT/server/node_modules/.bin/eslint"
-    elif [ -x "$REPO_ROOT/web/node_modules/.bin/eslint" ]; then
-      ESLINT_BIN="$REPO_ROOT/web/node_modules/.bin/eslint"
-    elif command -v eslint >/dev/null 2>&1; then
-      ESLINT_BIN="eslint"
+    has_eslint_config=false
+    for cfg in eslint.config.js eslint.config.mjs eslint.config.cjs .eslintrc.js .eslintrc.json .eslintrc.yml .eslintrc.yaml; do
+      if [ -f "$cfg" ] || [ -f "$REPO_ROOT/$cfg" ]; then
+        has_eslint_config=true
+        break
+      fi
+    done
+
+    if [ "$has_eslint_config" = true ]; then
+      if [ -x "./node_modules/.bin/eslint" ]; then
+        ESLINT_BIN="./node_modules/.bin/eslint"
+      elif [ -x "$REPO_ROOT/node_modules/.bin/eslint" ]; then
+        ESLINT_BIN="$REPO_ROOT/node_modules/.bin/eslint"
+      elif [ -x "$REPO_ROOT/server/node_modules/.bin/eslint" ]; then
+        ESLINT_BIN="$REPO_ROOT/server/node_modules/.bin/eslint"
+      elif [ -x "$REPO_ROOT/web/node_modules/.bin/eslint" ]; then
+        ESLINT_BIN="$REPO_ROOT/web/node_modules/.bin/eslint"
+      fi
     fi
 
     if [ -n "$ESLINT_BIN" ]; then
@@ -66,7 +76,7 @@ if [ ${#ts_files[@]} -gt 0 ]; then
       "$ESLINT_BIN" --max-warnings 0 "${ts_files[@]}"
       echo "✓ [eslint] All files clean."
     else
-      echo "✓ [eslint] Shim passed (no binary)."
+      echo "✓ [eslint] No ESLint configuration or local binary found; skipping."
     fi
   ) &
   pids+=($!)

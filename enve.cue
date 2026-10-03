@@ -23,7 +23,7 @@ profiles: dev: schema.#Profile & {
 				PGTZ: "UTC"
 			}
 			lifecycle: {
-				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" -c \"CREATE TABLE IF NOT EXISTS system_metadata (key varchar primary key, value jsonb);\" -c \"INSERT INTO system_metadata (key, value) VALUES ('reverseGeocodingState', '{\\\"lastUpdate\\\": \\\"mock-geodata-2026\\\"}') ON CONFLICT (key) DO UPDATE SET value = '{\\\"lastUpdate\\\": \\\"mock-geodata-2026\\\"}';\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
+				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
 			}
 		}
 		redis: {
@@ -83,6 +83,6 @@ profiles: dev: schema.#Profile & {
 		REDIS_PORT:                  "6379"
 		IMMICH_SERVER_URL:           "http://127.0.0.1:3001"
 		PLAYWRIGHT_BASE_URL:         "http://127.0.0.1:3001"
-		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5432/immich"
+		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5432/mich"
 	}
 }
