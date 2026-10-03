@@ -3,7 +3,7 @@ import { ExifDateTime, exiftool, WriteTags } from 'exiftool-vendored';
 import ffmpeg, { FfprobeData, FfprobeStream } from 'fluent-ffmpeg';
 import _ from 'lodash';
 import { Duration } from 'luxon';
-import { execSync, spawn } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import { Writable } from 'node:stream';
 import sharp from 'sharp';
@@ -145,25 +145,8 @@ export class MediaRepository {
     }
   }
 
-  async decodeImage(input: string | Buffer, options: DecodeToBufferOptions) {
-    try {
-      return await this.getImageDecodingPipeline(input, options).raw().toBuffer({ resolveWithObject: true });
-    } catch (error: any) {
-      if (
-        (typeof input === 'string' && /\.(heic|heif)$/i.test(input)) ||
-        (Buffer.isBuffer(input) && input.subarray(4, 12).toString().includes('ftyp'))
-      ) {
-        try {
-          const inputArg = typeof input === 'string' ? `"${input}"` : 'pipe:0';
-          const inputOption = typeof input === 'string' ? {} : { input };
-          const jpegBuf = execSync(`ffmpeg -v error -i ${inputArg} -frames:v 1 -f image2 -c:v mjpeg -`, inputOption);
-          return await this.getImageDecodingPipeline(jpegBuf, options).raw().toBuffer({ resolveWithObject: true });
-        } catch {
-          // If ffmpeg fallback fails, rethrow original error
-        }
-      }
-      throw error;
-    }
+  decodeImage(input: string | Buffer, options: DecodeToBufferOptions) {
+    return this.getImageDecodingPipeline(input, options).raw().toBuffer({ resolveWithObject: true });
   }
 
   private applyEdits(pipeline: sharp.Sharp, edits: AssetEditActionItem[]): sharp.Sharp {

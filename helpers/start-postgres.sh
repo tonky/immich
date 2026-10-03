@@ -50,7 +50,7 @@ fi
 # initdb's default, as the image's postgresql.conf.
 cat << PGCONF > "$DATA_DIR/enact.conf"
 listen_addresses = '127.0.0.1'
-port = 5432
+port = 5435
 shared_preload_libraries = 'vchord.so'
 max_wal_size = 2GB
 shared_buffers = 512MB

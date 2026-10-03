@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# docker - The e2e suite's `docker exec` and `docker cp` into its server container
+# ==============================================================================
+# e2e/src/utils.ts reaches into `immich-e2e-server` with `docker exec [-i] NAME CMD...`
+# (immich-admin, mkdir, mv, rm, find) and `docker cp SRC NAME:DEST`. Here the
+# "container" is the server's mount view (view.sh) and the environment it started with
+# (start-immich-server.sh records it). Anything else fails: no container runtime runs.
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+
+unsupported() {
+  echo "❌ docker (enact stand-in): '$*' is not supported; no container runtime runs here" >&2
+  exit 1
+}
+
+# in_container <name> <command...>: as `docker exec`, from the image's workdir.
+in_container() {
+  local name="$1" env_file
+  shift
+  env_file="$REPO_ROOT/.enve/containers/$name/env"
+  [ -f "$env_file" ] || { echo "❌ docker (enact stand-in): container $name is not running" >&2; exit 1; }
+  local vars
+  mapfile -d '' vars < "$env_file"
+  cd "$REPO_ROOT"
+  exec env -i "${vars[@]}" "$REPO_ROOT/helpers/container/view.sh" "$name" "$@"
+}
+
+case "${1:-}" in
+  exec)
+    shift
+    # -i keeps stdin open, as this process does anyway.
+    [ "${1:-}" = "-i" ] && shift
+    [[ "${1:-}" == -* ]] && unsupported exec "$@"
+    name="${1:?docker exec: container name}"
+    shift
+    in_container "$name" "$@"
+    ;;
+  cp)
+    [ $# -eq 3 ] && [[ "$3" == *:* ]] || unsupported "$@"
+    in_container "${3%%:*}" cp "$2" "${3#*:}"
+    ;;
+  *) unsupported "$@" ;;
+esac

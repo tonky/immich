@@ -29,6 +29,8 @@ profiles: dev: schema.#Profile & {
 			name:    "postgres"
 			package: pkgs.postgresql_14
 			command: "sh -c helpers/start-postgres.sh"
+			// As upstream's e2e compose publishes it (`5435:5432`): e2e/src/utils.ts connects there.
+			port: 5435
 			// A cold start fetches the pinned extensions, links the prefix and runs initdb
 			// before the postmaster listens.
 			timeout: "60s"
@@ -37,7 +39,7 @@ profiles: dev: schema.#Profile & {
 				PGTZ: "UTC"
 			}
 			lifecycle: {
-				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
+				postStart: "createdb -h 127.0.0.1 -p 5435 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5435 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5435 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p 5435 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
 			}
 		}
 		// As upstream's compose (`valkey/valkey:9`).
@@ -70,7 +72,7 @@ profiles: dev: schema.#Profile & {
 				IMMICH_SOURCE_COMMIT:             "e2eeeeeeeeeeeeeeeeee"
 				IMMICH_SOURCE_URL:                "https://github.com/immich-app/immich/commit/e2eeeeeeeeeeeeeeeeee"
 				DB_HOSTNAME:                      "127.0.0.1"
-				DB_PORT:                          "5432"
+				DB_PORT:                          "5435"
 				DB_DATABASE_NAME:                 "immich"
 				DB_USERNAME:                      "postgres"
 				DB_PASSWORD:                      ""
@@ -78,8 +80,6 @@ profiles: dev: schema.#Profile & {
 				REDIS_PORT:                       "6379"
 				IMMICH_PORT:                      "2285"
 				IMMICH_HOST:                      "127.0.0.1"
-				IMMICH_MEDIA_LOCATION:            "/tmp/immich-upload"
-				IMMICH_BUILD_DATA:                "/tmp/immich-build"
 				IMMICH_GEODATA_CACHE:             ".enact/cache/immich-geodata"
 				IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
 			}
@@ -111,8 +111,11 @@ profiles: dev: schema.#Profile & {
 		pnpm_config_verify_deps_before_run: "false"
 		TZ:                          "UTC"
 		PGTZ:                        "UTC"
+		// No container runtime: a docker client (testcontainers, compose) fails here
+		// instead of silently starting upstream's images where a runner has docker.
+		DOCKER_HOST:                 "unix:///nonexistent/enact-runs-no-containers.sock"
 		DB_HOSTNAME:                 "127.0.0.1"
-		DB_PORT:                     "5432"
+		DB_PORT:                     "5435"
 		DB_DATABASE_NAME:            "immich"
 		DB_USERNAME:                 "postgres"
 		DB_PASSWORD:                 ""
@@ -120,6 +123,6 @@ profiles: dev: schema.#Profile & {
 		REDIS_PORT:                  "6379"
 		IMMICH_SERVER_URL:           "http://127.0.0.1:2285"
 		PLAYWRIGHT_BASE_URL:         "http://127.0.0.1:2285"
-		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5432/mich"
+		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5435/mich"
 	}
 }

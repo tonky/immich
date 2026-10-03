@@ -9,7 +9,7 @@ while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
   REPO_ROOT="$(dirname "$REPO_ROOT")"
 done
 
-export DB_URL="${DB_URL:-postgres://postgres@127.0.0.1:5432/immich}"
+export DB_URL="${DB_URL:-postgres://postgres@127.0.0.1:5435/immich}"
 
 echo "🔍 [schema-check] Verifying migration execution order..."
 (cd "$REPO_ROOT/server" && pnpm run migrations:verify-order)
