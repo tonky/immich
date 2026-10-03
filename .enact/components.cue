@@ -152,11 +152,9 @@ pipeline: schema.#Pipeline & {
 					on_empty: "skip"
 				}
 			}
-			// As upstream's ci-unit (`//:plugins` first): the server imports the built plugin SDK.
-			jobs: test: tasks: [
-				{name: "Build SDK & plugin SDK", command: "pnpm --filter @immich/sdk --filter @immich/plugin-sdk run build"},
-				{name: "Run Tests", command: "../helpers/vitest-runner.sh {relative_targets}"},
-			]
+			test: {
+				command: "../helpers/vitest-runner.sh {relative_targets}"
+			}
 		}
 
 		web: {
@@ -203,7 +201,7 @@ pipeline: schema.#Pipeline & {
 				include_dependencies: true
 				include: ["machine-learning"]
 			}
-			service: immich.services["immich-machine-learning"]
+			service: immich.services["immich-ml"]
 			target_scope: {
 				fallback: "all"
 				rules: [{
@@ -338,11 +336,11 @@ pipeline: schema.#Pipeline & {
 					engine: "typescript"
 				}]
 			}
-			// As upstream's e2e job: the specs import the built SDK and drive the built CLI.
-			jobs: test: tasks: [
-				{name: "Build SDK & CLI", command: "pnpm --filter @immich/sdk --filter @immich/cli run build"},
-				{name: "Run Tests", command: "../helpers/vitest-runner.sh {relative_targets}"},
-			]
+			// The specs import the built SDK and drive the built CLI: vitest-runner.sh builds
+			// them first (helpers/build-workspace-deps.sh), as upstream's e2e job does.
+			test: {
+				command: "../helpers/vitest-runner.sh {relative_targets}"
+			}
 		}
 	}
 }

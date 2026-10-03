@@ -77,6 +77,8 @@ if [ ${#ts_files[@]} -gt 0 ]; then
     if [ "$has_eslint_config" = false ]; then
       echo "✓ [eslint] No ESLint config for this package (upstream does not lint it)."
     elif [ -n "$ESLINT_BIN" ]; then
+      # Typed rules resolve workspace dependencies' types from their build.
+      "$REPO_ROOT/helpers/build-workspace-deps.sh"
       echo "🔍 [eslint] Linting ${#ts_files[@]} changed file(s)..."
       "$ESLINT_BIN" --max-warnings 0 "${ts_files[@]}"
       echo "✓ [eslint] All files clean."

@@ -66,8 +66,8 @@ profiles: dev: schema.#Profile & {
 				timeout: "240s"
 			}
 		}
-		"immich-machine-learning": {
-			name:    "immich-machine-learning"
+		"immich-ml": {
+			name:    "immich-ml"
 			command: "sh -c helpers/start-immich-ml.sh"
 			port:    3003
 			environment: {
