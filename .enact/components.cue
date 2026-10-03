@@ -152,9 +152,11 @@ pipeline: schema.#Pipeline & {
 					on_empty: "skip"
 				}
 			}
-			test: {
-				command: "../helpers/vitest-runner.sh {relative_targets}"
-			}
+			// As upstream's ci-unit (`//:plugins` first): the server imports the built plugin SDK.
+			jobs: test: tasks: [
+				{name: "Build SDK & plugin SDK", command: "pnpm --filter @immich/sdk --filter @immich/plugin-sdk run build"},
+				{name: "Run Tests", command: "../helpers/vitest-runner.sh {relative_targets}"},
+			]
 		}
 
 		web: {

@@ -9,7 +9,7 @@ profiles: dev: schema.#Profile & {
 	name: "immich-dev"
 	tools: [
 		pkgs.pnpm & {version: "12"},
-		pkgs.nodejs & {version: "22"},
+		pkgs.nodejs & {version: "24"},
 		pkgs.python & {version: "3.11"},
 		pkgs.postgresql,
 		pkgs.redis,

@@ -32,6 +32,9 @@ sh_files=()
 
 for f in "${FILES[@]}"; do
   [ -f "$f" ] || continue # deleted by the change
+  # Another component's file (a dependency's change, e.g. ../../open-api/*.json for the
+  # sdk): its own component lints it, under its own config.
+  [[ "$f" == ../* ]] && continue
   case "$f" in
     *.ts|*.js|*.svelte)
       ts_files+=("$f")
@@ -71,12 +74,14 @@ if [ ${#ts_files[@]} -gt 0 ]; then
       fi
     fi
 
-    if [ -n "$ESLINT_BIN" ]; then
+    if [ "$has_eslint_config" = false ]; then
+      echo "✓ [eslint] No ESLint config for this package (upstream does not lint it)."
+    elif [ -n "$ESLINT_BIN" ]; then
       echo "🔍 [eslint] Linting ${#ts_files[@]} changed file(s)..."
       "$ESLINT_BIN" --max-warnings 0 "${ts_files[@]}"
       echo "✓ [eslint] All files clean."
     else
-      echo "❌ [eslint] ${#ts_files[@]} file(s) to lint but no ESLint config or binary: install dependencies" >&2
+      echo "❌ [eslint] ${#ts_files[@]} file(s) to lint but no ESLint binary: install dependencies" >&2
       exit 1
     fi
   ) &
