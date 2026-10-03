@@ -18,6 +18,10 @@ if [ ! -f server/dist/main.js ]; then
   pnpm --filter 'immich...' run build
 fi
 
+# Video thumbnails and probes with upstream's pinned jellyfin-ffmpeg.
+PATH="$(helpers/pinned-tool.sh jellyfin-ffmpeg):$PATH"
+export PATH
+
 helpers/provision-geodata.sh "${IMMICH_BUILD_DATA:?}/geodata"
 mkdir -p "${IMMICH_MEDIA_LOCATION:?}"
 

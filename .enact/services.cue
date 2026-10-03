@@ -9,7 +9,7 @@ immich: services: enve.profiles.dev.services
 
 immich: services: {
 	postgres: enact: kind: "postgres"
-	redis: enact: kind:    "redis"
+	valkey: enact: kind:   "redis"
 	"immich-server": enact: kind: "http"
 	"immich-ml": enact: kind: "http"
 }

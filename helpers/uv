@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# uv at upstream's pinned version (machine-learning/mise.toml), from tools.lock.
+set -euo pipefail
+exec "$("$(dirname "${BASH_SOURCE[0]}")/pinned-tool.sh" uv)/uv" "$@"
