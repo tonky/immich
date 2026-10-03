@@ -122,6 +122,8 @@ pipeline: schema.#Pipeline & {
 			workspace_scope: {
 				include_dependencies: true
 				include: ["server", "packages"]
+				// The medium exif specs read fixture media (server/test/medium.factory.ts).
+				submodules: ["e2e/test-assets"]
 			}
 			services: [immich.services.postgres, immich.services.redis]
 			service: immich.services["immich-server"]
