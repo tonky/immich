@@ -10,9 +10,17 @@ while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
 done
 
 DATA_DIR="${DATA_DIR:-/tmp/immich-postgres-data}"
-if [ ! -f "$DATA_DIR/PG_VERSION" ]; then
+# Upstream's postgres image sorts with en_US.UTF-8; suggestion endpoints ORDER BY text and
+# the e2e suite asserts that order. ICU gives it without depending on host locale archives
+# (ka-shifted ignores punctuation like glibc does). A cluster from other options is rebuilt.
+INITDB_ARGS="--encoding=UTF8 --locale=C.UTF-8 --locale-provider=icu --icu-locale=en-US-u-ka-shifted"
+STAMP="$DATA_DIR/.initdb-args"
+if [ ! -f "$DATA_DIR/PG_VERSION" ] || [ "$(cat "$STAMP" 2>/dev/null)" != "$INITDB_ARGS" ]; then
+  rm -rf "$DATA_DIR"
   mkdir -p "$DATA_DIR"
-  initdb -D "$DATA_DIR" -U postgres --auth=trust >/dev/null 2>&1
+  # shellcheck disable=SC2086 # INITDB_ARGS is a list of flags
+  initdb -D "$DATA_DIR" -U postgres --auth=trust $INITDB_ARGS >/dev/null
+  printf '%s' "$INITDB_ARGS" > "$STAMP"
 fi
 
 # Configure extension paths for user-space pgvector

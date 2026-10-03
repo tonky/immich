@@ -4,9 +4,5 @@
 # ==============================================================================
 set -euo pipefail
 
-TARGETS="${*:-}"
-if [ -z "${TARGETS}" ]; then
-  exec uv run pytest
-else
-  exec uv run pytest ${TARGETS}
-fi
+# As upstream's machine-learning `ci-unit`: the CPU extra provides onnxruntime.
+exec uv run --extra cpu pytest "$@"

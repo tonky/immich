@@ -37,8 +37,9 @@ pipeline: schema.#Pipeline & {
 				cancel_in_progress: true
 			}
 			triggers: {
+				// Showcase branches run through their pull request only, not twice.
 				push: {
-					branches: ["main", "master", "perf/ci-modernization", "showcase/**"]
+					branches: ["main", "master", "perf/ci-modernization"]
 				}
 				pull_request: {
 					branches: ["main", "master", "perf/ci-modernization"]
