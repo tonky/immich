@@ -80,7 +80,8 @@ type WaitOptions = { event: EventType; id?: string; total?: number; timeout?: nu
 type AdminSetupOptions = { onboarding?: boolean };
 type FileData = { bytes?: Buffer; filename: string };
 
-const dbUrl = `postgres://postgres:postgres@${playwrightDbHost}:5435/immich`;
+const dbPort = process.env.DB_PORT ?? (process.env.CI || process.env.IMMICH_TEST_POSTGRES_URL ? '5432' : '5435');
+const dbUrl = process.env.IMMICH_TEST_POSTGRES_URL ?? `postgres://postgres:postgres@${playwrightDbHost}:${dbPort}/immich`;
 export const baseUrl = playwriteBaseUrl;
 export const shareUrl = `${baseUrl}/share`;
 export const app = `${baseUrl}/api`;

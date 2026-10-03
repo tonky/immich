@@ -27,3 +27,10 @@ vite.config.js.timestamp-*
 .devcontainer/.env*
 *.tsbuildinfo
 *.tsbuildInfo
+
+.enve
+.enact/runs
+.enact/cache
+.enact/targets
+.enact/*.json
+.enact/*.html

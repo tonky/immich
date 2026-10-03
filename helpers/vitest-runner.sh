@@ -17,13 +17,21 @@ if [ -d "$REPO_ROOT/packages/plugin-sdk" ] && [ ! -d "$REPO_ROOT/packages/plugin
   (cd "$REPO_ROOT" && pnpm --filter @immich/plugin-sdk run build 2>/dev/null) || true
 fi
 
+if [ -d "$REPO_ROOT/packages/cli" ] && [ ! -d "$REPO_ROOT/packages/cli/dist" ]; then
+  (cd "$REPO_ROOT" && pnpm --filter @immich/cli run build 2>/dev/null) || true
+fi
+
 # @immich/sdk is a pure type-generation package with no vitest suite
 if [ -f "package.json" ] && rg -q '"name":\s*"@immich/sdk"' package.json 2>/dev/null; then
   echo "✓ @immich/sdk build and types verified"
   exit 0
 fi
 
-export IMMICH_TEST_POSTGRES_URL="${IMMICH_TEST_POSTGRES_URL:-postgres://postgres@127.0.0.1:5432/mich}"
+if [ -f "playwright.config.ts" ] || [ -d "src/specs" ]; then
+  export IMMICH_TEST_POSTGRES_URL="postgres://postgres:postgres@127.0.0.1:5432/immich"
+else
+  export IMMICH_TEST_POSTGRES_URL="${IMMICH_TEST_POSTGRES_URL:-postgres://postgres@127.0.0.1:5432/mich}"
+fi
 
 TARGETS=("$@")
 

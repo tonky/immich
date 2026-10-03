@@ -13,6 +13,7 @@ pipeline: schema.#Pipeline & {
 			".devcontainer",
 			".dockerignore",
 			".editorconfig",
+			".enve",
 			".env.*",
 			".git-blame-ignore-revs",
 			".github",
@@ -317,6 +318,10 @@ pipeline: schema.#Pipeline & {
 			}
 			target_scope: {
 				fallback: "all"
+				rules: [{
+					match: ["e2e/**/*.ts"]
+					engine: "typescript"
+				}]
 			}
 			test: {
 				command: "../helpers/vitest-runner.sh {relative_targets}"

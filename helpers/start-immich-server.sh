@@ -5,7 +5,17 @@
 set -euo pipefail
 
 if [ -f "server/dist/main.js" ] && [ -d "node_modules" ]; then
-  exec pnpm --filter @immich/server start
+  mkdir -p "${IMMICH_MEDIA_LOCATION:-/tmp/immich-upload}"
+  GEODATA_DIR="${IMMICH_BUILD_DATA:-/tmp/immich-build}/geodata"
+  mkdir -p "$GEODATA_DIR"
+  echo "mock-geodata-2026" > "$GEODATA_DIR/geodata-date.txt"
+  touch "$GEODATA_DIR/admin1CodesASCII.txt"
+  touch "$GEODATA_DIR/admin2Codes.txt"
+  touch "$GEODATA_DIR/cities500.txt"
+  cat << 'GEOJSON' > "$GEODATA_DIR/ne_10m_admin_0_countries.geojson"
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"ADMIN":"Earth","ADM0_A3":"WLD","TYPE":"Sovereignty"},"geometry":{"type":"MultiPolygon","coordinates":[[[[0,0],[0,1],[1,1],[1,0],[0,0]]]]}}]}
+GEOJSON
+  exec node server/dist/main.js
 else
   exec python3 -c '
 import http.server, socketserver

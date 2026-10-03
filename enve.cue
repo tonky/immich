@@ -17,13 +17,13 @@ profiles: dev: schema.#Profile & {
 	services: {
 		postgres: {
 			name:    "postgres"
-			command: "helpers/start-postgres.sh"
+			command: "sh -c helpers/start-postgres.sh"
 			environment: {
 				TZ:   "UTC"
 				PGTZ: "UTC"
 			}
 			lifecycle: {
-				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
+				postStart: "createdb -h 127.0.0.1 -p 5432 -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p 5432 -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p 5432 -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" -c \"CREATE TABLE IF NOT EXISTS system_metadata (key varchar primary key, value jsonb);\" -c \"INSERT INTO system_metadata (key, value) VALUES ('reverseGeocodingState', '{\\\"lastUpdate\\\": \\\"mock-geodata-2026\\\"}') ON CONFLICT (key) DO UPDATE SET value = '{\\\"lastUpdate\\\": \\\"mock-geodata-2026\\\"}';\" || true; psql -h 127.0.0.1 -p 5432 -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
 			}
 		}
 		redis: {
@@ -32,30 +32,33 @@ profiles: dev: schema.#Profile & {
 		}
 		"immich-server": {
 			name:    "immich-server"
-			command: "helpers/start-immich-server.sh"
+			command: "sh -c helpers/start-immich-server.sh"
 			port:    3001
 			dependsOn: [{service: "postgres"}, {service: "redis"}]
 			environment: {
-				NODE_ENV:         "test"
-				DB_HOSTNAME:      "127.0.0.1"
-				DB_PORT:          "5432"
-				DB_DATABASE_NAME: "immich"
-				DB_USERNAME:      "postgres"
-				DB_PASSWORD:      ""
-				REDIS_HOSTNAME:   "127.0.0.1"
-				REDIS_PORT:       "6379"
-				IMMICH_PORT:      "3001"
-				IMMICH_HOST:      "127.0.0.1"
+				NODE_ENV:                         "test"
+				DB_HOSTNAME:                      "127.0.0.1"
+				DB_PORT:                          "5432"
+				DB_DATABASE_NAME:                 "immich"
+				DB_USERNAME:                      "postgres"
+				DB_PASSWORD:                      ""
+				REDIS_HOSTNAME:                   "127.0.0.1"
+				REDIS_PORT:                       "6379"
+				IMMICH_PORT:                      "3001"
+				IMMICH_HOST:                      "127.0.0.1"
+				IMMICH_MEDIA_LOCATION:            "/tmp/immich-upload"
+				IMMICH_BUILD_DATA:                "/tmp/immich-build"
+				IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
 			}
 			readinessProbe: {
-				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:3001/api/server-info/ping || exit 1"
+				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:3001/api/server/ping || exit 1"
 				port:    3001
 				timeout: "60s"
 			}
 		}
 		"immich-machine-learning": {
 			name:    "immich-machine-learning"
-			command: "helpers/start-immich-ml.sh"
+			command: "sh -c helpers/start-immich-ml.sh"
 			port:    3003
 			environment: {
 				IMMICH_MACHINE_LEARNING_PORT: "3003"
@@ -78,6 +81,8 @@ profiles: dev: schema.#Profile & {
 		DB_PASSWORD:                 ""
 		REDIS_HOSTNAME:              "127.0.0.1"
 		REDIS_PORT:                  "6379"
-		IMMICH_MACHINE_LEARNING_URL: "http://127.0.0.1:3003"
+		IMMICH_SERVER_URL:           "http://127.0.0.1:3001"
+		PLAYWRIGHT_BASE_URL:         "http://127.0.0.1:3001"
+		IMMICH_TEST_POSTGRES_URL:    "postgres://postgres:postgres@127.0.0.1:5432/immich"
 	}
 }

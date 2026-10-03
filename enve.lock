@@ -1118,8 +1118,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "aca633b64de0aea6292c91ef455db5382aab672f03d148f2a138a83a3d59606f",
-        "inventory_sha256": "357095edb42c903c46acbe044b9c0c2ed3646a208072ee0628324a41e01f48b6",
+        "environment_sha256": "d4102294009237334e367a4657822ee1dc5c7aba6a8a782cdbf6f1d2053e90c6",
+        "inventory_sha256": "26734b6ad1f83e874ec0b03fb2f954b291b62d2911c544c3a94c748b07f3af0c",
         "profile": null,
         "version": 1
       },
@@ -3573,7 +3573,9 @@
         "IMMICH_SERVER_HOST": "127.0.0.1",
         "IMMICH_SERVER_PORT": "3001",
         "IMMICH_SERVER_URL": "http://127.0.0.1:3001",
+        "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:5432/immich",
         "PGTZ": "UTC",
+        "PLAYWRIGHT_BASE_URL": "http://127.0.0.1:3001",
         "POSTGRES_HOST": "127.0.0.1",
         "POSTGRES_PORT": "5432",
         "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",

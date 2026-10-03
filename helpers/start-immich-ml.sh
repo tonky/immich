@@ -4,8 +4,8 @@
 # ==============================================================================
 set -euo pipefail
 
-if command -v uv >/dev/null 2>&1 && [ -f "machine-learning/immich_ml/main.py" ]; then
-  exec uv run uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003
+if [ -d "machine-learning/.venv" ] && command -v uv >/dev/null 2>&1 && [ -f "machine-learning/immich_ml/main.py" ]; then
+  exec uv run --directory machine-learning uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003
 else
   exec python3 -c '
 import http.server, socketserver
