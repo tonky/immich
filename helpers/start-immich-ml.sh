@@ -10,4 +10,4 @@ if [ ! -f machine-learning/immich_ml/main.py ]; then
   echo "❌ [immich-ml] machine-learning/ is not checked out" >&2
   exit 1
 fi
-exec uv run --directory machine-learning uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003
+exec helpers/uv run --directory machine-learning uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003

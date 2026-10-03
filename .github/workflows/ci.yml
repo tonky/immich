@@ -56,6 +56,7 @@ jobs:
           bin
           enve.cue
           enve.lock
+          tools.lock
           helpers
           patches
           packages
@@ -73,8 +74,15 @@ jobs:
           web
           i18n
           machine-learning
+          e2e/test-assets
         sparse-checkout-cone-mode: "true"
         submodules: "false"
+    - name: Checkout Submodules
+      run: |-
+        # shellcheck disable=SC2086 # one word per declared submodule path
+        git submodule update --init --depth 1 --recommend-shallow --jobs 4 -- $ENACT_SUBMODULES
+      env:
+        ENACT_SUBMODULES: e2e/test-assets
     - name: Ensure enve & enact CLI on PATH
       run: |
         git config --global --add safe.directory "*" 2>/dev/null || true
@@ -158,6 +166,14 @@ jobs:
             packages/*/dist
             packages/sdk/build
           restore-keys: node_build-${{ runner.os }}-stage-check-and-lint-
+      - name: Restore Cache [pinned_tools]
+        id: cache_pinned_tools
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: pinned_tools-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('tools.lock') }}
+          path: .enact/cache/tools
+          restore-keys: pinned_tools-${{ runner.os }}-stage-check-and-lint-
       - name: Restore Cache [python_cache]
         id: cache_python_cache
         continue-on-error: true
@@ -316,6 +332,13 @@ jobs:
             web/build
             packages/*/dist
             packages/sdk/build
+      - name: Save Cache [pinned_tools]
+        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_pinned_tools.outputs.cache-hit != 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v6
+        with:
+          key: ${{ steps.cache_pinned_tools.outputs.cache-primary-key }}
+          path: .enact/cache/tools
       - name: Save Cache [python_cache]
         if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
         continue-on-error: true
@@ -373,6 +396,7 @@ jobs:
           bin
           enve.cue
           enve.lock
+          tools.lock
           helpers
           patches
           packages
@@ -767,6 +791,15 @@ jobs:
             packages/*/dist
             packages/sdk/build
           restore-keys: node_build-${{ runner.os }}-${{ matrix.task_id }}-
+      - name: Restore Cache [pinned_tools]
+        id: cache_pinned_tools
+        if: contains(format(',{0},', matrix.caches), ',pinned_tools,')
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: pinned_tools-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('tools.lock') }}
+          path: .enact/cache/tools
+          restore-keys: pinned_tools-${{ runner.os }}-${{ matrix.task_id }}-
       - name: Restore Cache [python_cache]
         id: cache_python_cache
         continue-on-error: true
@@ -938,6 +971,13 @@ jobs:
             web/build
             packages/*/dist
             packages/sdk/build
+      - name: Save Cache [pinned_tools]
+        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && contains(format(',{0},', matrix.caches), ',pinned_tools,')) && steps.cache_pinned_tools.outputs.cache-hit != 'true'
+        continue-on-error: true
+        uses: actions/cache/save@v6
+        with:
+          key: ${{ steps.cache_pinned_tools.outputs.cache-primary-key }}
+          path: .enact/cache/tools
       - name: Save Cache [python_cache]
         if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
         continue-on-error: true

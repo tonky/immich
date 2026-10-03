@@ -41,6 +41,7 @@ pipeline: schema.#Pipeline & {
 			"cue.mod",
 			"enve.cue",
 			"enve.lock",
+			"tools.lock",
 			"bin",
 			"helpers",
 			"patches",
@@ -72,6 +73,14 @@ pipeline: schema.#Pipeline & {
 			version: "geonames-ne-v5.1.2"
 			used_by: {components: ["e2e"], jobs: [J.test]}
 		}
+		// helpers/pinned-tool.sh's downloads (jellyfin-ffmpeg, the postgres extensions, uv,
+		// extism-js, binaryen). Per task: each fetches only the tools it runs.
+		pinned_tools: {
+			paths: [".enact/cache/tools"]
+			key: ["tools.lock"]
+			scope: "task"
+			used_by: components: ["@immich/server", "machine-learning", "e2e"]
+		}
 		python_cache: {
 			paths: [
 				"machine-learning/.pytest_cache",
@@ -95,6 +104,7 @@ pipeline: schema.#Pipeline & {
 				"turbo.json",
 				"enve.cue",
 				"enve.lock",
+				"tools.lock",
 				".enact/**",
 				// Shape installs and every job's commands.
 				".pnpmfile.cjs",
@@ -117,7 +127,8 @@ pipeline: schema.#Pipeline & {
 			name:  "@immich/server"
 			title: "Immich Backend REST API & Queue Engine"
 			root:  "server"
-			watch_paths: ["server/**"]
+			// As upstream's `server` change filter: the medium specs run the core plugin.
+			watch_paths: ["server/**", "packages/plugin-core/**", "packages/plugin-sdk/**"]
 			depends_on: [components.root]
 			workspace_scope: {
 				include_dependencies: true
@@ -125,7 +136,7 @@ pipeline: schema.#Pipeline & {
 				// The medium exif specs read fixture media (server/test/medium.factory.ts).
 				submodules: ["e2e/test-assets"]
 			}
-			services: [immich.services.postgres, immich.services.redis]
+			services: [immich.services.postgres, immich.services.valkey]
 			service: immich.services["immich-server"]
 			shards:  2
 			target_scope: {
@@ -211,16 +222,16 @@ pipeline: schema.#Pipeline & {
 					engine: "python"
 				}]
 			}
-			// As upstream's machine-learning/mise.toml `ci-unit`.
+			// As upstream's machine-learning/mise.toml `ci-unit`, with its pinned uv.
 			lint: {
-				command: "uv run --extra cpu ruff format --check {relative_changed_files} && uv run --extra cpu ruff check {relative_changed_files}"
+				command: "../helpers/uv run --extra cpu ruff format --check {relative_changed_files} && ../helpers/uv run --extra cpu ruff check {relative_changed_files}"
 				filter: {
 					include: ["**/*.py"]
 					on_empty: "skip"
 				}
 			}
 			typecheck: {
-				command: "uv run --extra cpu mypy --strict immich_ml/"
+				command: "../helpers/uv run --extra cpu mypy --strict immich_ml/"
 			}
 			test: {
 				command: "../helpers/pytest-runner.sh {relative_targets}"
@@ -321,7 +332,7 @@ pipeline: schema.#Pipeline & {
 			// disabled, as upstream's docker-compose does.
 			services: [
 				immich.services.postgres,
-				immich.services.redis,
+				immich.services.valkey,
 				immich.services["immich-server"],
 			]
 			workspace_scope: {

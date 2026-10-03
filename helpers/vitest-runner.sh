@@ -53,8 +53,12 @@ vitest_run() {
 
 # The server keeps unit and medium (database) specs under separate configs.
 if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; then
+  # Medium specs assert ffprobe's packet timings: upstream's pinned jellyfin-ffmpeg.
+  PATH="$("$REPO_ROOT/helpers/pinned-tool.sh" jellyfin-ffmpeg):$PATH"
+  export PATH
   if [ ${#TARGETS[@]} -eq 0 ]; then
     vitest_run --config test/vitest.config.mjs
+    "$REPO_ROOT/helpers/build-core-plugin.sh"
     vitest_run --config test/vitest.config.medium.mjs
     exit 0
   fi
@@ -70,6 +74,7 @@ if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; th
     vitest_run --config test/vitest.config.mjs "${unit_targets[@]}"
   fi
   if [ ${#medium_targets[@]} -gt 0 ]; then
+    "$REPO_ROOT/helpers/build-core-plugin.sh"
     vitest_run --config test/vitest.config.medium.mjs "${medium_targets[@]}"
   fi
 else
