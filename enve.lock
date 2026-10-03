@@ -1,0 +1,3617 @@
+{
+  "nixpkgs": {
+    "rev": "c9fe7d12cd78d1adcd12dd15e24432dde5b155a0",
+    "url": "github:NixOS/nixpkgs",
+    "verified": true
+  },
+  "platforms": {
+    "aarch64-darwin": {
+      "binding": {
+        "environment_sha256": "c92f1d03102f59bdd7d4dd0d95aadd3a6453795a05dce294ec4cec476a4cec74",
+        "inventory_sha256": "cdb6f8fdd8da8fd7ae65ab654bcb4b864ace3d7a527f03d8d085203211289295",
+        "profile": null,
+        "version": 1
+      },
+      "closures": [
+        {
+          "hash_name": "327bf08j5b7l9cnzink3g4vp32y5352j-python3-3.11.9",
+          "nar_hash": "sha256:095lh4ac2p69vzsdzg6jglkkjgbkfa441qvr124vmclmznkijhfb",
+          "nar_size": 91927544,
+          "references": [
+            "327bf08j5b7l9cnzink3g4vp32y5352j-python3-3.11.9",
+            "4p4qxgm2jaskvckkkcyj4m7f8cwdpwzy-gdbm-1.23",
+            "5sy7bnncrcj2awfh0lgpamrh4658nhdi-expat-2.6.2",
+            "6gl2073zk4b7nzf5idf82z739w4291yg-bzip2-1.0.8",
+            "8dgcwdq4c49ic9mwxgnshjq2skcw7wgq-sqlite-3.45.3",
+            "9d4pm78a2zph51iy2py7i1njxnzfscqy-libxcrypt-4.4.36",
+            "bc10sl6fda9mb598n3gld2fwqr24zq7p-openssl-3.0.13",
+            "g70w7h6882a1xn49g358ay062rp36sjn-tzdata-2024a",
+            "gmsxk2dsyfiwz88qdb1plq5anicq1nzy-libffi-3.4.6",
+            "j48yyijyi65472a9dybgagp0iy1syvzb-readline-8.2p10",
+            "nypznrirc7sy30yfsfrllf1l2ib2hga6-mailcap-2.1.53",
+            "p6lh10p1i984zqfacn3kc9pn3nxsj44n-zlib-1.3.1",
+            "pl5mqfw4c0z3g56nid8xb90yx640vy4r-xz-5.4.6",
+            "s30jrpgav677fpc9yvkqsib70xfmx7xi-bash-5.2p26",
+            "s83f0jp0fvapgzla0acn4z4vav94jhsb-ncurses-6.4.20221231"
+          ]
+        },
+        {
+          "hash_name": "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+          "nar_hash": "sha256:1qfq427j01z6pxmirawrpxy7zw43v9bdmcjpjwz989p3ax4xcqhp",
+          "nar_size": 677208,
+          "references": [
+            "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "j6qlvyib61ywlsv3mwf8n9pq8z0drlps-curl-8.21.0",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib"
+          ]
+        },
+        {
+          "hash_name": "6hbiyfa4gzcjr6bnr440nnwznlsaldlc-nodejs-22.23.2",
+          "nar_hash": "sha256:0613vx014jqq0l83r57cp7j6zz2va2wfh829w0arclpjqx5qyb1b",
+          "nar_size": 864088,
+          "references": [
+            "37hk0hrjjcg6agw1mra3lgllmb0lri1n-nodejs-slim-22.23.2-corepack",
+            "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2",
+            "vq0jh548hhxbwrxbwhq0w3j36dc16yg7-nodejs-slim-22.23.2-npm"
+          ]
+        },
+        {
+          "hash_name": "hhprmwazmgvxqff5zpra2bw0cb12f4sl-pnpm-9.15.3",
+          "nar_hash": "sha256:1ljnl5xbajcn0p2hhcisxj14ifx90cmi8df4sb96l83by0l8b7xk",
+          "nar_size": 15884448,
+          "references": [
+            "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37",
+            "9vkabbbbyfn8hv5l1r8fm59d27imq460-nodejs-22.11.0"
+          ]
+        },
+        {
+          "hash_name": "p8rnqjfhh57cr4xlrlg2ia3mhqcy7ypn-redis-8.10.1",
+          "nar_hash": "sha256:09k7ap8yxnspdnha3bc91vkdx3lkw7yjz4fwizyaic10bh382z9f",
+          "nar_size": 3941752,
+          "references": [
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3"
+          ]
+        },
+        {
+          "hash_name": "zndqgdxn4p28iyax8raza3pfn7lkjw64-postgresql-18.6",
+          "nar_hash": "sha256:0c5pxhvall3yqiadp3vjm06wjg0lig0dj57p4j7jwc4gny881sp7",
+          "nar_size": 25471824,
+          "references": [
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+            "7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+            "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3",
+            "a7523w35991b7lhhrkccam2bhavh2zq9-libxml2-2.15.3",
+            "chnq9lq8g2v2k1d2h45aij9ja4556mzn-lz4-1.10.0-lib",
+            "fya9xdmyimgj25ks7nrfaznl14icd449-tzdata-2026c",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib",
+            "sqsb3m7r3x2dk0cpaqgynffi489dsdhq-adv_cmds-237",
+            "zndqgdxn4p28iyax8raza3pfn7lkjw64-postgresql-18.6"
+          ]
+        },
+        {
+          "hash_name": "08ddykkdj6k223dj5d7r5plg5g7hs0lp-libuv-1.49.2",
+          "nar_hash": "sha256:118mj34vh4ww9484v70rd4aqj4sajjv9rksf4mfxlagmbsfnjpgj",
+          "nar_size": 221624,
+          "references": [
+            "08ddykkdj6k223dj5d7r5plg5g7hs0lp-libuv-1.49.2"
+          ]
+        },
+        {
+          "hash_name": "0a483npd9jfmlfbxd9m67vf7zqyk0jmc-zstd-1.5.7-dev",
+          "nar_hash": "sha256:13rf6afp8fgjrycmmydyycfcpw56jw3nll14nbp33wrnsgghfj01",
+          "nar_size": 225200,
+          "references": [
+            "0a483npd9jfmlfbxd9m67vf7zqyk0jmc-zstd-1.5.7-dev",
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "jzp2rfdrcaqlljjg2wb6czd1rv9i23zp-zstd-1.5.7-bin"
+          ]
+        },
+        {
+          "hash_name": "0b857cs3zy06nfjympag9rls4klwgkgc-libev-4.33",
+          "nar_hash": "sha256:066b0vgl7kn7hkkcdwx7x8lpsaf300gwl89zc4ci4mhwcv1897rn",
+          "nar_size": 234552,
+          "references": [
+            "0b857cs3zy06nfjympag9rls4klwgkgc-libev-4.33"
+          ]
+        },
+        {
+          "hash_name": "0d63j9ma2simwi7ahsibd3a7vpca99ws-bootstrap-tools",
+          "nar_hash": "sha256:1clxbbsf2359199ar2qz0znxm3s3af1ld6kdbix35w7xf3csw5b7",
+          "nar_size": 270569776,
+          "references": [
+            "0d63j9ma2simwi7ahsibd3a7vpca99ws-bootstrap-tools"
+          ]
+        },
+        {
+          "hash_name": "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+          "nar_hash": "sha256:008xjydmgiqqsy2wrsxv7dc48kwp7p6sl7m6mpp1zdsz5ykginil",
+          "nar_size": 928976,
+          "references": [
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+          "nar_hash": "sha256:05mv6mzm25l659bkbh0yi61imrx5syz97ip7p69bk0kzx317ssc1",
+          "nar_size": 45830800,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1"
+          ]
+        },
+        {
+          "hash_name": "0r7nklsn87mvr3nsl95bjbhgd5dj61na-gettext-1.0",
+          "nar_hash": "sha256:04vxxjlzahcx1l1kvxkzs15rnvxs3lqmp8h875sdc9n4prqdhi36",
+          "nar_size": 24823320,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+            "0r7nklsn87mvr3nsl95bjbhgd5dj61na-gettext-1.0",
+            "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "2kkkrmds53xgm9vs2y0ds8xk9gzijff7-simdutf-9.0.0",
+          "nar_hash": "sha256:0lpzhr0cwrsl4kkw1qd16bk27fszf6jayhkyjh509pjyrxdfq1vk",
+          "nar_size": 1204432,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+            "2kkkrmds53xgm9vs2y0ds8xk9gzijff7-simdutf-9.0.0"
+          ]
+        },
+        {
+          "hash_name": "2mczm7nj8lv6wvifwx428rl6praab5nr-llhttp-9.4.3",
+          "nar_hash": "sha256:0iffr58f6gw5m92qq47a7gx3l0bix54a0iwx6a0gnrfhs7ccfbjn",
+          "nar_size": 94744,
+          "references": [
+            "2mczm7nj8lv6wvifwx428rl6praab5nr-llhttp-9.4.3"
+          ]
+        },
+        {
+          "hash_name": "327bf08j5b7l9cnzink3g4vp32y5352j-python3-3.11.9",
+          "nar_hash": "sha256:095lh4ac2p69vzsdzg6jglkkjgbkfa441qvr124vmclmznkijhfb",
+          "nar_size": 91927544,
+          "references": [
+            "327bf08j5b7l9cnzink3g4vp32y5352j-python3-3.11.9",
+            "4p4qxgm2jaskvckkkcyj4m7f8cwdpwzy-gdbm-1.23",
+            "5sy7bnncrcj2awfh0lgpamrh4658nhdi-expat-2.6.2",
+            "6gl2073zk4b7nzf5idf82z739w4291yg-bzip2-1.0.8",
+            "8dgcwdq4c49ic9mwxgnshjq2skcw7wgq-sqlite-3.45.3",
+            "9d4pm78a2zph51iy2py7i1njxnzfscqy-libxcrypt-4.4.36",
+            "bc10sl6fda9mb598n3gld2fwqr24zq7p-openssl-3.0.13",
+            "g70w7h6882a1xn49g358ay062rp36sjn-tzdata-2024a",
+            "gmsxk2dsyfiwz88qdb1plq5anicq1nzy-libffi-3.4.6",
+            "j48yyijyi65472a9dybgagp0iy1syvzb-readline-8.2p10",
+            "nypznrirc7sy30yfsfrllf1l2ib2hga6-mailcap-2.1.53",
+            "p6lh10p1i984zqfacn3kc9pn3nxsj44n-zlib-1.3.1",
+            "pl5mqfw4c0z3g56nid8xb90yx640vy4r-xz-5.4.6",
+            "s30jrpgav677fpc9yvkqsib70xfmx7xi-bash-5.2p26",
+            "s83f0jp0fvapgzla0acn4z4vav94jhsb-ncurses-6.4.20221231"
+          ]
+        },
+        {
+          "hash_name": "37hk0hrjjcg6agw1mra3lgllmb0lri1n-nodejs-slim-22.23.2-corepack",
+          "nar_hash": "sha256:1vkb39r2why9gcdi50nyan36p3r062zdgrq85z7yrj2hrm5yjh9x",
+          "nar_size": 1053808,
+          "references": [
+            "401wfz3g4kmjhi96qq29qbqz4143bwdq-bash-interactive-5.3p15",
+            "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2"
+          ]
+        },
+        {
+          "hash_name": "401wfz3g4kmjhi96qq29qbqz4143bwdq-bash-interactive-5.3p15",
+          "nar_hash": "sha256:1m4hwcilakc2cr0qvg2rn02a7f0azjd1s99lrc1zgadkzllvnhxh",
+          "nar_size": 8504656,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+            "401wfz3g4kmjhi96qq29qbqz4143bwdq-bash-interactive-5.3p15",
+            "7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+            "cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+          "nar_hash": "sha256:1qfq427j01z6pxmirawrpxy7zw43v9bdmcjpjwz989p3ax4xcqhp",
+          "nar_size": 677208,
+          "references": [
+            "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "j6qlvyib61ywlsv3mwf8n9pq8z0drlps-curl-8.21.0",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib"
+          ]
+        },
+        {
+          "hash_name": "4p4qxgm2jaskvckkkcyj4m7f8cwdpwzy-gdbm-1.23",
+          "nar_hash": "sha256:0bsczgnz002fr2w305w287m3zxgxyqccag4icq75yxwr9sv443pg",
+          "nar_size": 723056,
+          "references": [
+            "4p4qxgm2jaskvckkkcyj4m7f8cwdpwzy-gdbm-1.23"
+          ]
+        },
+        {
+          "hash_name": "5m8jyvw51pp7nxx0fklyraq46bs5nfjq-libuv-1.49.2-dev",
+          "nar_hash": "sha256:0qj2hxhcj4cmxp3s4pp76v47jy90wfmngnzqp3bwr7rc4xxmqngr",
+          "nar_size": 112352,
+          "references": [
+            "08ddykkdj6k223dj5d7r5plg5g7hs0lp-libuv-1.49.2",
+            "5m8jyvw51pp7nxx0fklyraq46bs5nfjq-libuv-1.49.2-dev"
+          ]
+        },
+        {
+          "hash_name": "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1",
+          "nar_hash": "sha256:17597xj2sjr9w2kbl402vm36agj5a9wp8w26rw2hb6fx17g824cy",
+          "nar_size": 126512,
+          "references": [
+            "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1"
+          ]
+        },
+        {
+          "hash_name": "5sy7bnncrcj2awfh0lgpamrh4658nhdi-expat-2.6.2",
+          "nar_hash": "sha256:02n5iazb7dbx8wf9zza16gm5m3ldspn1hrnmp00kyjjadjkx5psn",
+          "nar_size": 280560,
+          "references": [
+            "5sy7bnncrcj2awfh0lgpamrh4658nhdi-expat-2.6.2"
+          ]
+        },
+        {
+          "hash_name": "5v4jbslzfl5g5132n9pnsrc4ihdj1swa-llhttp-9.4.3-dev",
+          "nar_hash": "sha256:1j72xxxrr29j5xhk7myxackk0c7k0rzsqasyvcm1f3qmhqilhndp",
+          "nar_size": 42712,
+          "references": [
+            "2mczm7nj8lv6wvifwx428rl6praab5nr-llhttp-9.4.3",
+            "5v4jbslzfl5g5132n9pnsrc4ihdj1swa-llhttp-9.4.3-dev"
+          ]
+        },
+        {
+          "hash_name": "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37",
+          "nar_hash": "sha256:1ihhysljjjsrvrwzyambwg1v6h45f7d9m9mzhhg8g9572961lw6i",
+          "nar_size": 2693160,
+          "references": [
+            "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37"
+          ]
+        },
+        {
+          "hash_name": "6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0",
+          "nar_hash": "sha256:03l4fgagyx75qg7h8zn1ghnf4rvnrm8vhf047gid8x89bc9h15n1",
+          "nar_size": 204392,
+          "references": [
+            "6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0"
+          ]
+        },
+        {
+          "hash_name": "6gl2073zk4b7nzf5idf82z739w4291yg-bzip2-1.0.8",
+          "nar_hash": "sha256:1nnx60z9d9zpmxwp0cnbp0w4vrh8fx2fr23skb6kh75ynw1y5pdz",
+          "nar_size": 109304,
+          "references": [
+            "6gl2073zk4b7nzf5idf82z739w4291yg-bzip2-1.0.8"
+          ]
+        },
+        {
+          "hash_name": "6hbiyfa4gzcjr6bnr440nnwznlsaldlc-nodejs-22.23.2",
+          "nar_hash": "sha256:0613vx014jqq0l83r57cp7j6zz2va2wfh829w0arclpjqx5qyb1b",
+          "nar_size": 864088,
+          "references": [
+            "37hk0hrjjcg6agw1mra3lgllmb0lri1n-nodejs-slim-22.23.2-corepack",
+            "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2",
+            "vq0jh548hhxbwrxbwhq0w3j36dc16yg7-nodejs-slim-22.23.2-npm"
+          ]
+        },
+        {
+          "hash_name": "6pnyvrwczy50vzc66lw49f02y23jzcbr-publicsuffix-list-0-unstable-2026-08-14",
+          "nar_hash": "sha256:1x57fkgwj059x4ymcbv0bki0lviv1sqyb045rsz1wyxbqmj0hp38",
+          "nar_size": 337912,
+          "references": []
+        },
+        {
+          "hash_name": "71xw751ph6bi99rr7ffbqqh0ikhdjz1d-zlib-1.3.1-dev",
+          "nar_hash": "sha256:187ymnq2ndfjnx0kk9b86l8ich45v78x510pp0awd115ssksrcmg",
+          "nar_size": 115240,
+          "references": [
+            "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1",
+            "71xw751ph6bi99rr7ffbqqh0ikhdjz1d-zlib-1.3.1-dev"
+          ]
+        },
+        {
+          "hash_name": "75mxp65iyv0447b2izfh342rrd62nbca-openssl-3.3.2-bin",
+          "nar_hash": "sha256:0l7cp49jac9zkrl6064y0fmsffia9rnaakwvsflh0ymj66wvj0sc",
+          "nar_size": 972056,
+          "references": [
+            "75mxp65iyv0447b2izfh342rrd62nbca-openssl-3.3.2-bin",
+            "8ms7abrwg2nbqdjdcdf1aig4y7yha4v7-openssl-3.3.2"
+          ]
+        },
+        {
+          "hash_name": "7fw8njnq7nkq9hv47p25cmsaszj0p82b-simdjson-4.6.5",
+          "nar_hash": "sha256:1k6h4m333nx0xcr1bxm1awv61calgxif1fsgm4qs14b1agcxclm5",
+          "nar_size": 7846560,
+          "references": [
+            "7fw8njnq7nkq9hv47p25cmsaszj0p82b-simdjson-4.6.5"
+          ]
+        },
+        {
+          "hash_name": "7gn5z1hjrlgkhgl0l08b1vlz0rcr1qlm-gettext-1.0",
+          "nar_hash": "sha256:0ymjvamm74j4y4sb15pwrdd9y1rz27mhcwwavim32hmd23ydqscs",
+          "nar_size": 24690032,
+          "references": [
+            "0d63j9ma2simwi7ahsibd3a7vpca99ws-bootstrap-tools",
+            "7gn5z1hjrlgkhgl0l08b1vlz0rcr1qlm-gettext-1.0",
+            "c3f1w8blndawhvgc3jbp1hb8bcais17v-libiconv-1.19"
+          ]
+        },
+        {
+          "hash_name": "7js172sd8ibm0xx55blx1kqh2wh1r76i-zlib-1.3.2-dev",
+          "nar_hash": "sha256:11iq7w1s384q48kijr1avycp6d16r5smcwm3z43c93n9991xnmzm",
+          "nar_size": 122832,
+          "references": [
+            "7js172sd8ibm0xx55blx1kqh2wh1r76i-zlib-1.3.2-dev",
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "x2pzym51fc0hb8c9d343qwdw544rnacy-zlib-1.3.2-static"
+          ]
+        },
+        {
+          "hash_name": "7m1q8pwgnwsdw0mfxl9h38qy0risim98-c-ares-1.34.8-dev",
+          "nar_hash": "sha256:0lapcc63h83y0awa21hdx30zsv86vf8s9cc8bkpl7h7fp4vpqxar",
+          "nar_size": 132216,
+          "references": [
+            "7m1q8pwgnwsdw0mfxl9h38qy0risim98-c-ares-1.34.8-dev",
+            "9gkgza3irpwlcydjkql8g0zgjgp0bfww-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "7mx58f1qm8yfggxmmxzlxxxjl44m7h52-libuv-1.52.1",
+          "nar_hash": "sha256:017qjysp8cwyxmwshhw5iqc551rjb35idc6cb3acpdbgjqhpxrhg",
+          "nar_size": 222232,
+          "references": [
+            "7mx58f1qm8yfggxmmxzlxxxjl44m7h52-libuv-1.52.1"
+          ]
+        },
+        {
+          "hash_name": "7qp9wwbm8d65nxcw9qriw0id5661yn6b-sqlite-3.53.3-bin",
+          "nar_hash": "sha256:1a0a9iwl786knp3335bk8cqcslvbsbg0p923ihnm8vmim6cbsllr",
+          "nar_size": 2302368,
+          "references": [
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "wdg0np6n79l1kp0s4shc3wcm9vh5snvv-sqlite-3.53.3"
+          ]
+        },
+        {
+          "hash_name": "7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+          "nar_hash": "sha256:0lc22gz5ksmkjivrqjb53g46ayank2jlxs8k1w71kmpbj0j70kmp",
+          "nar_size": 405576,
+          "references": [
+            "7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+            "cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "86vs8mxfpzzw6vjrqv1ml9734qz83g8h-libcxx-19.1.5",
+          "nar_hash": "sha256:0kdd8pc1cklrvc8vg39paisq2x010cclz2zbpcxgl8zr7d48vg6q",
+          "nar_size": 4181688,
+          "references": [
+            "86vs8mxfpzzw6vjrqv1ml9734qz83g8h-libcxx-19.1.5"
+          ]
+        },
+        {
+          "hash_name": "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3",
+          "nar_hash": "sha256:09fzd09h8i2h3jcsgcyaixx0n1ymndyk9w8i4hvc8fnyza3xkx77",
+          "nar_size": 39609344,
+          "references": [
+            "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3"
+          ]
+        },
+        {
+          "hash_name": "8brxv8pqsginwjrrr6yzsfaaqvgcz6dh-nghttp2-1.70.0-dev",
+          "nar_hash": "sha256:16c9mg977plvnzl4c7sjkj9a6rsis4rj64zj2vfsckkkgg1xivq8",
+          "nar_size": 247368,
+          "references": [
+            "8brxv8pqsginwjrrr6yzsfaaqvgcz6dh-nghttp2-1.70.0-dev",
+            "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+            "wjl753dkf1v0lrfyasnaywyla7w5r58z-nghttp2-1.70.0"
+          ]
+        },
+        {
+          "hash_name": "8dgcwdq4c49ic9mwxgnshjq2skcw7wgq-sqlite-3.45.3",
+          "nar_hash": "sha256:13v8gcq2xpnn588z4qx0s5wwrpd2wpvpj49wkhjj48g6frmzhnqg",
+          "nar_size": 1713120,
+          "references": [
+            "8dgcwdq4c49ic9mwxgnshjq2skcw7wgq-sqlite-3.45.3",
+            "p6lh10p1i984zqfacn3kc9pn3nxsj44n-zlib-1.3.1"
+          ]
+        },
+        {
+          "hash_name": "8ms7abrwg2nbqdjdcdf1aig4y7yha4v7-openssl-3.3.2",
+          "nar_hash": "sha256:0cljsp0z6xwc6574bmnsw3n30s670w546lpqpaz8p0nyslp2170h",
+          "nar_size": 5814968,
+          "references": [
+            "8ms7abrwg2nbqdjdcdf1aig4y7yha4v7-openssl-3.3.2"
+          ]
+        },
+        {
+          "hash_name": "9d4pm78a2zph51iy2py7i1njxnzfscqy-libxcrypt-4.4.36",
+          "nar_hash": "sha256:0jly97ia4ygr8lydp2fdzwghs3q31zk90jf47y0i5fr3fqx0cwpr",
+          "nar_size": 164760,
+          "references": [
+            "9d4pm78a2zph51iy2py7i1njxnzfscqy-libxcrypt-4.4.36"
+          ]
+        },
+        {
+          "hash_name": "9gkgza3irpwlcydjkql8g0zgjgp0bfww-c-ares-1.34.8",
+          "nar_hash": "sha256:0481w6cjfk5m4s5xxxaqn98yn0vjvdr5c0l981zkq657dvw3xiij",
+          "nar_size": 367376,
+          "references": [
+            "9gkgza3irpwlcydjkql8g0zgjgp0bfww-c-ares-1.34.8",
+            "byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96"
+          ]
+        },
+        {
+          "hash_name": "9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19",
+          "nar_hash": "sha256:0ddyg8mxh8d0kk3vz62fd3frrxz1d7a35kp288gh06dkgh3g05vd",
+          "nar_size": 1190368,
+          "references": [
+            "9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19"
+          ]
+        },
+        {
+          "hash_name": "9vkabbbbyfn8hv5l1r8fm59d27imq460-nodejs-22.11.0",
+          "nar_hash": "sha256:09qignz6jn12psf4ca3vbkd1xkfpr1hi25rfkdai736l01568vqx",
+          "nar_size": 77038928,
+          "references": [
+            "08ddykkdj6k223dj5d7r5plg5g7hs0lp-libuv-1.49.2",
+            "5m8jyvw51pp7nxx0fklyraq46bs5nfjq-libuv-1.49.2-dev",
+            "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1",
+            "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37",
+            "71xw751ph6bi99rr7ffbqqh0ikhdjz1d-zlib-1.3.1-dev",
+            "86vs8mxfpzzw6vjrqv1ml9734qz83g8h-libcxx-19.1.5",
+            "8ms7abrwg2nbqdjdcdf1aig4y7yha4v7-openssl-3.3.2",
+            "9vkabbbbyfn8hv5l1r8fm59d27imq460-nodejs-22.11.0",
+            "g9fmij5q8yrd6ljdfxl3gslaxms53qlq-icu4c-74.2-dev",
+            "gpf49hhcw1mbndhpxa57jm1pnslyncmv-sqlite-3.47.0-dev",
+            "l2nvwi0k7nk9azm42yr6zkf2b2bmf0y7-openssl-3.3.2-dev",
+            "lgcwrpj3yl6s2xsiwjxizbma9yi1p530-sqlite-3.47.0",
+            "x14h84400276pwrylz92aswcgpfl072i-icu4c-74.2"
+          ]
+        },
+        {
+          "hash_name": "9vs69xb2bizr91xijx16dcal32fxmnw2-icu4c-78.3-dev",
+          "nar_hash": "sha256:1iaq17gxyrw05iqakvqv9id2g1nqhjj81ldnz7f6aachyszqcw7d",
+          "nar_size": 6555168,
+          "references": [
+            "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3",
+            "9vs69xb2bizr91xijx16dcal32fxmnw2-icu4c-78.3-dev",
+            "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "a7523w35991b7lhhrkccam2bhavh2zq9-libxml2-2.15.3",
+          "nar_hash": "sha256:0v64r86wg7p9crga1hmr63ya79vqlknmhnvjsaqrcmnvnr4vbc4w",
+          "nar_size": 1228696,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+            "a7523w35991b7lhhrkccam2bhavh2zq9-libxml2-2.15.3"
+          ]
+        },
+        {
+          "hash_name": "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+          "nar_hash": "sha256:13izmyljqb9rn43gbrjjbi655mc0hmq8arjn0lxx1965665w4xcp",
+          "nar_size": 212424,
+          "references": [
+            "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib"
+          ]
+        },
+        {
+          "hash_name": "anpddfkvrxbf3gjydfijqz61j7m51f0h-sqlite-3.47.0-bin",
+          "nar_hash": "sha256:0cdz7vkd2gkfwp0rbi8ksr7dar9nxk83j63mi333g6znckd70wd6",
+          "nar_size": 2025280,
+          "references": [
+            "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1"
+          ]
+        },
+        {
+          "hash_name": "bc10sl6fda9mb598n3gld2fwqr24zq7p-openssl-3.0.13",
+          "nar_hash": "sha256:00ybqwyanb74pcc3fbva0bsfs13c4q4gjw8v83r4chxj36xszvvy",
+          "nar_size": 4556776,
+          "references": [
+            "bc10sl6fda9mb598n3gld2fwqr24zq7p-openssl-3.0.13"
+          ]
+        },
+        {
+          "hash_name": "byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96",
+          "nar_hash": "sha256:1g9l7978gj55dxm8hwf6z84a6ba9a646hc9dvkz4prxqqb1k051m",
+          "nar_size": 219736,
+          "references": [
+            "byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96"
+          ]
+        },
+        {
+          "hash_name": "c3f1w8blndawhvgc3jbp1hb8bcais17v-libiconv-1.19",
+          "nar_hash": "sha256:0hwy6zjirj856qqnjx5lg4xs3gdqjdh5q0r5mvfn6yjv0ffbwi04",
+          "nar_size": 1190336,
+          "references": [
+            "c3f1w8blndawhvgc3jbp1hb8bcais17v-libiconv-1.19"
+          ]
+        },
+        {
+          "hash_name": "chnq9lq8g2v2k1d2h45aij9ja4556mzn-lz4-1.10.0-lib",
+          "nar_hash": "sha256:00zp58llm897a6k5r589sssywk1aw31j0m4gfrb948br4z3qc4c6",
+          "nar_size": 193320,
+          "references": [
+            "chnq9lq8g2v2k1d2h45aij9ja4556mzn-lz4-1.10.0-lib"
+          ]
+        },
+        {
+          "hash_name": "cimrlmdr18bjq80w45011vfx0xlcv562-adv_cmds-237-ps",
+          "nar_hash": "sha256:14h5ijsv9vfglm70br8w0clin0xllk8d77ccv7gkcwhph9mdzb56",
+          "nar_size": 74576,
+          "references": []
+        },
+        {
+          "hash_name": "cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6",
+          "nar_hash": "sha256:1wcgds4g44d1kwy30ym8hxw5djrk3n21vb307x6lyh0qgmdfwf2y",
+          "nar_size": 3859544,
+          "references": [
+            "cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2",
+          "nar_hash": "sha256:1hsz5w4y20f3yv712lsg2hssmc8v0aanka5g3bkvbgybnymxprc6",
+          "nar_size": 71932560,
+          "references": [
+            "0a483npd9jfmlfbxd9m67vf7zqyk0jmc-zstd-1.5.7-dev",
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "2mczm7nj8lv6wvifwx428rl6praab5nr-llhttp-9.4.3",
+            "5v4jbslzfl5g5132n9pnsrc4ihdj1swa-llhttp-9.4.3-dev",
+            "6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0",
+            "7fw8njnq7nkq9hv47p25cmsaszj0p82b-simdjson-4.6.5",
+            "7js172sd8ibm0xx55blx1kqh2wh1r76i-zlib-1.3.2-dev",
+            "7m1q8pwgnwsdw0mfxl9h38qy0risim98-c-ares-1.34.8-dev",
+            "7mx58f1qm8yfggxmmxzlxxxjl44m7h52-libuv-1.52.1",
+            "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3",
+            "8brxv8pqsginwjrrr6yzsfaaqvgcz6dh-nghttp2-1.70.0-dev",
+            "9gkgza3irpwlcydjkql8g0zgjgp0bfww-c-ares-1.34.8",
+            "9vs69xb2bizr91xijx16dcal32fxmnw2-icu4c-78.3-dev",
+            "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+            "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2",
+            "czp0399bv437zf8x5v0bvrnn53k80qyi-brotli-1.2.0-dev",
+            "f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "hg51c29nb89s85w7vyda9b1ycmf454k5-uvwasi-0.0.23",
+            "hvvs5jmify8jz94mczpv5j7v8b1v3fi0-simdutf-6.5.0",
+            "im29grm7x9l6phz7j0i2kbwszyjglhs8-sqlite-3.53.3-dev",
+            "inys19cpncl36s92bngpkydf334lr5rh-ada-4.0.0",
+            "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib",
+            "mvjgxsfmgybkvf32qd2iz781bx5kxf6m-libuv-1.52.1-dev",
+            "sg97i9xjncjlzk2a3ppgn8l3pgmwyvv5-openssl-3.6.3-dev",
+            "wdg0np6n79l1kp0s4shc3wcm9vh5snvv-sqlite-3.53.3",
+            "wk15wx3yrl6br4p0axr0gx7p65yhjzn5-ngtcp2-1.23.0-dev",
+            "ya65zl2jbcvpvqrd49mam3a3f8ifmxli-nghttp3-1.16.0-dev"
+          ]
+        },
+        {
+          "hash_name": "czp0399bv437zf8x5v0bvrnn53k80qyi-brotli-1.2.0-dev",
+          "nar_hash": "sha256:110y2gmqqc08cdsapqgszzmr6igy0xvlpxcpd0gcpgzk18jr8nn3",
+          "nar_size": 58880,
+          "references": [
+            "czp0399bv437zf8x5v0bvrnn53k80qyi-brotli-1.2.0-dev",
+            "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib",
+            "w9pg5nn6zpzsmqwnxqcsv9k010f22xfc-brotli-1.2.0"
+          ]
+        },
+        {
+          "hash_name": "dh7vg7jjcnb56i9wdwpglzhnpkh6nxp2-openssl-3.6.3-bin",
+          "nar_hash": "sha256:0cickzd6n5z0rz98h3ywd6rlczzb3vh78qr2z9n0xzf9iavzy9dz",
+          "nar_size": 985672,
+          "references": [
+            "dh7vg7jjcnb56i9wdwpglzhnpkh6nxp2-openssl-3.6.3-bin",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3"
+          ]
+        },
+        {
+          "hash_name": "dydvy91fm0fr017nw44dm22jc8qx4678-libpsl-0.21.5",
+          "nar_hash": "sha256:0bnh5d4n3si7hiz7lrjjx2ivg6drg853ng24n4zccrd71wxs96h7",
+          "nar_size": 158992,
+          "references": [
+            "0r7nklsn87mvr3nsl95bjbhgd5dj61na-gettext-1.0",
+            "6pnyvrwczy50vzc66lw49f02y23jzcbr-publicsuffix-list-0-unstable-2026-08-14",
+            "9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19",
+            "dydvy91fm0fr017nw44dm22jc8qx4678-libpsl-0.21.5",
+            "g4l1p02fh56m295zql7qa3ly29j82gqs-libunistring-1.4.2",
+            "qavs4krziikirbqxj2y5mspshg53hx42-libidn2-2.3.8"
+          ]
+        },
+        {
+          "hash_name": "f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+          "nar_hash": "sha256:0v1xhpv25fwizz8jmm3aiqv17swsqidi928iyvn718w8i1and8hf",
+          "nar_size": 435992,
+          "references": [
+            "f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3"
+          ]
+        },
+        {
+          "hash_name": "fya9xdmyimgj25ks7nrfaznl14icd449-tzdata-2026c",
+          "nar_hash": "sha256:16yz4hiyv18nx0p537kgbmggl6aky903z58rpcpaqxjcrnqnq4zm",
+          "nar_size": 2138680,
+          "references": []
+        },
+        {
+          "hash_name": "g4l1p02fh56m295zql7qa3ly29j82gqs-libunistring-1.4.2",
+          "nar_hash": "sha256:1fmbk5yw449jkhy4zrjbing1726cccvsh3w3x3mlbz2f8ly0iimn",
+          "nar_size": 2082888,
+          "references": [
+            "9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19",
+            "g4l1p02fh56m295zql7qa3ly29j82gqs-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "g70w7h6882a1xn49g358ay062rp36sjn-tzdata-2024a",
+          "nar_hash": "sha256:1aar7d0im668czvjaz2yw86x51nyjhpndd3am3dagsvjsfsb3i45",
+          "nar_size": 2127920,
+          "references": []
+        },
+        {
+          "hash_name": "g9fmij5q8yrd6ljdfxl3gslaxms53qlq-icu4c-74.2-dev",
+          "nar_hash": "sha256:1libabs2qjn1rkj6c9asj1k812kjq25wk2zj72lpkd8if1wl2mdg",
+          "nar_size": 6177248,
+          "references": [
+            "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37",
+            "86vs8mxfpzzw6vjrqv1ml9734qz83g8h-libcxx-19.1.5",
+            "g9fmij5q8yrd6ljdfxl3gslaxms53qlq-icu4c-74.2-dev",
+            "x14h84400276pwrylz92aswcgpfl072i-icu4c-74.2"
+          ]
+        },
+        {
+          "hash_name": "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+          "nar_hash": "sha256:0d5v7z72mki2difjh2vl893iz4r8s3ig4jp3a5fnbfxzyq86a9pj",
+          "nar_size": 6652568,
+          "references": [
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3"
+          ]
+        },
+        {
+          "hash_name": "gmsxk2dsyfiwz88qdb1plq5anicq1nzy-libffi-3.4.6",
+          "nar_hash": "sha256:0px4ay15lm38z86my9lx63kj71s3h2qkw97d2a4n3p1aby3gcag0",
+          "nar_size": 122664,
+          "references": [
+            "gmsxk2dsyfiwz88qdb1plq5anicq1nzy-libffi-3.4.6"
+          ]
+        },
+        {
+          "hash_name": "gpf49hhcw1mbndhpxa57jm1pnslyncmv-sqlite-3.47.0-dev",
+          "nar_hash": "sha256:067vbwx5rlas5cm0xiqzzkywisnhm2hcjfvyfnqzqp3r3n138wx6",
+          "nar_size": 690944,
+          "references": [
+            "anpddfkvrxbf3gjydfijqz61j7m51f0h-sqlite-3.47.0-bin",
+            "gpf49hhcw1mbndhpxa57jm1pnslyncmv-sqlite-3.47.0-dev",
+            "lgcwrpj3yl6s2xsiwjxizbma9yi1p530-sqlite-3.47.0"
+          ]
+        },
+        {
+          "hash_name": "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+          "nar_hash": "sha256:0rvv5jif45d990c1j6gw0zdrdhyfviggfpnr5mqnkhw0jikjprdq",
+          "nar_size": 110256,
+          "references": [
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "h3sv1mx2cqq5wyhf6i3r2fk4fc8ldw44-c-ares-1.34.8",
+          "nar_hash": "sha256:0ix46aihzzqn3ipqddi57gzxmi1zz5wd9wgrds3khcx3plpx4czx",
+          "nar_size": 255880,
+          "references": [
+            "h3sv1mx2cqq5wyhf6i3r2fk4fc8ldw44-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "hg51c29nb89s85w7vyda9b1ycmf454k5-uvwasi-0.0.23",
+          "nar_hash": "sha256:0v6h0pf85ygvzmvgb7ly8wl4c1i7g0irpqhvl9ykkgaablih7gsv",
+          "nar_size": 201520,
+          "references": [
+            "7mx58f1qm8yfggxmmxzlxxxjl44m7h52-libuv-1.52.1",
+            "hg51c29nb89s85w7vyda9b1ycmf454k5-uvwasi-0.0.23",
+            "mvjgxsfmgybkvf32qd2iz781bx5kxf6m-libuv-1.52.1-dev"
+          ]
+        },
+        {
+          "hash_name": "hhprmwazmgvxqff5zpra2bw0cb12f4sl-pnpm-9.15.3",
+          "nar_hash": "sha256:1ljnl5xbajcn0p2hhcisxj14ifx90cmi8df4sb96l83by0l8b7xk",
+          "nar_size": 15884448,
+          "references": [
+            "5wjj1f3pa1ndi3kvskm1fcs9kdy2xajf-bash-5.2p37",
+            "9vkabbbbyfn8hv5l1r8fm59d27imq460-nodejs-22.11.0"
+          ]
+        },
+        {
+          "hash_name": "hvvs5jmify8jz94mczpv5j7v8b1v3fi0-simdutf-6.5.0",
+          "nar_hash": "sha256:1ci6yzlxq2gmhxf819cwhlmzgq1mlbqixbilkkwmyg2mv2b7qnqy",
+          "nar_size": 579568,
+          "references": [
+            "0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+            "hvvs5jmify8jz94mczpv5j7v8b1v3fi0-simdutf-6.5.0"
+          ]
+        },
+        {
+          "hash_name": "im29grm7x9l6phz7j0i2kbwszyjglhs8-sqlite-3.53.3-dev",
+          "nar_hash": "sha256:1yaxgw20w73dl3sjzhz585c43ixr4q5161gz1wy2razpjvr5a70h",
+          "nar_size": 732112,
+          "references": [
+            "7qp9wwbm8d65nxcw9qriw0id5661yn6b-sqlite-3.53.3-bin",
+            "im29grm7x9l6phz7j0i2kbwszyjglhs8-sqlite-3.53.3-dev",
+            "wdg0np6n79l1kp0s4shc3wcm9vh5snvv-sqlite-3.53.3"
+          ]
+        },
+        {
+          "hash_name": "imwm5p8zmmskc2nch8pzi9ka83ap23gs-libxo-1.7.5",
+          "nar_hash": "sha256:0d2q4qf4dzxlrznb83pa8fxf6kl1as7b6bl27z5n3j6k56zdsqia",
+          "nar_size": 691440,
+          "references": [
+            "7gn5z1hjrlgkhgl0l08b1vlz0rcr1qlm-gettext-1.0",
+            "imwm5p8zmmskc2nch8pzi9ka83ap23gs-libxo-1.7.5"
+          ]
+        },
+        {
+          "hash_name": "inys19cpncl36s92bngpkydf334lr5rh-ada-4.0.0",
+          "nar_hash": "sha256:0qz6nyjd4l59m0ic0y5jx0jmasnh5byd0vns7l5lzfac3j0gq9g4",
+          "nar_size": 1031664,
+          "references": [
+            "2kkkrmds53xgm9vs2y0ds8xk9gzijff7-simdutf-9.0.0",
+            "inys19cpncl36s92bngpkydf334lr5rh-ada-4.0.0"
+          ]
+        },
+        {
+          "hash_name": "j48yyijyi65472a9dybgagp0iy1syvzb-readline-8.2p10",
+          "nar_hash": "sha256:1cvjqwrpg5x3cnk5c7zhfxbbvlwhnxr200raf5il9zi2x361f94b",
+          "nar_size": 444488,
+          "references": [
+            "j48yyijyi65472a9dybgagp0iy1syvzb-readline-8.2p10",
+            "s83f0jp0fvapgzla0acn4z4vav94jhsb-ncurses-6.4.20221231"
+          ]
+        },
+        {
+          "hash_name": "j6qlvyib61ywlsv3mwf8n9pq8z0drlps-curl-8.21.0",
+          "nar_hash": "sha256:1zvrj4vhp6jjlvyf4cwxbhqdv9vxbikqkaahabkz572n1gr84x2h",
+          "nar_size": 1000464,
+          "references": [
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0",
+            "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+            "byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96",
+            "dydvy91fm0fr017nw44dm22jc8qx4678-libpsl-0.21.5",
+            "f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "j6qlvyib61ywlsv3mwf8n9pq8z0drlps-curl-8.21.0",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib",
+            "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib",
+            "qavs4krziikirbqxj2y5mspshg53hx42-libidn2-2.3.8",
+            "rqdb2nwsr4yq3jj1ddrn0kidxs5dcjlq-libssh2-1.11.1"
+          ]
+        },
+        {
+          "hash_name": "jzp2rfdrcaqlljjg2wb6czd1rv9i23zp-zstd-1.5.7-bin",
+          "nar_hash": "sha256:0psp8n9ncdq7iy4qpa1m679al3ci5j9bb7jzpcawsglsjv9wcsx3",
+          "nar_size": 351832,
+          "references": [
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "jzp2rfdrcaqlljjg2wb6czd1rv9i23zp-zstd-1.5.7-bin",
+            "ldbcfcxcigbl5ddxb7bk3nlxb600f9yv-gnugrep-3.12",
+            "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib",
+          "nar_hash": "sha256:0p34fnqmyw6zhc46vnpx3lkizc6wzdw03fp4cppj8jy07y8y39mr",
+          "nar_size": 2617528,
+          "references": [
+            "byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib"
+          ]
+        },
+        {
+          "hash_name": "l2nvwi0k7nk9azm42yr6zkf2b2bmf0y7-openssl-3.3.2-dev",
+          "nar_hash": "sha256:1liwy9qxvjbrhvlcdz9wjyma546lbqv8fm1sca3pxkvnyxgz0laq",
+          "nar_size": 2060608,
+          "references": [
+            "75mxp65iyv0447b2izfh342rrd62nbca-openssl-3.3.2-bin",
+            "8ms7abrwg2nbqdjdcdf1aig4y7yha4v7-openssl-3.3.2",
+            "l2nvwi0k7nk9azm42yr6zkf2b2bmf0y7-openssl-3.3.2-dev"
+          ]
+        },
+        {
+          "hash_name": "ldbcfcxcigbl5ddxb7bk3nlxb600f9yv-gnugrep-3.12",
+          "nar_hash": "sha256:1sw53lh60kglj52gl6qy2iwzkdd8zsnb5x95yfb198gf3c0wf0x0",
+          "nar_size": 290152,
+          "references": [
+            "ldbcfcxcigbl5ddxb7bk3nlxb600f9yv-gnugrep-3.12",
+            "vl92q2ixjkah91afq14cy53p7jyp0y97-pcre2-10.47",
+            "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "lgcwrpj3yl6s2xsiwjxizbma9yi1p530-sqlite-3.47.0",
+          "nar_hash": "sha256:0z1g3qwizxqv7d702vxi17y2cldvxsmlsf9l5m26glcppvnplm80",
+          "nar_size": 1672800,
+          "references": [
+            "5s3b3s1kc2i2y9j8zcm03nphg7lmcxrg-zlib-1.3.1",
+            "lgcwrpj3yl6s2xsiwjxizbma9yi1p530-sqlite-3.47.0"
+          ]
+        },
+        {
+          "hash_name": "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib",
+          "nar_hash": "sha256:1c5bs860jsbhj0iga77k1m83cbgmb32nwibn911k4x85fxf1dhva",
+          "nar_size": 976000,
+          "references": [
+            "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "mvjgxsfmgybkvf32qd2iz781bx5kxf6m-libuv-1.52.1-dev",
+          "nar_hash": "sha256:08li7r60cf0wprn9bnxrdya4bv5qvn9n3kfra46bk000k67karms",
+          "nar_size": 113712,
+          "references": [
+            "7mx58f1qm8yfggxmmxzlxxxjl44m7h52-libuv-1.52.1",
+            "mvjgxsfmgybkvf32qd2iz781bx5kxf6m-libuv-1.52.1-dev"
+          ]
+        },
+        {
+          "hash_name": "nypznrirc7sy30yfsfrllf1l2ib2hga6-mailcap-2.1.53",
+          "nar_hash": "sha256:1crz6x8rv9lm9pjgbzgam2f5h0k50gjaq1mkhzvjf8am89hqf82l",
+          "nar_size": 112040,
+          "references": []
+        },
+        {
+          "hash_name": "p6lh10p1i984zqfacn3kc9pn3nxsj44n-zlib-1.3.1",
+          "nar_hash": "sha256:1kydp4mydfpiki228j11chxqrjaysy1ycrxacich7cxfp1ffj3r3",
+          "nar_size": 375648,
+          "references": [
+            "p6lh10p1i984zqfacn3kc9pn3nxsj44n-zlib-1.3.1"
+          ]
+        },
+        {
+          "hash_name": "p8rnqjfhh57cr4xlrlg2ia3mhqcy7ypn-redis-8.10.1",
+          "nar_hash": "sha256:09k7ap8yxnspdnha3bc91vkdx3lkw7yjz4fwizyaic10bh382z9f",
+          "nar_size": 3941752,
+          "references": [
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3"
+          ]
+        },
+        {
+          "hash_name": "pl5mqfw4c0z3g56nid8xb90yx640vy4r-xz-5.4.6",
+          "nar_hash": "sha256:1xwj2lrmc2px2p8lbcvpm4v0c00zm01hnzjajpvgh1xxlfz78cvj",
+          "nar_size": 238664,
+          "references": [
+            "pl5mqfw4c0z3g56nid8xb90yx640vy4r-xz-5.4.6"
+          ]
+        },
+        {
+          "hash_name": "qavs4krziikirbqxj2y5mspshg53hx42-libidn2-2.3.8",
+          "nar_hash": "sha256:180vrc3pl1sy687cx8vx604m1caxkv8fh5l5mp45210w096alif9",
+          "nar_size": 242520,
+          "references": [
+            "9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19",
+            "g4l1p02fh56m295zql7qa3ly29j82gqs-libunistring-1.4.2",
+            "qavs4krziikirbqxj2y5mspshg53hx42-libidn2-2.3.8"
+          ]
+        },
+        {
+          "hash_name": "rqdb2nwsr4yq3jj1ddrn0kidxs5dcjlq-libssh2-1.11.1",
+          "nar_hash": "sha256:0g8rpbaqwpiln7ccshn6a3wqb4c3bnm3v3n7sfaah086dqmhz72m",
+          "nar_size": 300600,
+          "references": [
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "rqdb2nwsr4yq3jj1ddrn0kidxs5dcjlq-libssh2-1.11.1"
+          ]
+        },
+        {
+          "hash_name": "s30jrpgav677fpc9yvkqsib70xfmx7xi-bash-5.2p26",
+          "nar_hash": "sha256:03s49bkvhjsxb4jxsp3wcwwy907pkaki4yb8swwrn5i2z1bszqr4",
+          "nar_size": 2849016,
+          "references": [
+            "s30jrpgav677fpc9yvkqsib70xfmx7xi-bash-5.2p26"
+          ]
+        },
+        {
+          "hash_name": "s83f0jp0fvapgzla0acn4z4vav94jhsb-ncurses-6.4.20221231",
+          "nar_hash": "sha256:0ifb9y0qy95hx5fnbxbnfl23w3zpwdqr7qlfcm117nrq34gxba18",
+          "nar_size": 3770912,
+          "references": [
+            "s83f0jp0fvapgzla0acn4z4vav94jhsb-ncurses-6.4.20221231"
+          ]
+        },
+        {
+          "hash_name": "sg97i9xjncjlzk2a3ppgn8l3pgmwyvv5-openssl-3.6.3-dev",
+          "nar_hash": "sha256:0dj2swl4di6ingngds6bqpsf7x67qdyxhjkxlawg0flcy0b76bp2",
+          "nar_size": 2043440,
+          "references": [
+            "dh7vg7jjcnb56i9wdwpglzhnpkh6nxp2-openssl-3.6.3-bin",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "sg97i9xjncjlzk2a3ppgn8l3pgmwyvv5-openssl-3.6.3-dev"
+          ]
+        },
+        {
+          "hash_name": "sqsb3m7r3x2dk0cpaqgynffi489dsdhq-adv_cmds-237",
+          "nar_hash": "sha256:1dhg9339vlyz4ikab9ffhsisvz6m877mkpm6p41i7mz7v7h5h51v",
+          "nar_size": 899768,
+          "references": [
+            "cimrlmdr18bjq80w45011vfx0xlcv562-adv_cmds-237-ps",
+            "cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6",
+            "imwm5p8zmmskc2nch8pzi9ka83ap23gs-libxo-1.7.5",
+            "sqsb3m7r3x2dk0cpaqgynffi489dsdhq-adv_cmds-237"
+          ]
+        },
+        {
+          "hash_name": "vl92q2ixjkah91afq14cy53p7jyp0y97-pcre2-10.47",
+          "nar_hash": "sha256:0n38f0f2m2jpfg6a4m56myi893jq7j6fq8y6ddxmdljx555szqr7",
+          "nar_size": 2254752,
+          "references": [
+            "vl92q2ixjkah91afq14cy53p7jyp0y97-pcre2-10.47"
+          ]
+        },
+        {
+          "hash_name": "vq0jh548hhxbwrxbwhq0w3j36dc16yg7-nodejs-slim-22.23.2-npm",
+          "nar_hash": "sha256:1n837zj00d4sqnrjacsh1h7a7f7wm8xzx2irwid53bvh9m6vs9ib",
+          "nar_size": 11555472,
+          "references": [
+            "401wfz3g4kmjhi96qq29qbqz4143bwdq-bash-interactive-5.3p15",
+            "cszc64x273c2nm8ykgszj2rbv39vyf3g-nodejs-slim-22.23.2"
+          ]
+        },
+        {
+          "hash_name": "w9pg5nn6zpzsmqwnxqcsv9k010f22xfc-brotli-1.2.0",
+          "nar_hash": "sha256:00rgz2yhjsx77ymssjd2yfp7gvk3vxyac2q7rni3bcfdqaj0jb66",
+          "nar_size": 69304,
+          "references": [
+            "mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "wdg0np6n79l1kp0s4shc3wcm9vh5snvv-sqlite-3.53.3",
+          "nar_hash": "sha256:18yrb1lzy9glkzzkzl08sqbkly2v7pnxkgnncz66qjd483jx1gsq",
+          "nar_size": 6408864,
+          "references": [
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "wdg0np6n79l1kp0s4shc3wcm9vh5snvv-sqlite-3.53.3"
+          ]
+        },
+        {
+          "hash_name": "wjl753dkf1v0lrfyasnaywyla7w5r58z-nghttp2-1.70.0",
+          "nar_hash": "sha256:1r5inykqayp2scgv8m8il8nx82w2z46qk4cxcggsdiypph2n0nq8",
+          "nar_size": 2827784,
+          "references": [
+            "0b857cs3zy06nfjympag9rls4klwgkgc-libev-4.33",
+            "abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "h3sv1mx2cqq5wyhf6i3r2fk4fc8ldw44-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "wk15wx3yrl6br4p0axr0gx7p65yhjzn5-ngtcp2-1.23.0-dev",
+          "nar_hash": "sha256:17bh5gxp7yirhwxx8xbqr183hmkci5j4jqz5pi82w78s9mz2aqf6",
+          "nar_size": 310088,
+          "references": [
+            "f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+            "wk15wx3yrl6br4p0axr0gx7p65yhjzn5-ngtcp2-1.23.0-dev"
+          ]
+        },
+        {
+          "hash_name": "x14h84400276pwrylz92aswcgpfl072i-icu4c-74.2",
+          "nar_hash": "sha256:1qdxpa266v6q5cfv6027rk3y31qc4jl7l8c48558c2v4r3f6y5hw",
+          "nar_size": 36781264,
+          "references": [
+            "86vs8mxfpzzw6vjrqv1ml9734qz83g8h-libcxx-19.1.5",
+            "x14h84400276pwrylz92aswcgpfl072i-icu4c-74.2"
+          ]
+        },
+        {
+          "hash_name": "x2pzym51fc0hb8c9d343qwdw544rnacy-zlib-1.3.2-static",
+          "nar_hash": "sha256:0lvcrz10yx8z9s6rnmpdd34g0a363h0y74fb3p0a3k50sjd0vddq",
+          "nar_size": 111400,
+          "references": []
+        },
+        {
+          "hash_name": "ya65zl2jbcvpvqrd49mam3a3f8ifmxli-nghttp3-1.16.0-dev",
+          "nar_hash": "sha256:062p835bgh31f6b9z2hj2dg7mk1h2s70acc5fi6yk41q0cg4mk0a",
+          "nar_size": 126064,
+          "references": [
+            "6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0",
+            "ya65zl2jbcvpvqrd49mam3a3f8ifmxli-nghttp3-1.16.0-dev"
+          ]
+        },
+        {
+          "hash_name": "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15",
+          "nar_hash": "sha256:1rl9zp03h0rl98k8qhh8cb9kdzdmz366w154nx2wbxhlqvdib7a6",
+          "nar_size": 2978184,
+          "references": [
+            "yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "zndqgdxn4p28iyax8raza3pfn7lkjw64-postgresql-18.6",
+          "nar_hash": "sha256:0c5pxhvall3yqiadp3vjm06wjg0lig0dj57p4j7jwc4gny881sp7",
+          "nar_size": 25471824,
+          "references": [
+            "0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+            "4n0cyq26dskdxq69d9c4hci8wkylh6bf-postgresql-18.6-lib",
+            "7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+            "895xjmaqf329l5mia9gpvx0d0pq6bx15-icu4c-78.3",
+            "a7523w35991b7lhhrkccam2bhavh2zq9-libxml2-2.15.3",
+            "chnq9lq8g2v2k1d2h45aij9ja4556mzn-lz4-1.10.0-lib",
+            "fya9xdmyimgj25ks7nrfaznl14icd449-tzdata-2026c",
+            "gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+            "gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+            "kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib",
+            "sqsb3m7r3x2dk0cpaqgynffi489dsdhq-adv_cmds-237",
+            "zndqgdxn4p28iyax8raza3pfn7lkjw64-postgresql-18.6"
+          ]
+        }
+      ],
+      "environment": {
+        "CURL_CA_BUNDLE": "$HOME/.cache/enve/cacert.pem",
+        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "DB_DATABASE_NAME": "immich",
+        "DB_HOSTNAME": "127.0.0.1",
+        "DB_PASSWORD": "",
+        "DB_PORT": "5432",
+        "DB_USERNAME": "postgres",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_HOST": "127.0.0.1",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_PORT": "3003",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_URL": "http://127.0.0.1:3003",
+        "ENVE_SERVICE_IMMICH_SERVER_HOST": "127.0.0.1",
+        "ENVE_SERVICE_IMMICH_SERVER_PORT": "3001",
+        "ENVE_SERVICE_IMMICH_SERVER_URL": "http://127.0.0.1:3001",
+        "ENVE_SERVICE_POSTGRES_HOST": "127.0.0.1",
+        "ENVE_SERVICE_POSTGRES_PORT": "5432",
+        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "ENVE_SERVICE_REDIS_HOST": "127.0.0.1",
+        "ENVE_SERVICE_REDIS_PORT": "6379",
+        "ENVE_SERVICE_REDIS_URL": "redis://127.0.0.1:6379/0",
+        "GIT_SSL_CAINFO": "$HOME/.cache/enve/cacert.pem",
+        "IMMICH_MACHINE_LEARNING_HOST": "127.0.0.1",
+        "IMMICH_MACHINE_LEARNING_PORT": "3003",
+        "IMMICH_MACHINE_LEARNING_URL": "http://127.0.0.1:3003",
+        "IMMICH_SERVER_HOST": "127.0.0.1",
+        "IMMICH_SERVER_PORT": "3001",
+        "IMMICH_SERVER_URL": "http://127.0.0.1:3001",
+        "NODE_EXTRA_CA_CERTS": "$HOME/.cache/enve/cacert.pem",
+        "PGTZ": "UTC",
+        "POSTGRES_HOST": "127.0.0.1",
+        "POSTGRES_PORT": "5432",
+        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "REDIS_HOST": "127.0.0.1",
+        "REDIS_HOSTNAME": "127.0.0.1",
+        "REDIS_PORT": "6379",
+        "REDIS_URL": "redis://127.0.0.1:6379/0",
+        "SSL_CERT_FILE": "$HOME/.cache/enve/cacert.pem",
+        "TZ": "UTC"
+      },
+      "tools": {
+        "nodejs": {
+          "bin": "bin",
+          "closure": "6hbiyfa4gzcjr6bnr440nnwznlsaldlc-nodejs-22.23.2",
+          "version": "22.23.2"
+        },
+        "pnpm": {
+          "bin": "bin/pnpm",
+          "closure": "hhprmwazmgvxqff5zpra2bw0cb12f4sl-pnpm-9.15.3",
+          "version": "9.15.3"
+        },
+        "postgresql": {
+          "bin": "bin",
+          "closure": "zndqgdxn4p28iyax8raza3pfn7lkjw64-postgresql-18.6",
+          "version": "18.6"
+        },
+        "python3": {
+          "bin": "bin/python3",
+          "closure": "327bf08j5b7l9cnzink3g4vp32y5352j-python3-3.11.9",
+          "version": "3.11.9"
+        },
+        "redis": {
+          "bin": "bin",
+          "closure": "p8rnqjfhh57cr4xlrlg2ia3mhqcy7ypn-redis-8.10.1",
+          "version": "8.10.1"
+        }
+      }
+    },
+    "x86_64-linux": {
+      "binding": {
+        "environment_sha256": "45a8b9eaf4d3f09a92b79dfe77ae8e747a990f21078755e561a285046ae186cd",
+        "inventory_sha256": "357095edb42c903c46acbe044b9c0c2ed3646a208072ee0628324a41e01f48b6",
+        "profile": null,
+        "version": 1
+      },
+      "closures": [
+        {
+          "hash_name": "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+          "nar_hash": "sha256:0px1v5058d6k5h1i5mxb4f0xnpd8b23g0sdyv4illn14kbbffvy3",
+          "nar_size": 1460576,
+          "references": [
+            "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "02z9zb3m53l02vp51khji7pbhw8jl08r-libpsl-0.21.5",
+          "nar_hash": "sha256:14w0n5610s0x2cw84hp3bhzj7wwy1z8x815mk5d23kqiji5j3zc5",
+          "nar_size": 117608,
+          "references": [
+            "02z9zb3m53l02vp51khji7pbhw8jl08r-libpsl-0.21.5",
+            "bv3lx708clpz3m6zbd5742np4dlry0yj-libunistring-1.4.2",
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "xmx3lhqr6r8zlqjmx7nbfwcd95mymhmf-publicsuffix-list-0-unstable-2026-09-02"
+          ]
+        },
+        {
+          "hash_name": "06lpd7zy6sa30wn4wjanj7rdh9skf85n-util-linux-minimal-2.42.3-swap",
+          "nar_hash": "sha256:1f9dfw3fcr4hyifwnilbxy76zdbxi5m0xdakpwp8bqx30mdkmwr1",
+          "nar_size": 140152,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib"
+          ]
+        },
+        {
+          "hash_name": "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+          "nar_hash": "sha256:0j8f9iywfppqrkqbk73m5r6swisfb7nymarg0yk30xqmd1wl46ps",
+          "nar_size": 10317392,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "wi6kaycsa2479qrxv9xy6yg3q5ggfs6j-gcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "0y5qbzf32y6yjljxyaxjf7m8vl239i3i-lz4-1.10.0-lib",
+          "nar_hash": "sha256:1isr9q0p40v1daqkxdq255sqa9xq6sl9jzxzm4552azh1qhikbqi",
+          "nar_size": 262160,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+          "nar_hash": "sha256:1aq1pnl1gi2wnr7img5bdb606wxpa7awm1wd4bwx3lznc68kf6mr",
+          "nar_size": 2100440,
+          "references": [
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "1bjjgf73l71xnddvcigvl847fy21l49l-kmod-31-lib",
+          "nar_hash": "sha256:1y6wksay0rwfaxxbfaz086rp6fp0jnkm0wiyp4mc4snhrfinz3bs",
+          "nar_size": 128600,
+          "references": [
+            "1bjjgf73l71xnddvcigvl847fy21l49l-kmod-31-lib",
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "1pnhssld9r4s4qxmsm9fbqvab9h2fyx3-redis-8.10.1",
+          "nar_hash": "sha256:0isli4pawfkr3qzvrc18vc3g73sp57hz2kqijl5xiki8f5l0bvsp",
+          "nar_size": 5861072,
+          "references": [
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "sm8d6jpilwdy3bw3yq2lv8rr8jld26pb-systemd-261.2",
+            "v5z9g7psrkbdb48drs8v213f6jhyvp5i-jemalloc-5.3.1"
+          ]
+        },
+        {
+          "hash_name": "217wr6zsyp3hkrvsrl5h4d7yphdm4wir-mpdecimal-4.0.1",
+          "nar_hash": "sha256:1zwyky98426nh03lnkas3rlb5b203gw60nxn1dk3al0i5nvdrrv3",
+          "nar_size": 226192,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "23q1ns1s025b401ixc1fz89rfpf2a2c6-lz4-1.10.0-lib",
+          "nar_hash": "sha256:03sbcpfppw7ijwh7ra5ka6f8igakdrp4wq01phryvyz1lwyspzx5",
+          "nar_size": 262160,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "24x2q4l14k2dmdqbz5g0pb664fhyfdhl-db-4.8.30",
+          "nar_hash": "sha256:081fmskpf8ynr4zs9kcpx97lb0dbjbm63gmywfk65lbr00wx2kg7",
+          "nar_size": 3702312,
+          "references": [
+            "24x2q4l14k2dmdqbz5g0pb664fhyfdhl-db-4.8.30",
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "26m93d2bs16y6s3aby48w3iyi4wrs9gw-dns-root-data-2025-04-14",
+          "nar_hash": "sha256:1svg8wvqhl7sr3jfzf2wr1g9wg27dl49i7k6sn2s0mwqharqlcf1",
+          "nar_size": 4968,
+          "references": []
+        },
+        {
+          "hash_name": "2a20163q9gx6kqv6abhww0n4my8gpzsq-lvm2-2.03.41-lib",
+          "nar_hash": "sha256:1a17y514s5kk6ax4chmmzb55zbljxjipljxr0b5y4991bdxjg7p3",
+          "nar_size": 462560,
+          "references": [
+            "2a20163q9gx6kqv6abhww0n4my8gpzsq-lvm2-2.03.41-lib",
+            "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "2gkqj0v0msfcagwf5ix199rf1lnwf2a1-expat-2.8.3",
+          "nar_hash": "sha256:1mwm2ik110m6vq9af82fwk9lq7jbric0i09y0izfz52c995kg9vi",
+          "nar_size": 322464,
+          "references": [
+            "2gkqj0v0msfcagwf5ix199rf1lnwf2a1-expat-2.8.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "3cfcygkbamw4b9snazj1xl4x5snhf62c-elfutils-0.195",
+          "nar_hash": "sha256:10zri84jarwvwxzkasffd197kvyifnc6km5xssp77zzc4wwxynj5",
+          "nar_size": 4268152,
+          "references": [
+            "3cfcygkbamw4b9snazj1xl4x5snhf62c-elfutils-0.195",
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "imvc9v7wiw7rh5rrzjdhmrd96s2wszi2-json-c-0.18",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8"
+          ]
+        },
+        {
+          "hash_name": "3qgy8q2j64v2m9jy3a5jmssacbblhd4r-coreutils-9.11",
+          "nar_hash": "sha256:1prgn3x32zv8mzx1vszbfridzaqnb121zl3ln46kr12nn8cq0qkj",
+          "nar_size": 1806736,
+          "references": [
+            "3qgy8q2j64v2m9jy3a5jmssacbblhd4r-coreutils-9.11",
+            "8jnb0l7s676sp8p1mh8n2188gk6vjgwp-acl-2.4.0",
+            "bb2jb295969rw2xmijf6s578yb0pxypr-attr-2.6.0",
+            "bmyw1idq6xyp1h4ksmb14s4imwnf8vwa-gmp-with-cxx-6.3.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "477hsgpy1qp4sbhv9ck4ffm4rd6yq4xl-libcap-ng-0.9.5",
+          "nar_hash": "sha256:17q7q5f5gc5n3cyy3p3yr5nwqkvk6cypd7raqvn94vxz888dgj6d",
+          "nar_size": 173104,
+          "references": [
+            "477hsgpy1qp4sbhv9ck4ffm4rd6yq4xl-libcap-ng-0.9.5",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "4h71n85xzg7382wmy03v2dp879iczkjk-libssh2-1.11.1",
+          "nar_hash": "sha256:1klcnxfp6gsfjl2ppn6d4lkywk6y476v51clr877vg7247irkwwg",
+          "nar_size": 338512,
+          "references": [
+            "4h71n85xzg7382wmy03v2dp879iczkjk-libssh2-1.11.1",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+          "nar_hash": "sha256:1a77y30z4ppvgb3jvm7hy9lsfwpcx14aw7rqhwsk0jm40474722w",
+          "nar_size": 4453096,
+          "references": [
+            "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+            "5xym1gmpk8kxl2vvfaaxja52qap9g49l-util-linux-minimal-2.42.2-login",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "4xxc7cldibnlw5496qg5d45i0nmxyz11-nettle-3.10.2",
+          "nar_hash": "sha256:1af564d7n35fz37dkvbvbddjchwpp7aqf4ncrh7v8nxvwv3n3gsv",
+          "nar_size": 740848,
+          "references": [
+            "4xxc7cldibnlw5496qg5d45i0nmxyz11-nettle-3.10.2",
+            "jwyskbj2mc7izs67ib2msydsh0vbnwl9-gmp-with-cxx-6.3.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "55hn446yw91l71w3v648qci8iisv8m5a-libgpg-error-1.61",
+          "nar_hash": "sha256:0i4l2s4dccd6ly9vyg1x63rid4yfal6dxnhx95a6b88gacr0rzr3",
+          "nar_size": 907904,
+          "references": [
+            "55hn446yw91l71w3v648qci8iisv8m5a-libgpg-error-1.61",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "59qsa2rfqvj2frvnd3lz2w52bh3xzjci-util-linux-minimal-2.42.2-mount",
+          "nar_hash": "sha256:1s1fqz0jkgcij42b1ngvdcsm1209w1n2lszpnislj7v8nwxy62i9",
+          "nar_size": 169992,
+          "references": [
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "5xym1gmpk8kxl2vvfaaxja52qap9g49l-util-linux-minimal-2.42.2-login",
+          "nar_hash": "sha256:0nb0274jk1vcx99d3pqvv014qyy6r0zxmfy3hyxrpl3ivy909xxr",
+          "nar_size": 98336,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2"
+          ]
+        },
+        {
+          "hash_name": "61534nwjl335kpcv3s3n7nyk5xzmg4sd-libcbor-0.14.0",
+          "nar_hash": "sha256:11k9m6nsb2drj9j4mmy558bazxwb5bs4znja34nhzcw3nbnkvznn",
+          "nar_size": 85792,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "6jf250nz8fc5jjl0p94iidqgrsspfch9-dns-root-data-2025-04-14",
+          "nar_hash": "sha256:1svg8wvqhl7sr3jfzf2wr1g9wg27dl49i7k6sn2s0mwqharqlcf1",
+          "nar_size": 4968,
+          "references": []
+        },
+        {
+          "hash_name": "6pfa3sxidnzik3kjym6l3j5bz08d86y9-kbd-2.9.0",
+          "nar_hash": "sha256:0a2asbs4vbax63qsfrbnaqii9kjbqwr7fjgv19737zj0v286fmrm",
+          "nar_size": 2833936,
+          "references": [
+            "6pfa3sxidnzik3kjym6l3j5bz08d86y9-kbd-2.9.0",
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8"
+          ]
+        },
+        {
+          "hash_name": "7877p8x9ncrrlmhgzrc59bka0mfsw307-redis-8.10.1",
+          "nar_hash": "sha256:0lr9g6jyg1x60cxwssmcbvh866nbai1aky8m7vpzvmw33p4kb9fr",
+          "nar_size": 5861072,
+          "references": [
+            "baxgs06659w4i6ggsfr56srjrb52v1h8-systemd-261.2",
+            "c8qqcgdywgi05fal13g3k91p7bqpqjf4-jemalloc-5.3.1",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "7y2nfyd4k237pk5fp9qkfi7xr9gb1mfc-libxcrypt-4.5.2",
+          "nar_hash": "sha256:0k6sw4lgy9ff2qh274mkb1gm6jfcf5rwsqcjk0vc2p4cp0gnqd6w",
+          "nar_size": 144384,
+          "references": [
+            "7y2nfyd4k237pk5fp9qkfi7xr9gb1mfc-libxcrypt-4.5.2",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "8jnb0l7s676sp8p1mh8n2188gk6vjgwp-acl-2.4.0",
+          "nar_hash": "sha256:1pv7wpkribfxijmvl16rw3l0prbyjwy4443bjicakbp2ibd2hk0i",
+          "nar_size": 137600,
+          "references": [
+            "8jnb0l7s676sp8p1mh8n2188gk6vjgwp-acl-2.4.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "8kdw4bzswar0130r5m5cd2m3ga22lmax-tpm2-tss-4.2.0",
+          "nar_hash": "sha256:1f98by5fi0irc28gfiwpi2ig4bnrs96jc1vpv2qk0y879yfxw95i",
+          "nar_size": 3481064,
+          "references": [
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "8kdw4bzswar0130r5m5cd2m3ga22lmax-tpm2-tss-4.2.0",
+            "9kg53rdi54r7krlk9iwz6hplh75ppq5i-libtpms-0.10.2-unstable-2026-05-06",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "imvc9v7wiw7rh5rrzjdhmrd96s2wszi2-json-c-0.18",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0"
+          ]
+        },
+        {
+          "hash_name": "8lb04y62al9sa08hhxhq410f85vpw83w-liburing-2.14",
+          "nar_hash": "sha256:07y7zllg43gyza9v0n3q6n7jarr19h64kgxv1i42hhlgcb9fj8cz",
+          "nar_size": 107304,
+          "references": []
+        },
+        {
+          "hash_name": "8vqfy9aqxcb5akhpcqdm2iv4q6wx2rih-ngtcp2-1.23.0",
+          "nar_hash": "sha256:0d2ssy04m5y13k7ak8wy86bdd8nqd0qkiqnnfajy29lmjfk9f1hq",
+          "nar_size": 527800,
+          "references": [
+            "8vqfy9aqxcb5akhpcqdm2iv4q6wx2rih-ngtcp2-1.23.0",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "95rwp9dj3c6z4aplfh61apm786k5kxhw-libseccomp-2.6.1-lib",
+          "nar_hash": "sha256:1xb8vkzdyhld2mdkr7474f39z1ydi965wm1awdfmvc7g846wa3lk",
+          "nar_size": 194328,
+          "references": [
+            "95rwp9dj3c6z4aplfh61apm786k5kxhw-libseccomp-2.6.1-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "9az9g4z2lwhjbqp8k759c42812g0izw0-cracklib-2.10.3",
+          "nar_hash": "sha256:1j23pkb6vdc1iycfdpb15fwi6qai592wpp7wc303vja2pjh9g40h",
+          "nar_size": 822296,
+          "references": [
+            "9az9g4z2lwhjbqp8k759c42812g0izw0-cracklib-2.10.3",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "9g3536ribbggd4swm4bwk8sknsddfl3j-libxml2-2.15.3",
+          "nar_hash": "sha256:0p2v2x784gkann7dzv6ybgj4inmx00zn2r4fld1wlcz7v1nykf54",
+          "nar_size": 1460416,
+          "references": [
+            "9g3536ribbggd4swm4bwk8sknsddfl3j-libxml2-2.15.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "9i3rafrdlicmvn7bnnzafwq715y9ap23-postgresql-18.6",
+          "nar_hash": "sha256:1wiqd6a519a3jv9b4qhhs2kp0im7d7i850zfm06lpdvfqahl8ind",
+          "nar_size": 25548408,
+          "references": [
+            "0y5qbzf32y6yjljxyaxjf7m8vl239i3i-lz4-1.10.0-lib",
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "68w28gzam8ilr63gswxld47nzvqjr2cx-icu4c-78.3",
+            "7d2p2g4pgdc94cwvyvix758grp7kpmay-readline-8.3p3",
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "9i3rafrdlicmvn7bnnzafwq715y9ap23-postgresql-18.6",
+            "fcnnn4w7sxx96liivqdsm1alwyh9x00d-numactl-2.0.18",
+            "fdpy1l72q9gvq8d9snrdq67gm0j5s1dg-glibc-2.42-84-bin",
+            "fh8svr4ds87z84iarfnxrlfpjlbmc816-tzdata-2026c",
+            "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+            "ggl9s54yad1334ajblw1c6i2a0avkc21-postgresql-18.6-lib",
+            "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+            "isay4y1y6k45wamx6i8f14ai9sp1shf8-liburing-2.14",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib",
+            "rc2xaqhj62ny8xbsqdm77234l9azlchr-krb5-1.22.2-lib",
+            "sv400vq5b0yf2w6rqxigwbbd3ha38a9m-linux-pam-1.7.2",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
+          "nar_hash": "sha256:1fvi35gv5c5gy2rlml3n9i9wgcp2jc3mmiznaai61xdw49rj76yi",
+          "nar_size": 1856848,
+          "references": [
+            "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "9j9c2j5bbwbzgvdlrsphcfw4r4pd6hng-lvm2-2.03.41-lib",
+          "nar_hash": "sha256:0bkpv0424r52m7ar4hsqmkjgnk7p9h8j3syzx27mvdawsk10spnf",
+          "nar_size": 462560,
+          "references": [
+            "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+            "9j9c2j5bbwbzgvdlrsphcfw4r4pd6hng-lvm2-2.03.41-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "9kg53rdi54r7krlk9iwz6hplh75ppq5i-libtpms-0.10.2-unstable-2026-05-06",
+          "nar_hash": "sha256:1hds7yvkmsiwchxrkdzrag60lyps1gcp957v4b78wp4msvn1f3zs",
+          "nar_size": 1203800,
+          "references": [
+            "9kg53rdi54r7krlk9iwz6hplh75ppq5i-libtpms-0.10.2-unstable-2026-05-06",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "adhjdycq6m1n6ljzm9ifp843y2my6zd8-krb5-1.22.2-lib",
+          "nar_hash": "sha256:1phsi54ajwz94cj1bqvwvh226lphfa8s0hagq5pc5ailpb849rir",
+          "nar_size": 2879776,
+          "references": [
+            "adhjdycq6m1n6ljzm9ifp843y2my6zd8-krb5-1.22.2-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "jg66vcyjabrdwfm6v8bz65vbpxfkhyal-keyutils-1.6.3-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "ajry3r6v263xy5jcj8vksnyqjq0m4wak-json-c-0.18",
+          "nar_hash": "sha256:1yqik4m5v6xmw12v5fr8443y97zmssvqi37yjgwxskmcv6l6g9cn",
+          "nar_size": 250384,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "akq6aqjqaambzdvwr0jhyf8r4mb3m4dn-libpwquality-1.4.5-lib",
+          "nar_hash": "sha256:1fi7dszckv4bywy71r59ib9y7rin25nqzr3ka7q3lszxs0y9qci4",
+          "nar_size": 391696,
+          "references": [
+            "9az9g4z2lwhjbqp8k759c42812g0izw0-cracklib-2.10.3",
+            "akq6aqjqaambzdvwr0jhyf8r4mb3m4dn-libpwquality-1.4.5-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "sv400vq5b0yf2w6rqxigwbbd3ha38a9m-linux-pam-1.7.2"
+          ]
+        },
+        {
+          "hash_name": "axmdd5wlxg1c9dbblvj09pjhkawqxmqx-glibc-2.42-84-bin",
+          "nar_hash": "sha256:1jw2b0nc9x18smg6wq4p862fms6cr5rncc2zxqd41zff2l7j2d0l",
+          "nar_size": 2878232,
+          "references": [
+            "axmdd5wlxg1c9dbblvj09pjhkawqxmqx-glibc-2.42-84-bin",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "ssvq1r0xd8f7paf6zqgpfql1a4drwhy2-xgcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "az7yld9lsjdhiw5cfyqv7z84hhb9rbk1-util-linux-minimal-2.42.3-mount",
+          "nar_hash": "sha256:17wbbjjxfs0jmv6c21xkxdfii6m0yfpnw5nld3mdmq02jcrx9ii6",
+          "nar_size": 170024,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib"
+          ]
+        },
+        {
+          "hash_name": "baxgs06659w4i6ggsfr56srjrb52v1h8-systemd-261.2",
+          "nar_hash": "sha256:056gwsn5jwqk3whmvgal4g30r289nxjw7avlgadc6bpazy9ad7k8",
+          "nar_size": 64494512,
+          "references": [
+            "06lpd7zy6sa30wn4wjanj7rdh9skf85n-util-linux-minimal-2.42.3-swap",
+            "0y5qbzf32y6yjljxyaxjf7m8vl239i3i-lz4-1.10.0-lib",
+            "1bjjgf73l71xnddvcigvl847fy21l49l-kmod-31-lib",
+            "6vqahj875znq0wlsy1bg926yki3d5m4r-pcre2-10.48",
+            "7y2nfyd4k237pk5fp9qkfi7xr9gb1mfc-libxcrypt-4.5.2",
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "akq6aqjqaambzdvwr0jhyf8r4mb3m4dn-libpwquality-1.4.5-lib",
+            "az7yld9lsjdhiw5cfyqv7z84hhb9rbk1-util-linux-minimal-2.42.3-mount",
+            "baxgs06659w4i6ggsfr56srjrb52v1h8-systemd-261.2",
+            "bjvx7flf644pczbs59jfhnmn4drvh3ly-kmod-31",
+            "bl4jfp0v641dz7nny63fv4r2p638b7in-cryptsetup-2.8.7",
+            "bvqkbbpv0kyspw39v3by6b0cflgfsf9q-acl-2.4.0",
+            "c0mai0yacpzwrkmrdafjs596gk1jmrk7-libmicrohttpd-1.0.6",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "dyxcy223n2jch1kdf35wxcc39qmz8if5-elfutils-0.195",
+            "h40v4vav15gwrq7l5g8fwwky7z14b1lg-audit-4.2.1-lib",
+            "hdv0na9s9y444gazmf5b8cjd97jb3ing-libgcrypt-1.12.2-lib",
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+            "icnp97rxlhck3s2zc96p5l4r83scwcdn-kexec-tools-2.0.32",
+            "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "lxxk4dxshw0v4lwjzs3ywy3knx37gxgb-libseccomp-2.6.1-lib",
+            "n48xbb1jl5vjvngr2icjlfjhripb8scb-util-linux-minimal-2.42.3-login",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib",
+            "qcf14vkv798v6asa1cs09m8li24kwrpb-libapparmor-5.0.2",
+            "rv0gj8js4b9bkk88yh2dyzkbrx908q5c-libbpf-1.7.0",
+            "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+            "s8sznaiwm83m6dwnxm82r8y7rz57kgqn-p11-kit-0.26.2",
+            "sv400vq5b0yf2w6rqxigwbbd3ha38a9m-linux-pam-1.7.2",
+            "v2jx14j62glb96a0i3bh60b8ampb4xh8-tpm2-tss-4.2.0",
+            "wgpqn0qgmyqgnx864y2zgzavy2g4v7df-libarchive-3.8.9-lib",
+            "xjl7p8dvyk2j53kqf7f43kdj4ypbxz7g-coreutils-9.11",
+            "xphnhdyxmnqacv1m1va1w07hs3cf0p25-qrencode-4.1.1",
+            "y3aqadan53yzwkklw1qhr4xq3dwc1592-libfido2-1.17.0",
+            "yb0l5h6p7j2cgw8gc8sgnxxqhph09da9-kbd-2.9.0",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "bb2jb295969rw2xmijf6s578yb0pxypr-attr-2.6.0",
+          "nar_hash": "sha256:1hvppw71wp16wlmn2zavxbwxramxjp8scbzm2jck4wlsr9p2sy06",
+          "nar_size": 90936,
+          "references": [
+            "bb2jb295969rw2xmijf6s578yb0pxypr-attr-2.6.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+          "nar_hash": "sha256:0jp0lj3ipbqddq6nbygjjrq695jwbwqjylyx2k0wwwmlkjyxrf0l",
+          "nar_size": 857952,
+          "references": [
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "bjvx7flf644pczbs59jfhnmn4drvh3ly-kmod-31",
+          "nar_hash": "sha256:1hhr67wp2wymp8nyv56yy1jcd8k6xhn1vvb4mriiarr169578n2d",
+          "nar_size": 204808,
+          "references": [
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "bl4jfp0v641dz7nny63fv4r2p638b7in-cryptsetup-2.8.7",
+          "nar_hash": "sha256:0cfq0yd7cd9mplg1nif2lfry6bqmgg33bpzs8q1v4mj1498nspw8",
+          "nar_size": 2975296,
+          "references": [
+            "2a20163q9gx6kqv6abhww0n4my8gpzsq-lvm2-2.03.41-lib",
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "ajry3r6v263xy5jcj8vksnyqjq0m4wak-json-c-0.18",
+            "bl4jfp0v641dz7nny63fv4r2p638b7in-cryptsetup-2.8.7",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "bmyw1idq6xyp1h4ksmb14s4imwnf8vwa-gmp-with-cxx-6.3.0",
+          "nar_hash": "sha256:1l3nxdi7f4whdaiavaf4m7z3pk07jica4r52yhvxvgxpxvhx6xk8",
+          "nar_size": 783432,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "bmyw1idq6xyp1h4ksmb14s4imwnf8vwa-gmp-with-cxx-6.3.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "c0mai0yacpzwrkmrdafjs596gk1jmrk7-libmicrohttpd-1.0.6",
+          "nar_hash": "sha256:1mrvm2b8hn5hh3p07j5953cvisdxzvag30lprn71z8ddq7yz57n5",
+          "nar_size": 270840,
+          "references": [
+            "c0mai0yacpzwrkmrdafjs596gk1jmrk7-libmicrohttpd-1.0.6",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "rv5n2g1s5q4a6w19c2f7nc9cjcwm949l-gnutls-3.8.13"
+          ]
+        },
+        {
+          "hash_name": "c56x66gbj3qwv3g7dhadcfiq408q2hay-brotli-1.2.0-lib",
+          "nar_hash": "sha256:13pag0jr0b0mhvddqsz48jl1zld4762g6ijp5q9929j7hqmlgfrg",
+          "nar_size": 984976,
+          "references": [
+            "c56x66gbj3qwv3g7dhadcfiq408q2hay-brotli-1.2.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "c6lcjhvgz0cg6w2xxki1gvdz2lsf4i8s-qrencode-4.1.1",
+          "nar_hash": "sha256:1aazxf2fng9mb5430qz6fr62r04jz28jdpm2h55bv5yd83zywh34",
+          "nar_size": 64088,
+          "references": [
+            "c6lcjhvgz0cg6w2xxki1gvdz2lsf4i8s-qrencode-4.1.1",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "c6mgy63s5y1353152dp2s2jaig026j3h-readline-8.3p3",
+          "nar_hash": "sha256:18z98wg739mrhzymlhgphq46k7fzbry5v5hy7c2i1cr78addxmf8",
+          "nar_size": 506392,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "zz125vwahb637g5ckl046ll8fcqmc8pk-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "c8qqcgdywgi05fal13g3k91p7bqpqjf4-jemalloc-5.3.1",
+          "nar_hash": "sha256:0ynjrwfin4ynwsyq2awbmabk3yimka521ivw3cxp66rq8v82fkl7",
+          "nar_size": 1248216,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "c8qqcgdywgi05fal13g3k91p7bqpqjf4-jemalloc-5.3.1",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "svx59425zxp552p2b8gm11qj5r09b56i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "cj9443b6ljpw3pzxa3x3ck7vrig9kkc0-pcre2-10.47",
+          "nar_hash": "sha256:02b7rgfrwa26lx2n3cz8ijcd8axwfdgpr4xir69mbng0bj2l2i3d",
+          "nar_size": 2070936,
+          "references": [
+            "cj9443b6ljpw3pzxa3x3ck7vrig9kkc0-pcre2-10.47",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "d4wj0svs73h1p0726a7k3vi4vkic8qb5-nghttp2-1.70.0-lib",
+          "nar_hash": "sha256:1flkabam7ml9rlicdwyiq3shxgs84lx4gz7h79sgpxv1yhigqja5",
+          "nar_size": 231344,
+          "references": [
+            "d4wj0svs73h1p0726a7k3vi4vkic8qb5-nghttp2-1.70.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "d9l35nclmi0390dxpgivrikv5sf228kx-gnutls-3.8.13",
+          "nar_hash": "sha256:0s17ywq6jhgvypil4ig4gdnr5rl281vnsv4q8ssxaa0hjy3k0rqa",
+          "nar_size": 3732704,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "26m93d2bs16y6s3aby48w3iyi4wrs9gw-dns-root-data-2025-04-14",
+            "4xxc7cldibnlw5496qg5d45i0nmxyz11-nettle-3.10.2",
+            "d9l35nclmi0390dxpgivrikv5sf228kx-gnutls-3.8.13",
+            "hz954b4dkbxmwl3vbisipn0ww9hqlyf4-libtasn1-4.21.0",
+            "jwyskbj2mc7izs67ib2msydsh0vbnwl9-gmp-with-cxx-6.3.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "qvh3wmxf35f8cb8sgb99cysrqikijzvj-unbound-1.26.0-lib",
+            "s03pwvivxwjqbk3iflyhqyv4ryhfj374-p11-kit-0.26.2",
+            "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "dyxcy223n2jch1kdf35wxcc39qmz8if5-elfutils-0.195",
+          "nar_hash": "sha256:1anwcxhgfizvyvx1q8hlf32cc3y936p2b3fmngid52dxlc076i0v",
+          "nar_size": 4268152,
+          "references": [
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "ajry3r6v263xy5jcj8vksnyqjq0m4wak-json-c-0.18",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "dyxcy223n2jch1kdf35wxcc39qmz8if5-elfutils-0.195",
+            "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "f1i90m4xwg5yc3ca5ylp49ni51dx5g24-audit-4.2.1-lib",
+          "nar_hash": "sha256:0xsracprhhn0k577qsrf5plm5yqazr18lq9b50csc0vxc9qqqg4q",
+          "nar_size": 426288,
+          "references": [
+            "f1i90m4xwg5yc3ca5ylp49ni51dx5g24-audit-4.2.1-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "q22jwk7vaa69na5akgklgh70bhv9y4al-libcap-ng-0.9.3"
+          ]
+        },
+        {
+          "hash_name": "fcnnn4w7sxx96liivqdsm1alwyh9x00d-numactl-2.0.18",
+          "nar_hash": "sha256:14cvh2gkkl91n7r7b107w3syc98zfc79mf2q2mbldcmyyqca26x3",
+          "nar_size": 276400,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "fcnnn4w7sxx96liivqdsm1alwyh9x00d-numactl-2.0.18",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "fdpy1l72q9gvq8d9snrdq67gm0j5s1dg-glibc-2.42-84-bin",
+          "nar_hash": "sha256:1yznsqi7zbvgh237rrsiw571c9488gbav1dz2lbdpvcszjx0180v",
+          "nar_size": 2878232,
+          "references": [
+            "fdpy1l72q9gvq8d9snrdq67gm0j5s1dg-glibc-2.42-84-bin",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "m07syxhld8hpprrdmzq565ziia6vlw9l-xgcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "fwzl4in6i7pj30zp0rz3mx90cl6vg4km-libgcrypt-1.12.2-lib",
+          "nar_hash": "sha256:1l1phiq0fqp6qki3ahl7cnhp1br3r7lnimgaz5kxxllcgrk14pa9",
+          "nar_size": 1918664,
+          "references": [
+            "fwzl4in6i7pj30zp0rz3mx90cl6vg4km-libgcrypt-1.12.2-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xryrhsmmwrgdpqd5ic0fwkm64ghjmn4c-libgpg-error-1.61"
+          ]
+        },
+        {
+          "hash_name": "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+          "nar_hash": "sha256:08nn0xbbbf8b38azkh17pacqfpggmjjr5b1ifrjvwr9mwh2sfqx8",
+          "nar_size": 4457192,
+          "references": [
+            "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n48xbb1jl5vjvngr2icjlfjhripb8scb-util-linux-minimal-2.42.3-login"
+          ]
+        },
+        {
+          "hash_name": "ggl9s54yad1334ajblw1c6i2a0avkc21-postgresql-18.6-lib",
+          "nar_hash": "sha256:0b0qiyhgirypkzvvj3dqg5dna5b90ksxk7fzcl0fhsr3617p771s",
+          "nar_size": 703136,
+          "references": [
+            "ggl9s54yad1334ajblw1c6i2a0avkc21-postgresql-18.6-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "rc2xaqhj62ny8xbsqdm77234l9azlchr-krb5-1.22.2-lib",
+            "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "gqr3pk0kzp0f61nv793qrkh9h4075cz9-pcsclite-2.4.1-lib",
+          "nar_hash": "sha256:0hpqrim1i28j5mhgsav8dii0z4qhskcqyj8jwfh48qh6bsbw2hgy",
+          "nar_size": 110072,
+          "references": [
+            "gqr3pk0kzp0f61nv793qrkh9h4075cz9-pcsclite-2.4.1-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "gv46rwbph8770aal6mwj4ya39vm2fgiv-libcbor-0.14.0",
+          "nar_hash": "sha256:0pjh9larililkmx33r1vmwvi6v6xr14mdvn6zk6l7krmi3h75m2f",
+          "nar_size": 85792,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "h40v4vav15gwrq7l5g8fwwky7z14b1lg-audit-4.2.1-lib",
+          "nar_hash": "sha256:05x2hjic0h4hm2xyd5p043nb05mrga210q6pwygdlsx32dx0cci0",
+          "nar_size": 426288,
+          "references": [
+            "477hsgpy1qp4sbhv9ck4ffm4rd6yq4xl-libcap-ng-0.9.5",
+            "h40v4vav15gwrq7l5g8fwwky7z14b1lg-audit-4.2.1-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "h6q94p1jw42irzqybm1049fmxakh8701-mailcap-2.1.54",
+          "nar_hash": "sha256:1xbjd7qddfb3r809w1dyp7bhbpa8xvll9n295q1x38fa05v68spz",
+          "nar_size": 119360,
+          "references": []
+        },
+        {
+          "hash_name": "h9aczmrkpcmm9z47648m5n9sg67vi5gw-postgresql-18.6",
+          "nar_hash": "sha256:0silq23373pqyjza4qrhqp5na3k30fxap229bygwdqbhygyv5wpn",
+          "nar_size": 25548408,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "23q1ns1s025b401ixc1fz89rfpf2a2c6-lz4-1.10.0-lib",
+            "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+            "8lb04y62al9sa08hhxhq410f85vpw83w-liburing-2.14",
+            "9g3536ribbggd4swm4bwk8sknsddfl3j-libxml2-2.15.3",
+            "adhjdycq6m1n6ljzm9ifp843y2my6zd8-krb5-1.22.2-lib",
+            "axmdd5wlxg1c9dbblvj09pjhkawqxmqx-glibc-2.42-84-bin",
+            "c6mgy63s5y1353152dp2s2jaig026j3h-readline-8.3p3",
+            "h9aczmrkpcmm9z47648m5n9sg67vi5gw-postgresql-18.6",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "ia8ycxcfs23xblv3s18i4xgqxm5sbkri-icu4c-78.3",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "m7v9cqyhncd3gbp548cnxm4b2acig3ng-linux-pam-1.7.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "p0ff33dca0fbkskqwrl3spvxcn5974h0-tzdata-2026c",
+            "s8g1cy79c0rmzvxrj8qqslbzk31jh3a6-numactl-2.0.18",
+            "vgkmbbqcpmm5wagmf6gv8jv06v3lp21s-postgresql-18.6-lib",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "hdv0na9s9y444gazmf5b8cjd97jb3ing-libgcrypt-1.12.2-lib",
+          "nar_hash": "sha256:00d6assv41ns6cgj88qkgpljwy2p4hffcvlmsmndcs6dgda7ns22",
+          "nar_size": 1918664,
+          "references": [
+            "55hn446yw91l71w3v648qci8iisv8m5a-libgpg-error-1.61",
+            "hdv0na9s9y444gazmf5b8cjd97jb3ing-libgcrypt-1.12.2-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+          "nar_hash": "sha256:0h173b8lk2z3apcz4gf42lgyplvhchr64jn482px35g1nksrcg9q",
+          "nar_size": 9308816,
+          "references": [
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "hz954b4dkbxmwl3vbisipn0ww9hqlyf4-libtasn1-4.21.0",
+          "nar_hash": "sha256:1hwl8gns25xfs9iinh6j9bnkczcr5bfy3rqqi0v85y24nqd0mq1q",
+          "nar_size": 98096,
+          "references": [
+            "hz954b4dkbxmwl3vbisipn0ww9hqlyf4-libtasn1-4.21.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "ia8ycxcfs23xblv3s18i4xgqxm5sbkri-icu4c-78.3",
+          "nar_hash": "sha256:175h4v00y514s5mdrwfafdva5hg7z1z8rb39lk4ia318mif1d940",
+          "nar_size": 41437848,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "ia8ycxcfs23xblv3s18i4xgqxm5sbkri-icu4c-78.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "icnp97rxlhck3s2zc96p5l4r83scwcdn-kexec-tools-2.0.32",
+          "nar_hash": "sha256:125p34svb6ykrf6ynkqq639ffq2vzlvhydb8ddxgjgwpy6r81w0d",
+          "nar_size": 268832,
+          "references": [
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "il0fks5h18ddws825l0b83115ifcn0vp-libmicrohttpd-1.0.6",
+          "nar_hash": "sha256:1zgdrmx90lckllpdvmrscq80agkrcs00jacqivyrj7jc5kpakrix",
+          "nar_size": 270840,
+          "references": [
+            "d9l35nclmi0390dxpgivrikv5sf228kx-gnutls-3.8.13",
+            "il0fks5h18ddws825l0b83115ifcn0vp-libmicrohttpd-1.0.6",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "imvc9v7wiw7rh5rrzjdhmrd96s2wszi2-json-c-0.18",
+          "nar_hash": "sha256:03qx68wwxb2j5pnca80cfwr3vdrvqx58v6byfdaz22bbm4avj86n",
+          "nar_size": 250384,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "isay4y1y6k45wamx6i8f14ai9sp1shf8-liburing-2.14",
+          "nar_hash": "sha256:132spwyjqviyqdiagn3by9fs35axri772kia8hc1y1c6y2ij606k",
+          "nar_size": 107304,
+          "references": []
+        },
+        {
+          "hash_name": "iv3npjf8gjxmzcx5wxaix2ha89628ywk-kmod-31-lib",
+          "nar_hash": "sha256:0zpcmiywasmk2zxgslbbl81qmki8n3pyf95mmzag0nnyah9lc411",
+          "nar_size": 128600,
+          "references": [
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "iv3npjf8gjxmzcx5wxaix2ha89628ywk-kmod-31-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "jg66vcyjabrdwfm6v8bz65vbpxfkhyal-keyutils-1.6.3-lib",
+          "nar_hash": "sha256:09xp7hakln5givhy4yrig01335z3mjakl5x2bv9qjysnilz0sgb4",
+          "nar_size": 42848,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "js998ih76w3n2cqnysa7g27608djj5yn-gdbm-1.26-lib",
+          "nar_hash": "sha256:1nimmplk0pfip9pis88xvvnwvy8afy6mbj7d4bklfk35ykx16y0r",
+          "nar_size": 459336,
+          "references": [
+            "js998ih76w3n2cqnysa7g27608djj5yn-gdbm-1.26-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "jwyskbj2mc7izs67ib2msydsh0vbnwl9-gmp-with-cxx-6.3.0",
+          "nar_hash": "sha256:026lqk71h67dkfg498bd35si37nk5wx6m17lsiyrnpfipiwl7bj8",
+          "nar_size": 783432,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "jwyskbj2mc7izs67ib2msydsh0vbnwl9-gmp-with-cxx-6.3.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
+          "nar_hash": "sha256:17l7b5g7dj31292sa9gs7gpka3yndrbch6pmpql9imhrb9f9669q",
+          "nar_size": 783432,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "k4lz3hi5qy0siqimiq3jxc5zknmh84j4-libtasn1-4.21.0",
+          "nar_hash": "sha256:1wnvl3kp9jcl5bdxg94wyqah2v4rgfi431fqrmnrlbzhfnm4kflm",
+          "nar_size": 98096,
+          "references": [
+            "k4lz3hi5qy0siqimiq3jxc5zknmh84j4-libtasn1-4.21.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "kn3a61sk602hrg2b98q0ii8z2rbf0wif-kexec-tools-2.0.32",
+          "nar_hash": "sha256:1xn0y1qx5w3g7yz4d7dizzcyn3zicyp2549iaq3shllmh1z4517w",
+          "nar_size": 268832,
+          "references": [
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "ks4qbizdbb3jkrcxlppbabn3pr4jlny4-unbound-1.26.0-lib",
+          "nar_hash": "sha256:03k1mr93wpna2xllw9rgrkxky4z4ghhih9n5b4mmby4bv584pdbj",
+          "nar_size": 1195048,
+          "references": [
+            "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
+            "ks4qbizdbb3jkrcxlppbabn3pr4jlny4-unbound-1.26.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "sv8pf8cqmgrgh7jl2n9ww3knslxnfz33-libevent-2.1.13",
+            "xsmrab458wn42ilwv6s68jw9f4r5iisz-nettle-3.10.2"
+          ]
+        },
+        {
+          "hash_name": "ks6ni13a1bnfi1bdj03nqvrhr842ww86-libpsl-0.21.5",
+          "nar_hash": "sha256:1v3x4hcdmgvydlwl8nj3xcxylmx31x835966zdzfpjvvzjb2az3j",
+          "nar_size": 117608,
+          "references": [
+            "ks6ni13a1bnfi1bdj03nqvrhr842ww86-libpsl-0.21.5",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "r9agcp0d8ngzrrjf7pyampq0y0sipjxc-publicsuffix-list-0-unstable-2026-08-14",
+            "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+          "nar_hash": "sha256:03l8di5kdhpi5a5dbg9kr849wx5x7rfhl9c0wck7vbcgqq0qa05v",
+          "nar_size": 132608,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "laa2rxlj6rpd5nkhlpijp96pkcj192pa-cracklib-2.10.3",
+          "nar_hash": "sha256:05kr5fzdi6sgam7yvbgnm95xalxjk5yvy62mi9vrsa6jcnxmg486",
+          "nar_size": 822296,
+          "references": [
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "laa2rxlj6rpd5nkhlpijp96pkcj192pa-cracklib-2.10.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "lwvkmswcrra987aklpsby82hb4hscsa0-libarchive-3.8.9-lib",
+          "nar_hash": "sha256:0nk5ygaxiimpw8bzhzvqnk1sp6ygahkczc5rxsmq8a7b32ikyl7z",
+          "nar_size": 985024,
+          "references": [
+            "8jnb0l7s676sp8p1mh8n2188gk6vjgwp-acl-2.4.0",
+            "9g3536ribbggd4swm4bwk8sknsddfl3j-libxml2-2.15.3",
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "lwvkmswcrra987aklpsby82hb4hscsa0-libarchive-3.8.9-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8"
+          ]
+        },
+        {
+          "hash_name": "lxxk4dxshw0v4lwjzs3ywy3knx37gxgb-libseccomp-2.6.1-lib",
+          "nar_hash": "sha256:1hi3gyprd027042mlfy3dg6bsvz0cr2kikcbpf317vqjj8ir99va",
+          "nar_size": 194328,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lxxk4dxshw0v4lwjzs3ywy3knx37gxgb-libseccomp-2.6.1-lib"
+          ]
+        },
+        {
+          "hash_name": "m7v9cqyhncd3gbp548cnxm4b2acig3ng-linux-pam-1.7.2",
+          "nar_hash": "sha256:18vn90g0l74rpza8ir9rrjgjpw1a4jhf09bw5fxrhknbjm2m6f5z",
+          "nar_size": 1941848,
+          "references": [
+            "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+            "f1i90m4xwg5yc3ca5ylp49ni51dx5g24-audit-4.2.1-lib",
+            "m7v9cqyhncd3gbp548cnxm4b2acig3ng-linux-pam-1.7.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2",
+            "vkzbcqvnxj1inwrjymp3gd0bn61kb0wl-db-4.8.30"
+          ]
+        },
+        {
+          "hash_name": "mhd5j36zdk4wq73d2znv4axx8fyvd2w9-libevent-2.1.13",
+          "nar_hash": "sha256:11s38r5awxzlbzw71m5smsgd29hi8g9b62f9i3y6mrdxii5f6vkj",
+          "nar_size": 882576,
+          "references": [
+            "mhd5j36zdk4wq73d2znv4axx8fyvd2w9-libevent-2.1.13",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "mkrc0dnys009hh8hl04pczp6kldcg87v-util-linux-minimal-2.42.2-swap",
+          "nar_hash": "sha256:1bpv9p3dm6gla2h9mirsrg58x6fq819pl3z12sm5pfx5b4xky62l",
+          "nar_size": 140112,
+          "references": [
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "mp4xhfghdxp0db0jf3k5iqack3ms3x9k-libssh2-1.11.1",
+          "nar_hash": "sha256:0kcfgbm7gzn7kqfyp7l49l4yn19j71fzg5sh7qsc8rw9n2q6a8zw",
+          "nar_size": 338512,
+          "references": [
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "mp4xhfghdxp0db0jf3k5iqack3ms3x9k-libssh2-1.11.1",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "n48xbb1jl5vjvngr2icjlfjhripb8scb-util-linux-minimal-2.42.3-login",
+          "nar_hash": "sha256:0bgmx732hgv35670vkpkx8pj7xhi4yi9ijyrja0v15d6nihnkz2f",
+          "nar_size": 98376,
+          "references": [
+            "7y2nfyd4k237pk5fp9qkfi7xr9gb1mfc-libxcrypt-4.5.2",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+          "nar_hash": "sha256:0ypl8gla1lil5zqb5ib1pi8p7niwiq11mcvpmbfnypvnz4n1k2j2",
+          "nar_size": 35073128,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "ssvq1r0xd8f7paf6zqgpfql1a4drwhy2-xgcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib",
+          "nar_hash": "sha256:1gxylriqnkrxxqa1ybf8crsz1siwhb33jah41yvnfh85yargvgyi",
+          "nar_size": 2100704,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib"
+          ]
+        },
+        {
+          "hash_name": "nfvwp1x1bzaiala6nhciaa0ncn0296c3-libapparmor-5.0.2",
+          "nar_hash": "sha256:1gv47n3blp0q07xg3j8n1zlhsdlkfgxjlbj8g2lm673jmn7hrbyv",
+          "nar_size": 615408,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nfvwp1x1bzaiala6nhciaa0ncn0296c3-libapparmor-5.0.2"
+          ]
+        },
+        {
+          "hash_name": "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+          "nar_hash": "sha256:0l0mcrrkj3msvp6j9f4mhkpkc3i3xvhf1yx4brgs6q0wb6nrwhx6",
+          "nar_size": 368176,
+          "references": [
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "nxj00npy8vi9cwiw8wzch8n1x7kgj3fv-libpwquality-1.4.5-lib",
+          "nar_hash": "sha256:0czxryjiq54dni40jqbmnzvds71k0v91zi9r2bj3kh3py9s09kvl",
+          "nar_size": 391696,
+          "references": [
+            "laa2rxlj6rpd5nkhlpijp96pkcj192pa-cracklib-2.10.3",
+            "m7v9cqyhncd3gbp548cnxm4b2acig3ng-linux-pam-1.7.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nxj00npy8vi9cwiw8wzch8n1x7kgj3fv-libpwquality-1.4.5-lib"
+          ]
+        },
+        {
+          "hash_name": "p0ff33dca0fbkskqwrl3spvxcn5974h0-tzdata-2026c",
+          "nar_hash": "sha256:16yz4hiyv18nx0p537kgbmggl6aky903z58rpcpaqxjcrnqnq4zm",
+          "nar_size": 2138680,
+          "references": []
+        },
+        {
+          "hash_name": "p3y2r8dqhlsv58j2ir4k7g285yanwini-libtpms-0.10.2-unstable-2026-05-06",
+          "nar_hash": "sha256:1z893wb008wqwr3p5j3kcrl6szwvcxn91x9rc9hpjr87kmq56vf4",
+          "nar_size": 1203800,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "p3y2r8dqhlsv58j2ir4k7g285yanwini-libtpms-0.10.2-unstable-2026-05-06",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2",
+          "nar_hash": "sha256:06ixzyx9yzvvialvllpxii5nc0krpg3gdypn07wvz1fwlb58zhgc",
+          "nar_size": 144384,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2"
+          ]
+        },
+        {
+          "hash_name": "pk03s7pvpzgfhvlk4z9yz69yzn2l8iw9-keyutils-1.6.3-lib",
+          "nar_hash": "sha256:1y2fm487l260l9j3l58lzr969jm6fmw4hl613ayhgb1hdbsgfknx",
+          "nar_size": 42848,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "q22jwk7vaa69na5akgklgh70bhv9y4al-libcap-ng-0.9.3",
+          "nar_hash": "sha256:1nw2fyfwscvk4ammgmgw4jplw1l6arql3rr4wf24f4069v8l9g0y",
+          "nar_size": 170664,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "q22jwk7vaa69na5akgklgh70bhv9y4al-libcap-ng-0.9.3"
+          ]
+        },
+        {
+          "hash_name": "q8pq31iscr4dhar5jzrvbz9mvjsx8332-pcsclite-2.4.1-lib",
+          "nar_hash": "sha256:0iizff31w263jyh4mn9kxc2dbvnlbjb1jj5nmkav4c9vci7fg8sz",
+          "nar_size": 110072,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "q8pq31iscr4dhar5jzrvbz9mvjsx8332-pcsclite-2.4.1-lib"
+          ]
+        },
+        {
+          "hash_name": "qcf14vkv798v6asa1cs09m8li24kwrpb-libapparmor-5.0.2",
+          "nar_hash": "sha256:07gibpn1npj0ds1gwm77jhy0ar1c3l5ki866r6nyqri8faybr8l5",
+          "nar_size": 615408,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "qcf14vkv798v6asa1cs09m8li24kwrpb-libapparmor-5.0.2"
+          ]
+        },
+        {
+          "hash_name": "qvh3wmxf35f8cb8sgb99cysrqikijzvj-unbound-1.26.0-lib",
+          "nar_hash": "sha256:18gabw3z016a5g6fn3h9mrxhd384vfd5y2yiy7mniff2dq8d4bad",
+          "nar_size": 1195048,
+          "references": [
+            "4xxc7cldibnlw5496qg5d45i0nmxyz11-nettle-3.10.2",
+            "jwyskbj2mc7izs67ib2msydsh0vbnwl9-gmp-with-cxx-6.3.0",
+            "mhd5j36zdk4wq73d2znv4axx8fyvd2w9-libevent-2.1.13",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "qvh3wmxf35f8cb8sgb99cysrqikijzvj-unbound-1.26.0-lib"
+          ]
+        },
+        {
+          "hash_name": "r9agcp0d8ngzrrjf7pyampq0y0sipjxc-publicsuffix-list-0-unstable-2026-08-14",
+          "nar_hash": "sha256:1x57fkgwj059x4ymcbv0bki0lviv1sqyb045rsz1wyxbqmj0hp38",
+          "nar_size": 337912,
+          "references": []
+        },
+        {
+          "hash_name": "rc2xaqhj62ny8xbsqdm77234l9azlchr-krb5-1.22.2-lib",
+          "nar_hash": "sha256:04qxhbwi995yylqm3vrr7snh3v337cn55sbkwmicqjw0kg1bbxmb",
+          "nar_size": 2879776,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "pk03s7pvpzgfhvlk4z9yz69yzn2l8iw9-keyutils-1.6.3-lib",
+            "rc2xaqhj62ny8xbsqdm77234l9azlchr-krb5-1.22.2-lib",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "rv0gj8js4b9bkk88yh2dyzkbrx908q5c-libbpf-1.7.0",
+          "nar_hash": "sha256:1gdnf6ly6zc13xv3xm1csc5r30crklbzj0sv85px6n0a9jzgvgvc",
+          "nar_size": 2246896,
+          "references": [
+            "dyxcy223n2jch1kdf35wxcc39qmz8if5-elfutils-0.195",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "rv0gj8js4b9bkk88yh2dyzkbrx908q5c-libbpf-1.7.0"
+          ]
+        },
+        {
+          "hash_name": "rv5n2g1s5q4a6w19c2f7nc9cjcwm949l-gnutls-3.8.13",
+          "nar_hash": "sha256:1my82nhrhzv0pqcv4xx6ig2y716ssr29z8d2pyiibzbjbycaiaza",
+          "nar_size": 3732704,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "6jf250nz8fc5jjl0p94iidqgrsspfch9-dns-root-data-2025-04-14",
+            "bv3lx708clpz3m6zbd5742np4dlry0yj-libunistring-1.4.2",
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+            "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
+            "k4lz3hi5qy0siqimiq3jxc5zknmh84j4-libtasn1-4.21.0",
+            "ks4qbizdbb3jkrcxlppbabn3pr4jlny4-unbound-1.26.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "rv5n2g1s5q4a6w19c2f7nc9cjcwm949l-gnutls-3.8.13",
+            "s8sznaiwm83m6dwnxm82r8y7rz57kgqn-p11-kit-0.26.2",
+            "xsmrab458wn42ilwv6s68jw9f4r5iisz-nettle-3.10.2"
+          ]
+        },
+        {
+          "hash_name": "s03pwvivxwjqbk3iflyhqyv4ryhfj374-p11-kit-0.26.2",
+          "nar_hash": "sha256:1691nqj1k5599bzhmm9drm50i3yh57rybnh35441nj2rzws6rjal",
+          "nar_size": 5986992,
+          "references": [
+            "hz954b4dkbxmwl3vbisipn0ww9hqlyf4-libtasn1-4.21.0",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "s03pwvivxwjqbk3iflyhqyv4ryhfj374-p11-kit-0.26.2",
+            "wb232z007b8qynidq89lli8lb2c4q0r4-libffi-3.8.0"
+          ]
+        },
+        {
+          "hash_name": "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+          "nar_hash": "sha256:19scqc97wp8zxzvhy79w375blwv1jz76gi613y3sd5flvp12jjsm",
+          "nar_size": 1286296,
+          "references": [
+            "02z9zb3m53l02vp51khji7pbhw8jl08r-libpsl-0.21.5",
+            "2hc131frgdz45bjbajmpvlrj185lah7p-ngtcp2-1.23.0",
+            "4h71n85xzg7382wmy03v2dp879iczkjk-libssh2-1.11.1",
+            "6avzrsm02jh7q48ym3hgznj3ypc2shc2-nghttp2-1.70.0-lib",
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "dki4fkk75v2x4aqkszmi257wxq6rkkyr-nghttp3-1.16.0",
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "rc2xaqhj62ny8xbsqdm77234l9azlchr-krb5-1.22.2-lib",
+            "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+            "xhgd6rb4h8ssid9yw8nvw74cwq69md5y-brotli-1.2.0-lib",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "s8g1cy79c0rmzvxrj8qqslbzk31jh3a6-numactl-2.0.18",
+          "nar_hash": "sha256:1fgyn63gha4km5x1pmnqvbc0isbz0a1bviwm8lx91rkjcxbwi631",
+          "nar_size": 276400,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "s8g1cy79c0rmzvxrj8qqslbzk31jh3a6-numactl-2.0.18"
+          ]
+        },
+        {
+          "hash_name": "s8sznaiwm83m6dwnxm82r8y7rz57kgqn-p11-kit-0.26.2",
+          "nar_hash": "sha256:0brz1zhkha05bfcx8hkkrz4ilajqfvz0nig54avps67ij1l0vi5s",
+          "nar_size": 5986992,
+          "references": [
+            "3r5wfb1dl3sfknvy1yringvmap0hxj4r-libffi-3.8.0",
+            "k4lz3hi5qy0siqimiq3jxc5zknmh84j4-libtasn1-4.21.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "s8sznaiwm83m6dwnxm82r8y7rz57kgqn-p11-kit-0.26.2"
+          ]
+        },
+        {
+          "hash_name": "sgsbfaq5zsw6ykrzpcfz3f6ia3wxkl86-libbpf-1.7.0",
+          "nar_hash": "sha256:060k2d4b5h8q1v0rq9vxjilfskkqp5l9p2dhcvc1d68z0lzri5zx",
+          "nar_size": 2246896,
+          "references": [
+            "3cfcygkbamw4b9snazj1xl4x5snhf62c-elfutils-0.195",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "sgsbfaq5zsw6ykrzpcfz3f6ia3wxkl86-libbpf-1.7.0"
+          ]
+        },
+        {
+          "hash_name": "sm8d6jpilwdy3bw3yq2lv8rr8jld26pb-systemd-261.2",
+          "nar_hash": "sha256:1s7j0j0qjyhnwhvrakmzbhbq0x35s7g8qsvw2lh0wzqpl2kfjg4l",
+          "nar_size": 64486320,
+          "references": [
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "23q1ns1s025b401ixc1fz89rfpf2a2c6-lz4-1.10.0-lib",
+            "3cfcygkbamw4b9snazj1xl4x5snhf62c-elfutils-0.195",
+            "3qgy8q2j64v2m9jy3a5jmssacbblhd4r-coreutils-9.11",
+            "59qsa2rfqvj2frvnd3lz2w52bh3xzjci-util-linux-minimal-2.42.2-mount",
+            "5xym1gmpk8kxl2vvfaaxja52qap9g49l-util-linux-minimal-2.42.2-login",
+            "6pfa3sxidnzik3kjym6l3j5bz08d86y9-kbd-2.9.0",
+            "8jnb0l7s676sp8p1mh8n2188gk6vjgwp-acl-2.4.0",
+            "8kdw4bzswar0130r5m5cd2m3ga22lmax-tpm2-tss-4.2.0",
+            "95rwp9dj3c6z4aplfh61apm786k5kxhw-libseccomp-2.6.1-lib",
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "c6lcjhvgz0cg6w2xxki1gvdz2lsf4i8s-qrencode-4.1.1",
+            "cj9443b6ljpw3pzxa3x3ck7vrig9kkc0-pcre2-10.47",
+            "f1i90m4xwg5yc3ca5ylp49ni51dx5g24-audit-4.2.1-lib",
+            "fwzl4in6i7pj30zp0rz3mx90cl6vg4km-libgcrypt-1.12.2-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "il0fks5h18ddws825l0b83115ifcn0vp-libmicrohttpd-1.0.6",
+            "iv3npjf8gjxmzcx5wxaix2ha89628ywk-kmod-31-lib",
+            "kn3a61sk602hrg2b98q0ii8z2rbf0wif-kexec-tools-2.0.32",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "lwvkmswcrra987aklpsby82hb4hscsa0-libarchive-3.8.9-lib",
+            "m7v9cqyhncd3gbp548cnxm4b2acig3ng-linux-pam-1.7.2",
+            "mkrc0dnys009hh8hl04pczp6kldcg87v-util-linux-minimal-2.42.2-swap",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nfvwp1x1bzaiala6nhciaa0ncn0296c3-libapparmor-5.0.2",
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "nxj00npy8vi9cwiw8wzch8n1x7kgj3fv-libpwquality-1.4.5-lib",
+            "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2",
+            "s03pwvivxwjqbk3iflyhqyv4ryhfj374-p11-kit-0.26.2",
+            "sgsbfaq5zsw6ykrzpcfz3f6ia3wxkl86-libbpf-1.7.0",
+            "sm8d6jpilwdy3bw3yq2lv8rr8jld26pb-systemd-261.2",
+            "vz1kbkl0178apj4q15l0j4pjgibgi5bv-libfido2-1.17.0",
+            "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8",
+            "zq860n82fcl4cd38nbr9hhb7sm65gk21-kmod-31",
+            "zxbpvhc7s8sw2xrcl5qqh8y0ibmj3667-cryptsetup-2.8.7"
+          ]
+        },
+        {
+          "hash_name": "ssvq1r0xd8f7paf6zqgpfql1a4drwhy2-xgcc-15.3.0-libgcc",
+          "nar_hash": "sha256:1bvhsl1iqnbbgmxgp2hi0j8nj5ip5n6h6m2awanbnhwrl8fazjvh",
+          "nar_size": 197672,
+          "references": []
+        },
+        {
+          "hash_name": "sv400vq5b0yf2w6rqxigwbbd3ha38a9m-linux-pam-1.7.2",
+          "nar_hash": "sha256:191d9mj670cviy4i9177zvk4i2cpnfy7fxa4ll5vxymqbjndci8g",
+          "nar_size": 1941848,
+          "references": [
+            "24x2q4l14k2dmdqbz5g0pb664fhyfdhl-db-4.8.30",
+            "7y2nfyd4k237pk5fp9qkfi7xr9gb1mfc-libxcrypt-4.5.2",
+            "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+            "h40v4vav15gwrq7l5g8fwwky7z14b1lg-audit-4.2.1-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "sv400vq5b0yf2w6rqxigwbbd3ha38a9m-linux-pam-1.7.2"
+          ]
+        },
+        {
+          "hash_name": "sv8pf8cqmgrgh7jl2n9ww3knslxnfz33-libevent-2.1.13",
+          "nar_hash": "sha256:0hm54452zzcjsb3rjvng094ijvs8zf8nq6982x90dypp8db5kzjz",
+          "nar_size": 882576,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "sv8pf8cqmgrgh7jl2n9ww3knslxnfz33-libevent-2.1.13"
+          ]
+        },
+        {
+          "hash_name": "v2jx14j62glb96a0i3bh60b8ampb4xh8-tpm2-tss-4.2.0",
+          "nar_hash": "sha256:0s507cxkv8hszl2qsq6vd3srv86g64c3p3g4kfbzh8zvkmhw9cla",
+          "nar_size": 3481064,
+          "references": [
+            "ajry3r6v263xy5jcj8vksnyqjq0m4wak-json-c-0.18",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "n5p5q01x4nqvgp36i651rc5ky95i0iq2-util-linux-minimal-2.42.3-lib",
+            "p3y2r8dqhlsv58j2ir4k7g285yanwini-libtpms-0.10.2-unstable-2026-05-06",
+            "s21axjr25zw6x9g6ripn7kamgbvw0y69-curl-8.22.0",
+            "v2jx14j62glb96a0i3bh60b8ampb4xh8-tpm2-tss-4.2.0",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "v5z9g7psrkbdb48drs8v213f6jhyvp5i-jemalloc-5.3.1",
+          "nar_hash": "sha256:1gxhammzi6zbkfz71bc8g4pap5gpvwprk33rfk1idhq2r7k50a0k",
+          "nar_size": 1248216,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "v5z9g7psrkbdb48drs8v213f6jhyvp5i-jemalloc-5.3.1"
+          ]
+        },
+        {
+          "hash_name": "vgkmbbqcpmm5wagmf6gv8jv06v3lp21s-postgresql-18.6-lib",
+          "nar_hash": "sha256:0d24xyd4bz8bbr69qll680c6gq9mady3g0yd2qfahrrskg3xd758",
+          "nar_size": 703136,
+          "references": [
+            "adhjdycq6m1n6ljzm9ifp843y2my6zd8-krb5-1.22.2-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "vgkmbbqcpmm5wagmf6gv8jv06v3lp21s-postgresql-18.6-lib",
+            "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0"
+          ]
+        },
+        {
+          "hash_name": "vkzbcqvnxj1inwrjymp3gd0bn61kb0wl-db-4.8.30",
+          "nar_hash": "sha256:08nfkq8kc1qqh4pxpgdg0wp9h4gs09n3ly9gj9lk7xgi5ywawy31",
+          "nar_size": 3702312,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "vkzbcqvnxj1inwrjymp3gd0bn61kb0wl-db-4.8.30"
+          ]
+        },
+        {
+          "hash_name": "vz1kbkl0178apj4q15l0j4pjgibgi5bv-libfido2-1.17.0",
+          "nar_hash": "sha256:0wsa43a9rbs1awrh2sz1zvaq6ga2zfsmn67hln41gb3cll276f5r",
+          "nar_size": 1193520,
+          "references": [
+            "4hlgp6r4j5p6b2b9sxw01cba0x3fjxd6-systemd-minimal-libs-261.2",
+            "61534nwjl335kpcv3s3n7nyk5xzmg4sd-libcbor-0.14.0",
+            "gqr3pk0kzp0f61nv793qrkh9h4075cz9-pcsclite-2.4.1-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "vz1kbkl0178apj4q15l0j4pjgibgi5bv-libfido2-1.17.0"
+          ]
+        },
+        {
+          "hash_name": "wb232z007b8qynidq89lli8lb2c4q0r4-libffi-3.8.0",
+          "nar_hash": "sha256:09nnrbk6a6y3cpal07jn8zqa1877cyrrl7idcl928c6ggxg2s4vy",
+          "nar_size": 95792,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "wb232z007b8qynidq89lli8lb2c4q0r4-libffi-3.8.0"
+          ]
+        },
+        {
+          "hash_name": "wgpqn0qgmyqgnx864y2zgzavy2g4v7df-libarchive-3.8.9-lib",
+          "nar_hash": "sha256:1rmsr6cik95a98kc7zypjg2szkg118p2gvd852nn8r52xm30y3dh",
+          "nar_size": 985024,
+          "references": [
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "bvqkbbpv0kyspw39v3by6b0cflgfsf9q-acl-2.4.0",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+            "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "wgpqn0qgmyqgnx864y2zgzavy2g4v7df-libarchive-3.8.9-lib",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "wi6kaycsa2479qrxv9xy6yg3q5ggfs6j-gcc-15.3.0-libgcc",
+          "nar_hash": "sha256:06nm4cbrlaysrb1iv8qa1j1aah3bi4zpr2r4pfiik4537qb45qxl",
+          "nar_size": 197752,
+          "references": []
+        },
+        {
+          "hash_name": "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0",
+          "nar_hash": "sha256:099y472k87qpsxp1xi60jclxvn408xjmqmjm5114xh05vpj630c4",
+          "nar_size": 1253944,
+          "references": [
+            "8vqfy9aqxcb5akhpcqdm2iv4q6wx2rih-ngtcp2-1.23.0",
+            "adhjdycq6m1n6ljzm9ifp843y2my6zd8-krb5-1.22.2-lib",
+            "c56x66gbj3qwv3g7dhadcfiq408q2hay-brotli-1.2.0-lib",
+            "d4wj0svs73h1p0726a7k3vi4vkic8qb5-nghttp2-1.70.0-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "ks6ni13a1bnfi1bdj03nqvrhr842ww86-libpsl-0.21.5",
+            "mp4xhfghdxp0db0jf3k5iqack3ms3x9k-libssh2-1.11.1",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
+            "x4xicianwlchh2cadblv4pfz8syvl97b-curl-8.21.0",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+            "xmrzhcfqg1vzwsvgm1dk9dq5fl64rlck-nghttp3-1.16.0"
+          ]
+        },
+        {
+          "hash_name": "xcv2rrfly0za0kdhzvmc0j2a6074zkib-sqlite-3.53.3",
+          "nar_hash": "sha256:1sh2qg0ag1lqyh55yfyg09544ljdqnnlgmfc5ym83hx8n9856jzs",
+          "nar_size": 6027056,
+          "references": [
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7",
+          "nar_hash": "sha256:11vg0hinmvzds7knb6dyy3ck2qhpmikvris0kfslvp0vcqq15hgg",
+          "nar_size": 1202224,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "xmrzhcfqg1vzwsvgm1dk9dq5fl64rlck-nghttp3-1.16.0",
+          "nar_hash": "sha256:0dm60knrv639dpzfvpdgk409qwplfbkp7v92dr5n53nckdqcvrbk",
+          "nar_size": 233768,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "xmx3lhqr6r8zlqjmx7nbfwcd95mymhmf-publicsuffix-list-0-unstable-2026-09-02",
+          "nar_hash": "sha256:008v3d21lq0lrgcm8cv7r8fy65mv7m456x2np68xwds3yspdb9b0",
+          "nar_size": 338304,
+          "references": []
+        },
+        {
+          "hash_name": "xphnhdyxmnqacv1m1va1w07hs3cf0p25-qrencode-4.1.1",
+          "nar_hash": "sha256:13sbaz2pgjb7wbbnc1m98m1nxl9p69cy6w8jj00bb4vpk9wqq2hl",
+          "nar_size": 64088,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "xphnhdyxmnqacv1m1va1w07hs3cf0p25-qrencode-4.1.1"
+          ]
+        },
+        {
+          "hash_name": "xryrhsmmwrgdpqd5ic0fwkm64ghjmn4c-libgpg-error-1.61",
+          "nar_hash": "sha256:0l5jkk22p06g61px5ch461w46zqk4gnq461jpjvyw0mypnzkf2yb",
+          "nar_size": 903808,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xryrhsmmwrgdpqd5ic0fwkm64ghjmn4c-libgpg-error-1.61"
+          ]
+        },
+        {
+          "hash_name": "xsmrab458wn42ilwv6s68jw9f4r5iisz-nettle-3.10.2",
+          "nar_hash": "sha256:1srkrnl7ws0qb280ghk3j5qzmspni4zrrkl9f5p9wgr6xf4rng8z",
+          "nar_size": 740848,
+          "references": [
+            "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "xsmrab458wn42ilwv6s68jw9f4r5iisz-nettle-3.10.2"
+          ]
+        },
+        {
+          "hash_name": "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8",
+          "nar_hash": "sha256:112nb6fpzwyzignbhv8c45wid4p8gz9vgjsq7fjv7rfzghc9p6k6",
+          "nar_size": 88952,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8"
+          ]
+        },
+        {
+          "hash_name": "y3aqadan53yzwkklw1qhr4xq3dwc1592-libfido2-1.17.0",
+          "nar_hash": "sha256:1y5fna5nhgingr2x3pp8mw0dxmqx843x6714j595q25y1q2hhpil",
+          "nar_size": 1193520,
+          "references": [
+            "g909pi91zmvb7zp27cvn6ip27s2mr48q-systemd-minimal-libs-261.2",
+            "gv46rwbph8770aal6mwj4ya39vm2fgiv-libcbor-0.14.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "q8pq31iscr4dhar5jzrvbz9mvjsx8332-pcsclite-2.4.1-lib",
+            "y3aqadan53yzwkklw1qhr4xq3dwc1592-libfido2-1.17.0",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "yb0l5h6p7j2cgw8gc8sgnxxqhph09da9-kbd-2.9.0",
+          "nar_hash": "sha256:0rc580x484y442jjh16zwxj0k1kkvk6jia11brxx6vd1xqh4ww8r",
+          "nar_size": 2833936,
+          "references": [
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+            "yb0l5h6p7j2cgw8gc8sgnxxqhph09da9-kbd-2.9.0"
+          ]
+        },
+        {
+          "hash_name": "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2",
+          "nar_hash": "sha256:178xz8sz0llzvvx7zc6zhqyhdv4d6n621g6yxmxhiabma9bwb14s",
+          "nar_size": 2078944,
+          "references": [
+            "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "yprcwha8bf8cag7kzbsiyfa180vm595w-python3-3.11.16",
+          "nar_hash": "sha256:1s8vqp3ixmyb40ik3kxks5c4lwqj31ipg0im0vzp22w51wqlsd3f",
+          "nar_size": 133042360,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "217wr6zsyp3hkrvsrl5h4d7yphdm4wir-mpdecimal-4.0.1",
+            "2gkqj0v0msfcagwf5ix199rf1lnwf2a1-expat-2.8.3",
+            "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "c6mgy63s5y1353152dp2s2jaig026j3h-readline-8.3p3",
+            "h6q94p1jw42irzqybm1049fmxakh8701-mailcap-2.1.54",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "js998ih76w3n2cqnysa7g27608djj5yn-gdbm-1.26-lib",
+            "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "p0ff33dca0fbkskqwrl3spvxcn5974h0-tzdata-2026c",
+            "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2",
+            "wb232z007b8qynidq89lli8lb2c4q0r4-libffi-3.8.0",
+            "xcv2rrfly0za0kdhzvmc0j2a6074zkib-sqlite-3.53.3",
+            "xz5xsq0nihfs15fbknz5w0yblg04760q-bzip2-1.0.8",
+            "yprcwha8bf8cag7kzbsiyfa180vm595w-python3-3.11.16",
+            "zz125vwahb637g5ckl046ll8fcqmc8pk-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "zq860n82fcl4cd38nbr9hhb7sm65gk21-kmod-31",
+          "nar_hash": "sha256:041qbpg0ijr6n50bamz7z9avhy8yfiyypzs4rp6qjhrryhvqd3yl",
+          "nar_size": 204808,
+          "references": [
+            "bdwsskqikgdlq94xqh5dvyd8263w995g-xz-5.8.3",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "xcwclh5qgw2x6qc39x6ixara06xczzlw-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "zxbpvhc7s8sw2xrcl5qqh8y0ibmj3667-cryptsetup-2.8.7",
+          "nar_hash": "sha256:0a0a7aasg1n68hpg71ahz9kza187xa93b5m6cp8a9hxlnymdrjys",
+          "nar_size": 2975296,
+          "references": [
+            "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
+            "17xmg38m60inc59az3frp540ccrwn2r8-util-linux-minimal-2.42.2-lib",
+            "9j9c2j5bbwbzgvdlrsphcfw4r4pd6hng-lvm2-2.03.41-lib",
+            "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
+            "imvc9v7wiw7rh5rrzjdhmrd96s2wszi2-json-c-0.18",
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "zxbpvhc7s8sw2xrcl5qqh8y0ibmj3667-cryptsetup-2.8.7"
+          ]
+        },
+        {
+          "hash_name": "zz125vwahb637g5ckl046ll8fcqmc8pk-ncurses-6.6",
+          "nar_hash": "sha256:1vgkdbmmma65w4a8ijvkviailmvlrhi10pn7b59d57brnyr7qvjv",
+          "nar_size": 3870560,
+          "references": [
+            "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
+            "zz125vwahb637g5ckl046ll8fcqmc8pk-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "10dxp0qxqxxsyiljrh2kp0xqhz6arhcx-bash-5.3p15",
+          "nar_hash": "sha256:0pd0gn379hbm12l1wgk3j2kx5n1nlz2zxqvdbswcqd3va551q40a",
+          "nar_size": 1885600,
+          "references": [
+            "10dxp0qxqxxsyiljrh2kp0xqhz6arhcx-bash-5.3p15",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "1mv3qz005gkbalxfghk4y3s8ayv4d2dl-bash-interactive-5.3p15",
+          "nar_hash": "sha256:0lm29zg6s3izx5740j22ilh6ncinh47rvg0xf532mvgg1p8vcnfm",
+          "nar_size": 7444560,
+          "references": [
+            "1mv3qz005gkbalxfghk4y3s8ayv4d2dl-bash-interactive-5.3p15",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "hzqwc6pv8sb9qrwivc4h42cr811gs1mk-ncurses-6.6",
+            "xnam05aa3vc7aqbbdixpwcdb8dpv71xn-readline-8.3p3"
+          ]
+        },
+        {
+          "hash_name": "2gfxiwls9hbgwdwcy43mprchwsq36mg6-coreutils-9.11",
+          "nar_hash": "sha256:1azvw6ks42vs54d30qhhsb811n13v645cr1d8n0byprma584varm",
+          "nar_size": 1754128,
+          "references": [
+            "2gfxiwls9hbgwdwcy43mprchwsq36mg6-coreutils-9.11",
+            "9074l1whzhvk68kj5va99ipj412rk5q2-acl-2.4.0",
+            "chwiiz63ngbsgr2qi82c4g40vn756ky2-gmp-with-cxx-6.3.0",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "p6cir20v12fjj5390b8xr9kdynm8bd9h-attr-2.6.0"
+          ]
+        },
+        {
+          "hash_name": "2hc131frgdz45bjbajmpvlrj185lah7p-ngtcp2-1.23.0",
+          "nar_hash": "sha256:0ifsimf0fx87kkznnpbqlwabmczc6m8pq312v2c9zvfdb7ibn3b9",
+          "nar_size": 527800,
+          "references": [
+            "2hc131frgdz45bjbajmpvlrj185lah7p-ngtcp2-1.23.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "331mpny59y1yc603dl64j9sfpbrrrqrf-nghttp3-1.17.0-dev",
+          "nar_hash": "sha256:10nkwa0d20mk8v093zy03xmiligsd0rpihz4bwrkdg9jyfbjgj1r",
+          "nar_size": 129200,
+          "references": [
+            "331mpny59y1yc603dl64j9sfpbrrrqrf-nghttp3-1.17.0-dev",
+            "r9n1wja9zhj3w4r71pggxal3c6xqak2a-nghttp3-1.17.0"
+          ]
+        },
+        {
+          "hash_name": "3668q0d9zhc5n9l2pnyvpd44kz9bjsjm-gnugrep-3.12",
+          "nar_hash": "sha256:08rl8dr02sngipaaxnikw66mqwlry8gs5x59s2rkzxiv8kwrk7wp",
+          "nar_size": 954920,
+          "references": [
+            "3668q0d9zhc5n9l2pnyvpd44kz9bjsjm-gnugrep-3.12",
+            "7v8b5idfzwfl06hx6n0cvd5ikd5p0sbg-pcre2-10.48",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "3r5wfb1dl3sfknvy1yringvmap0hxj4r-libffi-3.8.0",
+          "nar_hash": "sha256:0krsvwddyw1l54iddkanh66h9i1n7n2iscg4k8dk6vf11sfsz2p9",
+          "nar_size": 95792,
+          "references": [
+            "3r5wfb1dl3sfknvy1yringvmap0hxj4r-libffi-3.8.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "4gs6y8nhkh1x4p4j6ii7gcqkflzgi1yz-nodejs-slim-22.23.3-corepack",
+          "nar_hash": "sha256:13z69df8w6ljghvn0gxlkg4xp3ma1yz7pf6hl3dbnhds96zaz29c",
+          "nar_size": 620992,
+          "references": [
+            "1mv3qz005gkbalxfghk4y3s8ayv4d2dl-bash-interactive-5.3p15",
+            "6wqfhw1gc7zxs0ql83p14v6r8wsgialn-nodejs-slim-22.23.3"
+          ]
+        },
+        {
+          "hash_name": "4xkrh8kds5cakycv5f182dx2h8bd7prl-ada-4.0.0",
+          "nar_hash": "sha256:15bkq4519z94vy43707vgiw22khfc2x73h1l13ypd1767ygjc3b2",
+          "nar_size": 754536,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "v3gy6c4rjf518v8pqvzj60j2zyhrvl68-simdutf-9.1.1"
+          ]
+        },
+        {
+          "hash_name": "51hxzq3l1qd4gy0r4safnj1y9s0hgs68-ncurses-6.6",
+          "nar_hash": "sha256:12pcqqn9frsygw5067cy2sdbvq9b34xk8fgzk8k14rjxak3zsnri",
+          "nar_size": 3870560,
+          "references": [
+            "51hxzq3l1qd4gy0r4safnj1y9s0hgs68-ncurses-6.6",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+          "nar_hash": "sha256:16g3jwnpsvshjx0mid7qxab8z5x1mvn4hznyhrklc9c02dcmjdya",
+          "nar_size": 286744,
+          "references": [
+            "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+          "nar_hash": "sha256:10m1gvra8kqswsg97zd65fvj2q5p5c26mfqhjcf0mad5ar39l888",
+          "nar_size": 10317392,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "wkiqjb44n5k0fwhmc523dvflspd47q3b-gcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "60w6v8qyrhd5lx3zy8c9jv3h4dvv5g4d-uvwasi-0.0.23",
+          "nar_hash": "sha256:1gkwla33912dz2nlsmw2qnmsxgw4sy0f3hs8r2248kdfrzzxaq85",
+          "nar_size": 216192,
+          "references": [
+            "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "68w28gzam8ilr63gswxld47nzvqjr2cx-icu4c-78.3",
+          "nar_hash": "sha256:0lw3hxg87g27fx5cxirwl8lxr7sjaq75gp1rlfjbk7m1lavbgi8p",
+          "nar_size": 41437848,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "68w28gzam8ilr63gswxld47nzvqjr2cx-icu4c-78.3",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "6avzrsm02jh7q48ym3hgznj3ypc2shc2-nghttp2-1.70.0-lib",
+          "nar_hash": "sha256:1z9za5b9jisjag7nirgkh3gi4g3gf12dcrv1ycgfd94v1n9636gz",
+          "nar_size": 231344,
+          "references": [
+            "6avzrsm02jh7q48ym3hgznj3ypc2shc2-nghttp2-1.70.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "6vqahj875znq0wlsy1bg926yki3d5m4r-pcre2-10.48",
+          "nar_hash": "sha256:0a9s4p7wlf9qqa2lw913q79p0g2m5v13w5sfxcaknyw6mn4ppkfi",
+          "nar_size": 2083520,
+          "references": [
+            "6vqahj875znq0wlsy1bg926yki3d5m4r-pcre2-10.48",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "6wqfhw1gc7zxs0ql83p14v6r8wsgialn-nodejs-slim-22.23.3",
+          "nar_hash": "sha256:16vjjqs0qmq7ywchbxji72wa9sxiz60g2j60lfrl73249db87j8k",
+          "nar_size": 87217928,
+          "references": [
+            "331mpny59y1yc603dl64j9sfpbrrrqrf-nghttp3-1.17.0-dev",
+            "4xkrh8kds5cakycv5f182dx2h8bd7prl-ada-4.0.0",
+            "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+            "60w6v8qyrhd5lx3zy8c9jv3h4dvv5g4d-uvwasi-0.0.23",
+            "6wqfhw1gc7zxs0ql83p14v6r8wsgialn-nodejs-slim-22.23.3",
+            "7fjvn38n3dnv092jbmb4m87ik5qvmj7g-brotli-1.2.0-lib",
+            "819j3y173s2f6r46g88jar9g4lg5817b-ngtcp2-1.23.0-dev",
+            "879xd5x23lfd4l93jz71yaz06wa15yc1-zlib-1.3.2-dev",
+            "8vq8ivlhfqkbhs7r9mmirsdp8gh8hmrm-ngtcp2-1.23.0",
+            "9cs885sjc6cp8qd7q2pmq20kg1s6bck8-brotli-1.2.0-dev",
+            "9ia7882m3hhvdk6qi4p3p650pfhxg75r-nghttp2-1.70.0-dev",
+            "9x0m6s73sg89fv5awb95vsac2mbns8n0-sqlite-3.53.3",
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "dsamg7ahj9fxvxa2rpmlszpkavzf308r-llhttp-9.4.3",
+            "gynzf086miwasc7ar6bbn8l19h9v9rwx-c-ares-1.34.8-dev",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "hc6mxys4iyawmwiyaixkcl9izjrqmr2q-openssl-3.5.8-dev",
+            "hn304mycqq2fgs1dq0gwf0ism8s07bjg-simdjson-4.6.8",
+            "ihpqfjr2ay1bwnig3yf6ggsiwc7hz5hg-zstd-1.5.7-dev",
+            "ip6pmgxkzbihw13fcc84bi1vd1b8chhg-ada-4.0.0-dev",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "jsv8ag4vdxibw7533mh8c485xrzmc4lv-c-ares-1.34.8",
+            "mf2q7c86hgfps5v7qv5wy4jafk4mkj30-libuv-1.52.1-dev",
+            "p53hgy9s8702djxkwy41gscld5b05x3s-uvwasi-0.0.23-dev",
+            "p70kabql97yf5325qm4jlmbvsamnk439-icu4c-78.3-dev",
+            "ph4ib8mxy5yrw40k7a1l03bfd58hq6wj-zstd-1.5.7",
+            "r9n1wja9zhj3w4r71pggxal3c6xqak2a-nghttp3-1.17.0",
+            "sky8mslz50n51np0z4vhdq61jba12fh2-nghttp2-1.70.0-lib",
+            "wgw25d181h0qks7qsfp1bh7c5nd3f0s7-zlib-1.3.2",
+            "x6kgrfa36hhbdmb7c8l0qfqrcmj9j970-llhttp-9.4.3-dev",
+            "xrcjl59yi7zswbv0vzm8cmvw4vplsbgj-sqlite-3.53.3-dev",
+            "yvz0mgkzdb31myfjaf39l8ibl05lvgk0-simdjson-4.6.8-dev",
+            "zmcwdg75vlrrr65n28lb279xrm319712-icu4c-78.3"
+          ]
+        },
+        {
+          "hash_name": "7d2p2g4pgdc94cwvyvix758grp7kpmay-readline-8.3p3",
+          "nar_hash": "sha256:0pv85fnp6i240klw4ci6ff6mi5l55i4pb7xgm4jwg86a6a7zz8xa",
+          "nar_size": 506392,
+          "references": [
+            "51hxzq3l1qd4gy0r4safnj1y9s0hgs68-ncurses-6.6",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "7fjvn38n3dnv092jbmb4m87ik5qvmj7g-brotli-1.2.0-lib",
+          "nar_hash": "sha256:1y2b4ij7inv2zhkmf9hwmm1ps1q0q1pyp53ilb17bss50h8f43f6",
+          "nar_size": 997256,
+          "references": [
+            "7fjvn38n3dnv092jbmb4m87ik5qvmj7g-brotli-1.2.0-lib",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "7v8b5idfzwfl06hx6n0cvd5ikd5p0sbg-pcre2-10.48",
+          "nar_hash": "sha256:1gpd6x20n1qjhq621vc9fwsa06nnglllk6iy9rr0ny5b28llyrs6",
+          "nar_size": 2117896,
+          "references": [
+            "7v8b5idfzwfl06hx6n0cvd5ikd5p0sbg-pcre2-10.48",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "819j3y173s2f6r46g88jar9g4lg5817b-ngtcp2-1.23.0-dev",
+          "nar_hash": "sha256:1wfa9ip99z74am1wcjlqyl738a1x1sqggv8fgsg8v7872xmxkm3x",
+          "nar_size": 309944,
+          "references": [
+            "819j3y173s2f6r46g88jar9g4lg5817b-ngtcp2-1.23.0-dev",
+            "8vq8ivlhfqkbhs7r9mmirsdp8gh8hmrm-ngtcp2-1.23.0"
+          ]
+        },
+        {
+          "hash_name": "879xd5x23lfd4l93jz71yaz06wa15yc1-zlib-1.3.2-dev",
+          "nar_hash": "sha256:0sxhymmvzdqvdbmhqfp56kasc0xz47k6r0bgfmj5hilbnwn0diaj",
+          "nar_size": 122832,
+          "references": [
+            "879xd5x23lfd4l93jz71yaz06wa15yc1-zlib-1.3.2-dev",
+            "igzrdkid07pdyh30cswrjb7a9yln9mpp-zlib-1.3.2-static",
+            "wgw25d181h0qks7qsfp1bh7c5nd3f0s7-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+          "nar_hash": "sha256:1a2fq7rvhfvr9ygyf6gl7l4jh3hpchgj091w9il6yyv11b4kcr9i",
+          "nar_size": 1202224,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "8ik1d1r4l2jzm9mjh6bc0a13yczx62wg-zstd-1.5.7",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "8vq8ivlhfqkbhs7r9mmirsdp8gh8hmrm-ngtcp2-1.23.0",
+          "nar_hash": "sha256:1h65gn968vhnbs5abkl5dwdvamvcgv2m4wcqc7yay59brl19agn0",
+          "nar_size": 548448,
+          "references": [
+            "8vq8ivlhfqkbhs7r9mmirsdp8gh8hmrm-ngtcp2-1.23.0",
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "8yv4f7k9phr5nri7z1sb3pm4f40q5wlb-openssl-3.5.8-bin",
+          "nar_hash": "sha256:1yfm7y1nzkiw9nzgxw09m5zrx4s0w982273gwy7h4kkifad3f1vb",
+          "nar_size": 1317224,
+          "references": [
+            "8yv4f7k9phr5nri7z1sb3pm4f40q5wlb-openssl-3.5.8-bin",
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "9074l1whzhvk68kj5va99ipj412rk5q2-acl-2.4.0",
+          "nar_hash": "sha256:18ly5fzzr30hlkkxgqi4az2bgy1x90xjn6m903zgf6842g9nc4zh",
+          "nar_size": 137568,
+          "references": [
+            "9074l1whzhvk68kj5va99ipj412rk5q2-acl-2.4.0",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "9cs885sjc6cp8qd7q2pmq20kg1s6bck8-brotli-1.2.0-dev",
+          "nar_hash": "sha256:0ibr6dqmgw38w55pch0yaysxign5ss5xcb209jqwvj2dw9rpwxv5",
+          "nar_size": 58880,
+          "references": [
+            "7fjvn38n3dnv092jbmb4m87ik5qvmj7g-brotli-1.2.0-lib",
+            "9cs885sjc6cp8qd7q2pmq20kg1s6bck8-brotli-1.2.0-dev",
+            "img7s7q1qp0c122cgygl2q9gdgjzvk1d-brotli-1.2.0"
+          ]
+        },
+        {
+          "hash_name": "9ia7882m3hhvdk6qi4p3p650pfhxg75r-nghttp2-1.70.0-dev",
+          "nar_hash": "sha256:0v8nmhkpiw0kx0fiwpb6qxfsavinnd0hbpxh1ps9s71y5iqhigmj",
+          "nar_size": 247368,
+          "references": [
+            "9ia7882m3hhvdk6qi4p3p650pfhxg75r-nghttp2-1.70.0-dev",
+            "dpacn35xr3iajmgvcprb63hnxby21gpx-nghttp2-1.70.0",
+            "sky8mslz50n51np0z4vhdq61jba12fh2-nghttp2-1.70.0-lib"
+          ]
+        },
+        {
+          "hash_name": "9x0m6s73sg89fv5awb95vsac2mbns8n0-sqlite-3.53.3",
+          "nar_hash": "sha256:11wydf8lk1q624xkvk0xykch3mfhq8jmny2idc2p3a9zlbw5pdvb",
+          "nar_size": 6188296,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "wgw25d181h0qks7qsfp1bh7c5nd3f0s7-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "bv3lx708clpz3m6zbd5742np4dlry0yj-libunistring-1.4.2",
+          "nar_hash": "sha256:1gz22gfl2lcahqzma75rvxgmk9zcfrvarzywlarwy4hkf1k4iz44",
+          "nar_size": 2078944,
+          "references": [
+            "bv3lx708clpz3m6zbd5742np4dlry0yj-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "bvqkbbpv0kyspw39v3by6b0cflgfsf9q-acl-2.4.0",
+          "nar_hash": "sha256:15c74viq7nz1dvyjks0gjfnbfb3gpw0y9s3zak677pfgnkg3l7fc",
+          "nar_size": 137600,
+          "references": [
+            "bvqkbbpv0kyspw39v3by6b0cflgfsf9q-acl-2.4.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "chwiiz63ngbsgr2qi82c4g40vn756ky2-gmp-with-cxx-6.3.0",
+          "nar_hash": "sha256:16cknz2iwy72nh8xbzcml7gnksycsgw88psza85pzzwgr70fmkdm",
+          "nar_size": 787528,
+          "references": [
+            "chwiiz63ngbsgr2qi82c4g40vn756ky2-gmp-with-cxx-6.3.0",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+          "nar_hash": "sha256:0j5x95xyx6s2h5qafh2vm9ijbgkd2sal2ljgllknpzja1khmcrsc",
+          "nar_size": 857952,
+          "references": [
+            "cjippm7n89ac2z3rxdghns4p02s6g09m-xz-5.8.3",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+          "nar_hash": "sha256:1mipfkysygp3ndksniim66yp7628fll8wsa0r7xdx6nbfx6wz0w1",
+          "nar_size": 9439480,
+          "references": [
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "dki4fkk75v2x4aqkszmi257wxq6rkkyr-nghttp3-1.16.0",
+          "nar_hash": "sha256:19ij75762b759cvwh4f50lzd1v49zp8k10jkm6zrq1588xqih10v",
+          "nar_size": 233768,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "dpacn35xr3iajmgvcprb63hnxby21gpx-nghttp2-1.70.0",
+          "nar_hash": "sha256:0vv4y4pkmqbfwqd1j5qmj0l3gqf993jx6qp1jw6rrd6waadxi63c",
+          "nar_size": 3527032,
+          "references": [
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "n4pwxqcd9yj2gg7af8jvkg3fkwg9hgw8-c-ares-1.34.8",
+            "sky8mslz50n51np0z4vhdq61jba12fh2-nghttp2-1.70.0-lib",
+            "w5sz8y5yhcpa1ckcm54lqdds7cjvqr6m-libev-4.33"
+          ]
+        },
+        {
+          "hash_name": "dsamg7ahj9fxvxa2rpmlszpkavzf308r-llhttp-9.4.3",
+          "nar_hash": "sha256:1lzhgg3pw5mcbn0fr6aq2yn787warj62h3k8yax2s7lprslzd4d4",
+          "nar_size": 95816,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "dy7rlj1ja9s51gnm20h3f56mv424p8fs-attr-2.6.0",
+          "nar_hash": "sha256:17mvgycpzdj2218bd4hvhrvjv83gpdvzqhjawryq79sw876pcddg",
+          "nar_size": 90936,
+          "references": [
+            "dy7rlj1ja9s51gnm20h3f56mv424p8fs-attr-2.6.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "fh8svr4ds87z84iarfnxrlfpjlbmc816-tzdata-2026c",
+          "nar_hash": "sha256:16yz4hiyv18nx0p537kgbmggl6aky903z58rpcpaqxjcrnqnq4zm",
+          "nar_size": 2138680,
+          "references": []
+        },
+        {
+          "hash_name": "g60m3aky9f59wgy1gi0y06xwmbw19d6m-xgcc-16.2.0-libgcc",
+          "nar_hash": "sha256:02crsn39w9wxan1z3dz9g1zb76l09jb462qzb3q8r8zic4p2k6rg",
+          "nar_size": 202272,
+          "references": []
+        },
+        {
+          "hash_name": "ggg53gq25nf1p6vlzyzkwj26csc5jfak-pnpm-12.3.4",
+          "nar_hash": "sha256:1nzm2r1445wh2yrj3pqcqyqj23gv19313pxihh6gnc7d0kbblz5j",
+          "nar_size": 52417880,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "ggg53gq25nf1p6vlzyzkwj26csc5jfak-pnpm-12.3.4",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "svx59425zxp552p2b8gm11qj5r09b56i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "gynzf086miwasc7ar6bbn8l19h9v9rwx-c-ares-1.34.8-dev",
+          "nar_hash": "sha256:0abasnjpgxzgy7imqhx2q9m88fnd122ppazana4gn4lpnsp58nn7",
+          "nar_size": 132088,
+          "references": [
+            "gynzf086miwasc7ar6bbn8l19h9v9rwx-c-ares-1.34.8-dev",
+            "jsv8ag4vdxibw7533mh8c485xrzmc4lv-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+          "nar_hash": "sha256:0fr2nsbz2dnfhanm1flhgm8wr0adqk05zip2q6li5z87jk6s6b63",
+          "nar_size": 35578272,
+          "references": [
+            "g60m3aky9f59wgy1gi0y06xwmbw19d6m-xgcc-16.2.0-libgcc",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "q0lbdx5yv93a3md74kjhm0v2kljjii89-libidn2-2.3.8"
+          ]
+        },
+        {
+          "hash_name": "hc6mxys4iyawmwiyaixkcl9izjrqmr2q-openssl-3.5.8-dev",
+          "nar_hash": "sha256:0nrzyf3w5agfnm6bvy8jfm3pzlqrwpbxpmx3d3j21msrj9xr41kk",
+          "nar_size": 2030336,
+          "references": [
+            "8yv4f7k9phr5nri7z1sb3pm4f40q5wlb-openssl-3.5.8-bin",
+            "cxd8d2vg70c3pa31v2473hphaa1v0j44-openssl-3.5.8",
+            "hc6mxys4iyawmwiyaixkcl9izjrqmr2q-openssl-3.5.8-dev"
+          ]
+        },
+        {
+          "hash_name": "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+          "nar_hash": "sha256:0px1v5058d6k5h1i5mxb4f0xnpd8b23g0sdyv4illn14kbbffvy3",
+          "nar_size": 1460576,
+          "references": [
+            "hhv2z8dn6760d1bzvrd69l4ivclb792r-libxml2-2.15.4",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "hn304mycqq2fgs1dq0gwf0ism8s07bjg-simdjson-4.6.8",
+          "nar_hash": "sha256:0yqjfnwmdc7jsdabiv7i9s10gmwlqsds8vmpwa9l2kx47j0x37p2",
+          "nar_size": 242664,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "hzqwc6pv8sb9qrwivc4h42cr811gs1mk-ncurses-6.6",
+          "nar_hash": "sha256:062lwsabk1dv4igni92nic8359kdj5yixadkph5401kjn59dblay",
+          "nar_size": 3882816,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "hzqwc6pv8sb9qrwivc4h42cr811gs1mk-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+          "nar_hash": "sha256:0g2qsgc7dv9zl3i5nc523gicpy0xk2z4r1x4msr0inmsqjpm1ym9",
+          "nar_size": 368176,
+          "references": [
+            "bv3lx708clpz3m6zbd5742np4dlry0yj-libunistring-1.4.2",
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8"
+          ]
+        },
+        {
+          "hash_name": "igzrdkid07pdyh30cswrjb7a9yln9mpp-zlib-1.3.2-static",
+          "nar_hash": "sha256:1addw1m6bzcsy5r5cgrzkbp1zybx9yl6slw7abny5wkbnxlb14mj",
+          "nar_size": 154776,
+          "references": []
+        },
+        {
+          "hash_name": "ihpqfjr2ay1bwnig3yf6ggsiwc7hz5hg-zstd-1.5.7-dev",
+          "nar_hash": "sha256:0n7g4z6i3lj5bqxlcmlvb001p7alf05gimslp73fnyf9kl8mx7mw",
+          "nar_size": 225136,
+          "references": [
+            "ihpqfjr2ay1bwnig3yf6ggsiwc7hz5hg-zstd-1.5.7-dev",
+            "ph4ib8mxy5yrw40k7a1l03bfd58hq6wj-zstd-1.5.7",
+            "yfqdq38iw1k9n0a0w1ncsxpl2fs5gy94-zstd-1.5.7-bin"
+          ]
+        },
+        {
+          "hash_name": "img7s7q1qp0c122cgygl2q9gdgjzvk1d-brotli-1.2.0",
+          "nar_hash": "sha256:1q0p6cl3ps7bd1lv2rm1hbgymcjykxq6qjbfjqjcg99qd47y8s36",
+          "nar_size": 54984,
+          "references": [
+            "7fjvn38n3dnv092jbmb4m87ik5qvmj7g-brotli-1.2.0-lib",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "ip6pmgxkzbihw13fcc84bi1vd1b8chhg-ada-4.0.0-dev",
+          "nar_hash": "sha256:0nx7vqmvz1jm4vk0gss4y8yyk42ic2808vy6xk6k0af7zbh3hfqh",
+          "nar_size": 458848,
+          "references": [
+            "4xkrh8kds5cakycv5f182dx2h8bd7prl-ada-4.0.0",
+            "ip6pmgxkzbihw13fcc84bi1vd1b8chhg-ada-4.0.0-dev"
+          ]
+        },
+        {
+          "hash_name": "iy2zkfn4l0w24xabv6ryi0vh7bpjvqm6-sqlite-3.53.3-bin",
+          "nar_hash": "sha256:163ak0s6y5l4nghgdc88jx33wgy7n9qnnj4h4zsvkz56bxa4gr69",
+          "nar_size": 2338296,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "wgw25d181h0qks7qsfp1bh7c5nd3f0s7-zlib-1.3.2"
+          ]
+        },
+        {
+          "hash_name": "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+          "nar_hash": "sha256:1mk0csg1f509jfjkfjpmcbvmdm2ljlv3h0fm84bcs11dfb9mkrs4",
+          "nar_size": 10813624,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "q2mkz6ca1alqfqf750dygvakmq8kjrwz-gcc-16.2.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "jp8ql2fnd61xhvb4vsfp0bqwrzf16qrp-libunistring-1.4.2",
+          "nar_hash": "sha256:1pcna1vp58anngysryn0b159180y9cm745s4qyxmdnxasbp47kcs",
+          "nar_size": 2083096,
+          "references": [
+            "jp8ql2fnd61xhvb4vsfp0bqwrzf16qrp-libunistring-1.4.2"
+          ]
+        },
+        {
+          "hash_name": "jsv8ag4vdxibw7533mh8c485xrzmc4lv-c-ares-1.34.8",
+          "nar_hash": "sha256:16cpwgcgvj4y1c102c1b3i8cc8jk0rxw06267lh761kkdq01rrl6",
+          "nar_size": 400800,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "jsv8ag4vdxibw7533mh8c485xrzmc4lv-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+          "nar_hash": "sha256:1jhc5a8y66xhy29smf4crrsj85sp1fn84xgfgyg9hxcz5840cgyv",
+          "nar_size": 88952,
+          "references": [
+            "l509wk1p0c5sh0i4pvfd9d018pzmjnd8-bzip2-1.0.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+          "nar_hash": "sha256:06kkplxk31y11zksgcrdjv0hf6ymlmxvlc0i2h08g3zc22is465s",
+          "nar_size": 35073128,
+          "references": [
+            "i3jw341xs88r6wxf1j22rjx1mmd8cfjw-libidn2-2.3.8",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "m07syxhld8hpprrdmzq565ziia6vlw9l-xgcc-15.3.0-libgcc"
+          ]
+        },
+        {
+          "hash_name": "lw86vj9kfwgvlivg3p8qg2nibpmhmsl9-zlib-1.3.2",
+          "nar_hash": "sha256:15snvj0mvz1v897c9if6n6j77j7h5yzdi85qbm38zrk95qrx0my1",
+          "nar_size": 132608,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
+          ]
+        },
+        {
+          "hash_name": "m07syxhld8hpprrdmzq565ziia6vlw9l-xgcc-15.3.0-libgcc",
+          "nar_hash": "sha256:1bvhsl1iqnbbgmxgp2hi0j8nj5ip5n6h6m2awanbnhwrl8fazjvh",
+          "nar_size": 197672,
+          "references": []
+        },
+        {
+          "hash_name": "mf2q7c86hgfps5v7qv5wy4jafk4mkj30-libuv-1.52.1-dev",
+          "nar_hash": "sha256:1mrkcivh0plhlpds8m1zz6j9ylndn21mxd5hnv04s5risxpj6zpk",
+          "nar_size": 112280,
+          "references": [
+            "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+            "mf2q7c86hgfps5v7qv5wy4jafk4mkj30-libuv-1.52.1-dev"
+          ]
+        },
+        {
+          "hash_name": "n4pwxqcd9yj2gg7af8jvkg3fkwg9hgw8-c-ares-1.34.8",
+          "nar_hash": "sha256:00qmvn4i1fqrlcq7ycsr42w1aq3iawczz53cdf13a1arh1q7qxq4",
+          "nar_size": 303832,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "n4pwxqcd9yj2gg7af8jvkg3fkwg9hgw8-c-ares-1.34.8"
+          ]
+        },
+        {
+          "hash_name": "p53hgy9s8702djxkwy41gscld5b05x3s-uvwasi-0.0.23-dev",
+          "nar_hash": "sha256:052dvgnyalzj74f5gh48h1ahlifna5dy4lqcxb27mggk1lr4llqh",
+          "nar_size": 43424,
+          "references": [
+            "5i9x1yxqa9nk7jl7yflaavnlxvb09wrq-libuv-1.52.1",
+            "60w6v8qyrhd5lx3zy8c9jv3h4dvv5g4d-uvwasi-0.0.23",
+            "mf2q7c86hgfps5v7qv5wy4jafk4mkj30-libuv-1.52.1-dev",
+            "p53hgy9s8702djxkwy41gscld5b05x3s-uvwasi-0.0.23-dev"
+          ]
+        },
+        {
+          "hash_name": "p6cir20v12fjj5390b8xr9kdynm8bd9h-attr-2.6.0",
+          "nar_hash": "sha256:170dinv55arwrz72llqs0hawjqr4yy8g68zk98xp4v9aqym8ac63",
+          "nar_size": 90936,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "p6cir20v12fjj5390b8xr9kdynm8bd9h-attr-2.6.0"
+          ]
+        },
+        {
+          "hash_name": "p70kabql97yf5325qm4jlmbvsamnk439-icu4c-78.3-dev",
+          "nar_hash": "sha256:1xm933m4aap25w7wl96nqq3j1f8igkvbixgspcanfgra9c066xpn",
+          "nar_size": 6152944,
+          "references": [
+            "10dxp0qxqxxsyiljrh2kp0xqhz6arhcx-bash-5.3p15",
+            "2gfxiwls9hbgwdwcy43mprchwsq36mg6-coreutils-9.11",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "p70kabql97yf5325qm4jlmbvsamnk439-icu4c-78.3-dev",
+            "zmcwdg75vlrrr65n28lb279xrm319712-icu4c-78.3"
+          ]
+        },
+        {
+          "hash_name": "ph4ib8mxy5yrw40k7a1l03bfd58hq6wj-zstd-1.5.7",
+          "nar_hash": "sha256:0z99i19hzjpni5wfpgvvmm4lajj5170ap7r7l2h313zdj4pplzym",
+          "nar_size": 1209248,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "ph4ib8mxy5yrw40k7a1l03bfd58hq6wj-zstd-1.5.7"
+          ]
+        },
+        {
+          "hash_name": "q0lbdx5yv93a3md74kjhm0v2kljjii89-libidn2-2.3.8",
+          "nar_hash": "sha256:0i9dmbwawwjffqf8xdnn52n7p0c0vb9ypla5yivcvf4nsfarl7qz",
+          "nar_size": 372320,
+          "references": [
+            "jp8ql2fnd61xhvb4vsfp0bqwrzf16qrp-libunistring-1.4.2",
+            "q0lbdx5yv93a3md74kjhm0v2kljjii89-libidn2-2.3.8"
+          ]
+        },
+        {
+          "hash_name": "q2mkz6ca1alqfqf750dygvakmq8kjrwz-gcc-16.2.0-libgcc",
+          "nar_hash": "sha256:1qp62adnjfrnimm7m8qxv40qip8v5zhmaf9dvmcp0smj8zwn07f4",
+          "nar_size": 202344,
+          "references": []
+        },
+        {
+          "hash_name": "qshvhyv92g772jjsm2zrgzxc4ai4iqfx-nodejs-22.23.3",
+          "nar_hash": "sha256:0d19aiby1zdkz5b20k630sn44r05wpg6q7rplrc868pap1ijqjdc",
+          "nar_size": 860472,
+          "references": [
+            "4gs6y8nhkh1x4p4j6ii7gcqkflzgi1yz-nodejs-slim-22.23.3-corepack",
+            "6wqfhw1gc7zxs0ql83p14v6r8wsgialn-nodejs-slim-22.23.3",
+            "vrsq77x4xb5fydgbisaznkv5m8x8rrgy-nodejs-slim-22.23.3-npm"
+          ]
+        },
+        {
+          "hash_name": "r9n1wja9zhj3w4r71pggxal3c6xqak2a-nghttp3-1.17.0",
+          "nar_hash": "sha256:0fk1mljz3yxzqpvsyrb151bxl3b6l71dviky0arbcz28hhwii8w7",
+          "nar_size": 238008,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "sky8mslz50n51np0z4vhdq61jba12fh2-nghttp2-1.70.0-lib",
+          "nar_hash": "sha256:158c1kmf2qrrlvxj9vibq9r4izmmv21lic3drc8jxgfl273irsgj",
+          "nar_size": 235392,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "sky8mslz50n51np0z4vhdq61jba12fh2-nghttp2-1.70.0-lib"
+          ]
+        },
+        {
+          "hash_name": "svx59425zxp552p2b8gm11qj5r09b56i-bash-5.3p15",
+          "nar_hash": "sha256:1q66pg3jr7lfdbb5givp304m31c1n4z4bs0y0bfhi1yn3xirnhwk",
+          "nar_size": 1856848,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "svx59425zxp552p2b8gm11qj5r09b56i-bash-5.3p15"
+          ]
+        },
+        {
+          "hash_name": "v3gy6c4rjf518v8pqvzj60j2zyhrvl68-simdutf-9.1.1",
+          "nar_hash": "sha256:0iif1svaffqxb2rnf934ddm8361zqvvij18axdrfbq1v6lf90z86",
+          "nar_size": 1546776,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "vrsq77x4xb5fydgbisaznkv5m8x8rrgy-nodejs-slim-22.23.3-npm",
+          "nar_hash": "sha256:02p0ii3b17wb0ijxml7c8gbkrwr2mydi150d72x834my2s5k8blk",
+          "nar_size": 11485864,
+          "references": [
+            "1mv3qz005gkbalxfghk4y3s8ayv4d2dl-bash-interactive-5.3p15",
+            "6wqfhw1gc7zxs0ql83p14v6r8wsgialn-nodejs-slim-22.23.3"
+          ]
+        },
+        {
+          "hash_name": "w5sz8y5yhcpa1ckcm54lqdds7cjvqr6m-libev-4.33",
+          "nar_hash": "sha256:027cxxd98x7rf1bq34bf3xmmc9ds3cnkx7rvxrm0ljjblhnsl1m3",
+          "nar_size": 231336,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "w5sz8y5yhcpa1ckcm54lqdds7cjvqr6m-libev-4.33"
+          ]
+        },
+        {
+          "hash_name": "wgw25d181h0qks7qsfp1bh7c5nd3f0s7-zlib-1.3.2",
+          "nar_hash": "sha256:0qhm0pv22z09jgdrniywz6qk2rhrc1hkwcsssq6b4025dcirz940",
+          "nar_size": 136672,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
+          ]
+        },
+        {
+          "hash_name": "wkiqjb44n5k0fwhmc523dvflspd47q3b-gcc-15.3.0-libgcc",
+          "nar_hash": "sha256:06nm4cbrlaysrb1iv8qa1j1aah3bi4zpr2r4pfiik4537qb45qxl",
+          "nar_size": 197752,
+          "references": []
+        },
+        {
+          "hash_name": "x6kgrfa36hhbdmb7c8l0qfqrcmj9j970-llhttp-9.4.3-dev",
+          "nar_hash": "sha256:160k1a9ih7wbd4qb8myidz3fyw7h1n68mvr491sxv37mwg399irg",
+          "nar_size": 42640,
+          "references": [
+            "dsamg7ahj9fxvxa2rpmlszpkavzf308r-llhttp-9.4.3",
+            "x6kgrfa36hhbdmb7c8l0qfqrcmj9j970-llhttp-9.4.3-dev"
+          ]
+        },
+        {
+          "hash_name": "xhgd6rb4h8ssid9yw8nvw74cwq69md5y-brotli-1.2.0-lib",
+          "nar_hash": "sha256:04afck2qpb6r3f2kqp4s2csh8i94dvddani3702zlyk3fp72909y",
+          "nar_size": 984976,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "xhgd6rb4h8ssid9yw8nvw74cwq69md5y-brotli-1.2.0-lib"
+          ]
+        },
+        {
+          "hash_name": "xjl7p8dvyk2j53kqf7f43kdj4ypbxz7g-coreutils-9.11",
+          "nar_hash": "sha256:1xf34zg147pd6f1aqq9s9wj7hd8kscrxr8cgg1vy5rg64ybsvv8m",
+          "nar_size": 1806984,
+          "references": [
+            "bvqkbbpv0kyspw39v3by6b0cflgfsf9q-acl-2.4.0",
+            "dy7rlj1ja9s51gnm20h3f56mv424p8fs-attr-2.6.0",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "xjl7p8dvyk2j53kqf7f43kdj4ypbxz7g-coreutils-9.11",
+            "yfrd1ghcyk23shcgd84ya18axiwf5j5m-gmp-with-cxx-6.3.0"
+          ]
+        },
+        {
+          "hash_name": "xnam05aa3vc7aqbbdixpwcdb8dpv71xn-readline-8.3p3",
+          "nar_hash": "sha256:114bvzs6km7hf0qhsddnmi8p7a514s6rj2z95ydgs6wpkwp73xiv",
+          "nar_size": 518744,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "hzqwc6pv8sb9qrwivc4h42cr811gs1mk-ncurses-6.6"
+          ]
+        },
+        {
+          "hash_name": "xrcjl59yi7zswbv0vzm8cmvw4vplsbgj-sqlite-3.53.3-dev",
+          "nar_hash": "sha256:126ksq5fbab47laf12wlvzy1j278n6bd693linlk3ghr9jpidhp1",
+          "nar_size": 732112,
+          "references": [
+            "9x0m6s73sg89fv5awb95vsac2mbns8n0-sqlite-3.53.3",
+            "iy2zkfn4l0w24xabv6ryi0vh7bpjvqm6-sqlite-3.53.3-bin",
+            "xrcjl59yi7zswbv0vzm8cmvw4vplsbgj-sqlite-3.53.3-dev"
+          ]
+        },
+        {
+          "hash_name": "yfqdq38iw1k9n0a0w1ncsxpl2fs5gy94-zstd-1.5.7-bin",
+          "nar_hash": "sha256:01cz0p9cb1p7b0x2xrab6sj898dbkf8005p4zfmnyq6w61c43095",
+          "nar_size": 388760,
+          "references": [
+            "10dxp0qxqxxsyiljrh2kp0xqhz6arhcx-bash-5.3p15",
+            "3668q0d9zhc5n9l2pnyvpd44kz9bjsjm-gnugrep-3.12",
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "ph4ib8mxy5yrw40k7a1l03bfd58hq6wj-zstd-1.5.7",
+            "yfqdq38iw1k9n0a0w1ncsxpl2fs5gy94-zstd-1.5.7-bin"
+          ]
+        },
+        {
+          "hash_name": "yfrd1ghcyk23shcgd84ya18axiwf5j5m-gmp-with-cxx-6.3.0",
+          "nar_hash": "sha256:10s7b1qprm6p01fkr74q7nfb0ff1b5lwhx3ycpnmac5f7yvi6wrj",
+          "nar_size": 783432,
+          "references": [
+            "604gsr59rj7dzd0nrhp143rpvf7gyiaz-gcc-15.3.0-lib",
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "yfrd1ghcyk23shcgd84ya18axiwf5j5m-gmp-with-cxx-6.3.0"
+          ]
+        },
+        {
+          "hash_name": "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4",
+          "nar_hash": "sha256:138y43as5b7vf3dmhh6whiqrdwqhhbwvnxxhdbiasil8p5yyswzr",
+          "nar_size": 9317400,
+          "references": [
+            "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84",
+            "yj34vymbqf7mf4lmffipy8jqc4kwr1mc-openssl-3.6.4"
+          ]
+        },
+        {
+          "hash_name": "yvz0mgkzdb31myfjaf39l8ibl05lvgk0-simdjson-4.6.8-dev",
+          "nar_hash": "sha256:0khz7fyl1plrr2bpbysn9sf5930zrrf8hm3sdx407l3dh5ydrzbv",
+          "nar_size": 7742408,
+          "references": [
+            "hn304mycqq2fgs1dq0gwf0ism8s07bjg-simdjson-4.6.8",
+            "yvz0mgkzdb31myfjaf39l8ibl05lvgk0-simdjson-4.6.8-dev"
+          ]
+        },
+        {
+          "hash_name": "zmcwdg75vlrrr65n28lb279xrm319712-icu4c-78.3",
+          "nar_hash": "sha256:00cnp5aj35f0yvimds2y9yx8wsb23l6gw5qpazpilvnl438vk00y",
+          "nar_size": 41620296,
+          "references": [
+            "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
+            "j7qx4s4mr17j1wqgvqdzj33lmrnzb387-gcc-16.2.0-lib",
+            "zmcwdg75vlrrr65n28lb279xrm319712-icu4c-78.3"
+          ]
+        }
+      ],
+      "environment": {
+        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "DB_DATABASE_NAME": "immich",
+        "DB_HOSTNAME": "127.0.0.1",
+        "DB_PASSWORD": "",
+        "DB_PORT": "5432",
+        "DB_USERNAME": "postgres",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_HOST": "127.0.0.1",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_PORT": "3003",
+        "ENVE_SERVICE_IMMICH_MACHINE_LEARNING_URL": "http://127.0.0.1:3003",
+        "ENVE_SERVICE_IMMICH_SERVER_HOST": "127.0.0.1",
+        "ENVE_SERVICE_IMMICH_SERVER_PORT": "3001",
+        "ENVE_SERVICE_IMMICH_SERVER_URL": "http://127.0.0.1:3001",
+        "ENVE_SERVICE_POSTGRES_HOST": "127.0.0.1",
+        "ENVE_SERVICE_POSTGRES_PORT": "5432",
+        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "ENVE_SERVICE_REDIS_HOST": "127.0.0.1",
+        "ENVE_SERVICE_REDIS_PORT": "6379",
+        "ENVE_SERVICE_REDIS_URL": "redis://127.0.0.1:6379/0",
+        "IMMICH_MACHINE_LEARNING_HOST": "127.0.0.1",
+        "IMMICH_MACHINE_LEARNING_PORT": "3003",
+        "IMMICH_MACHINE_LEARNING_URL": "http://127.0.0.1:3003",
+        "IMMICH_SERVER_HOST": "127.0.0.1",
+        "IMMICH_SERVER_PORT": "3001",
+        "IMMICH_SERVER_URL": "http://127.0.0.1:3001",
+        "PGTZ": "UTC",
+        "POSTGRES_HOST": "127.0.0.1",
+        "POSTGRES_PORT": "5432",
+        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "REDIS_HOST": "127.0.0.1",
+        "REDIS_HOSTNAME": "127.0.0.1",
+        "REDIS_PORT": "6379",
+        "REDIS_URL": "redis://127.0.0.1:6379/0",
+        "TZ": "UTC"
+      },
+      "tools": {
+        "nodejs": {
+          "bin": "bin",
+          "closure": "qshvhyv92g772jjsm2zrgzxc4ai4iqfx-nodejs-22.23.3",
+          "version": "22.23.3"
+        },
+        "pnpm": {
+          "bin": "bin/pnpm",
+          "closure": "ggg53gq25nf1p6vlzyzkwj26csc5jfak-pnpm-12.3.4",
+          "version": "12.3.4"
+        },
+        "postgresql": {
+          "bin": "bin",
+          "closure": "h9aczmrkpcmm9z47648m5n9sg67vi5gw-postgresql-18.6",
+          "version": "18.6"
+        },
+        "python3": {
+          "bin": "bin/python3",
+          "closure": "yprcwha8bf8cag7kzbsiyfa180vm595w-python3-3.11.16",
+          "version": "3.11.16"
+        },
+        "redis": {
+          "bin": "bin",
+          "closure": "7877p8x9ncrrlmhgzrc59bka0mfsw307-redis-8.10.1",
+          "version": "8.10.1"
+        }
+      }
+    }
+  },
+  "target": "enve.cue",
+  "version": 3
+}
