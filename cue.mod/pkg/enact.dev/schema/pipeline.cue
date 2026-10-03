@@ -122,6 +122,9 @@ package schema
 	resolver?: #SelectorSpec
 	// Commands printing cone paths; `replace` swaps a component's cone (component level only)
 	hooks?: #ScopeHooks
+	// Git submodules the tasks read (e.g. "e2e/test-assets"): added to the cone and
+	// fetched shallow at the pinned commit. Undeclared submodules are never fetched.
+	submodules?: [...string & =~"^[^/\\s]\\S*$" & !~"(^|/)\\.\\.?(/|$)"]
 }
 
 #ScopeHooks: {
@@ -138,6 +141,10 @@ package schema
 	default_target?: string
 	rules?: [...#TargetRule]
 	hooks?: #ScopeHooks
+	// Globs naming the suite's test files (e.g. "e2e/src/specs/server/**/*.e2e-spec.ts").
+	// A reach map prunes the component only when it traced all of them; undeclared,
+	// every test-named file under the component's roots counts.
+	tests?: [...string]
 }
 
 #TargetRule: {

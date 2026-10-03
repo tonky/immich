@@ -12,10 +12,9 @@ done
 export DB_URL="${DB_URL:-postgres://postgres@127.0.0.1:5432/immich}"
 
 echo "🔍 [schema-check] Verifying migration execution order..."
-(cd "$REPO_ROOT/server" && pnpm run migrations:verify-order) || true
+(cd "$REPO_ROOT/server" && pnpm run migrations:verify-order)
 
 echo "🔍 [schema-check] Applying migrations against zero-docker PostgreSQL..."
 (cd "$REPO_ROOT/server" && pnpm run migrations:run)
 
 echo "✓ SQL schema and migrations verified."
-exit 0

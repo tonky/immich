@@ -31,7 +31,7 @@ json_files=()
 sh_files=()
 
 for f in "${FILES[@]}"; do
-  [ -f "$f" ] || continue
+  [ -f "$f" ] || continue # deleted by the change
   case "$f" in
     *.ts|*.js|*.svelte)
       ts_files+=("$f")
@@ -76,7 +76,8 @@ if [ ${#ts_files[@]} -gt 0 ]; then
       "$ESLINT_BIN" --max-warnings 0 "${ts_files[@]}"
       echo "✓ [eslint] All files clean."
     else
-      echo "✓ [eslint] No ESLint configuration or local binary found; skipping."
+      echo "❌ [eslint] ${#ts_files[@]} file(s) to lint but no ESLint config or binary: install dependencies" >&2
+      exit 1
     fi
   ) &
   pids+=($!)
@@ -94,18 +95,21 @@ if [ ${#json_files[@]} -gt 0 ]; then
       PRETTIER_BIN="prettier"
     fi
 
-    if [ -n "$PRETTIER_BIN" ]; then
-      echo "🔍 [prettier] Checking formatting on ${#json_files[@]} file(s)..."
-      "$PRETTIER_BIN" --check "${json_files[@]}"
-      echo "✓ [prettier] Formatting verified."
+    if [ -z "$PRETTIER_BIN" ]; then
+      echo "❌ [prettier] ${#json_files[@]} file(s) to check but no prettier binary: install dependencies" >&2
+      exit 1
     fi
+    echo "🔍 [prettier] Checking formatting on ${#json_files[@]} file(s)..."
+    "$PRETTIER_BIN" --check "${json_files[@]}"
+    echo "✓ [prettier] Formatting verified."
   ) &
   pids+=($!)
 fi
 
 # 3. Concurrent ShellCheck across touched Bash/Shell scripts
-if [ ${#sh_files[@]} -gt 0 ] && command -v shellcheck >/dev/null 2>&1; then
+if [ ${#sh_files[@]} -gt 0 ]; then
   (
+    command -v shellcheck >/dev/null 2>&1 || { echo "❌ [shellcheck] not on PATH" >&2; exit 1; }
     echo "🔍 [shellcheck] Auditing ${#sh_files[@]} shell script(s)..."
     shellcheck -x "${sh_files[@]}"
     echo "✓ [shellcheck] Scripts clean."

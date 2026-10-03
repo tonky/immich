@@ -1,4 +1,4 @@
-import { Kysely, sql } from 'kysely';
+import { Kysely } from 'kysely';
 import { ConfigRepository } from 'src/repositories/config.repository';
 import { DatabaseRepository } from 'src/repositories/database.repository';
 import { LoggingRepository } from 'src/repositories/logging.repository';
@@ -8,53 +8,39 @@ import { GenericContainer, Wait } from 'testcontainers';
 
 const globalSetup = async () => {
   const templateName = 'mich';
-  let postgresUrl = process.env.IMMICH_TEST_POSTGRES_URL;
+  const postgresContainer = await new GenericContainer('ghcr.io/immich-app/postgres:14-vectorchord0.4.3')
+    .withExposedPorts(5432)
+    .withEnvironment({
+      POSTGRES_PASSWORD: 'postgres',
+      POSTGRES_USER: 'postgres',
+      POSTGRES_DB: templateName,
+    })
+    .withCommand([
+      'postgres',
+      '-c',
+      'shared_preload_libraries=vchord.so',
+      '-c',
+      'max_wal_size=2GB',
+      '-c',
+      'shared_buffers=512MB',
+      '-c',
+      'fsync=off',
+      '-c',
+      'full_page_writes=off',
+      '-c',
+      'synchronous_commit=off',
+      '-c',
+      'config_file=/var/lib/postgresql/data/postgresql.conf',
+    ])
+    .withWaitStrategy(Wait.forAll([Wait.forLogMessage('database system is ready to accept connections', 2)]))
+    .start();
 
-  if (!postgresUrl) {
-    const postgresContainer = await new GenericContainer('ghcr.io/immich-app/postgres:14-vectorchord0.4.3')
-      .withExposedPorts(5432)
-      .withEnvironment({
-        POSTGRES_PASSWORD: 'postgres',
-        POSTGRES_USER: 'postgres',
-        POSTGRES_DB: templateName,
-      })
-      .withCommand([
-        'postgres',
-        '-c',
-        'shared_preload_libraries=vchord.so',
-        '-c',
-        'max_wal_size=2GB',
-        '-c',
-        'shared_buffers=512MB',
-        '-c',
-        'fsync=off',
-        '-c',
-        'full_page_writes=off',
-        '-c',
-        'synchronous_commit=off',
-        '-c',
-        'config_file=/var/lib/postgresql/data/postgresql.conf',
-      ])
-      .withWaitStrategy(Wait.forAll([Wait.forLogMessage('database system is ready to accept connections', 2)]))
-      .start();
+  const postgresPort = postgresContainer.getMappedPort(5432);
+  const postgresUrl = `postgres://postgres:postgres@localhost:${postgresPort}/${templateName}`;
 
-    const postgresPort = postgresContainer.getMappedPort(5432);
-    postgresUrl = `postgres://postgres:postgres@localhost:${postgresPort}/${templateName}`;
-    process.env.IMMICH_TEST_POSTGRES_URL = postgresUrl;
-  }
-
-  if (postgresUrl) {
-    try {
-      const adminUrl = postgresUrl.replace(`/${templateName}`, '/postgres');
-      const adminDb = new Kysely<DB>(getKyselyConfig({ connectionType: 'url', url: adminUrl }));
-      await sql`CREATE DATABASE ${sql.raw(templateName)}`.execute(adminDb).catch(() => {});
-      await adminDb.destroy();
-    } catch {}
-  }
+  process.env.IMMICH_TEST_POSTGRES_URL = postgresUrl;
 
   const db = new Kysely<DB>(getKyselyConfig({ connectionType: 'url', url: postgresUrl }));
-  await sql`CREATE EXTENSION IF NOT EXISTS vector`.execute(db).catch(() => {});
-  await sql`CREATE EXTENSION IF NOT EXISTS cube`.execute(db).catch(() => {});
 
   const configRepository = new ConfigRepository();
   const logger = LoggingRepository.create();

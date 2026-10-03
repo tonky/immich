@@ -13,13 +13,11 @@ pipeline: schema.#Pipeline & {
 			".devcontainer",
 			".dockerignore",
 			".editorconfig",
-			".enve",
 			".env.*",
 			".git-blame-ignore-revs",
 			".github",
 			".gitmodules",
 			".nvmrc",
-			".pnpmfile.cjs",
 			".prettierrc",
 			".vscode",
 			"CODEOWNERS",
@@ -50,6 +48,7 @@ pipeline: schema.#Pipeline & {
 			"package.json",
 			"pnpm-lock.yaml",
 			"pnpm-workspace.yaml",
+			".pnpmfile.cjs",
 			"tsconfig.json",
 			"turbo.json",
 		]
@@ -62,9 +61,16 @@ pipeline: schema.#Pipeline & {
 				"server/dist",
 				"web/build",
 				"packages/*/dist",
+				"packages/sdk/build",
 			]
 			key: ["package.json", "pnpm-lock.yaml"]
 			scope: "task"
+		}
+		// GeoNames + Natural Earth for the e2e server's reverse geocoding (~50MB download).
+		geodata: {
+			paths: [".enact/cache/immich-geodata"]
+			version: "geonames-ne-v5.1.2"
+			used_by: {components: ["e2e"], jobs: [J.test]}
 		}
 		python_cache: {
 			paths: [
@@ -90,6 +96,9 @@ pipeline: schema.#Pipeline & {
 				"enve.cue",
 				"enve.lock",
 				".enact/**",
+				// Shape installs and every job's commands.
+				".pnpmfile.cjs",
+				"helpers/**",
 			]
 			depends_on: []
 			workspace_scope: {
@@ -119,6 +128,8 @@ pipeline: schema.#Pipeline & {
 			shards:  2
 			target_scope: {
 				fallback: "all"
+				// As helpers/trace/generate-reach-map.sh traces them.
+				tests: ["server/src/**/*.spec.ts", "server/test/medium/**/*.spec.ts"]
 				rules: [{
 					match: ["server/**/*.ts"]
 					engine: "typescript"
@@ -151,7 +162,7 @@ pipeline: schema.#Pipeline & {
 			title: "Immich SvelteKit Web Frontend"
 			root:  "web"
 			watch_paths: ["web/**", "i18n/**"]
-			depends_on: [components.root]
+			depends_on: [components.root, components.sdk]
 			workspace_scope: {
 				include_dependencies: true
 				include: ["web", "i18n"]
@@ -159,6 +170,7 @@ pipeline: schema.#Pipeline & {
 			shards: 2
 			target_scope: {
 				fallback: "all"
+				tests: ["web/src/**/*.spec.ts"]
 				rules: [{
 					match: ["web/**/*.{ts,js,svelte}"]
 					engine: "typescript"
@@ -197,15 +209,16 @@ pipeline: schema.#Pipeline & {
 					engine: "python"
 				}]
 			}
+			// As upstream's machine-learning/mise.toml `ci-unit`.
 			lint: {
-				command: "../helpers/lint-runner.sh {relative_changed_files}"
+				command: "uv run --extra cpu ruff format --check {relative_changed_files} && uv run --extra cpu ruff check {relative_changed_files}"
 				filter: {
 					include: ["**/*.py"]
 					on_empty: "skip"
 				}
 			}
 			typecheck: {
-				command: "uv run mypy immich_ml"
+				command: "uv run --extra cpu mypy --strict immich_ml/"
 			}
 			test: {
 				command: "../helpers/pytest-runner.sh {relative_targets}"
@@ -217,7 +230,7 @@ pipeline: schema.#Pipeline & {
 			title: "Immich OpenAPI Generated TypeScript SDK"
 			root:  "packages/sdk"
 			watch_paths: ["packages/sdk/**"]
-			depends_on: [components.root]
+			depends_on: [components.root, components.openapi]
 			workspace_scope: {
 				include_dependencies: true
 				include: ["packages/sdk"]
@@ -246,6 +259,7 @@ pipeline: schema.#Pipeline & {
 			}
 			target_scope: {
 				fallback: "all"
+				tests: ["packages/cli/src/**/*.spec.ts"]
 				rules: [{
 					match: ["packages/cli/**/*.ts"]
 					engine: "typescript"
@@ -274,10 +288,12 @@ pipeline: schema.#Pipeline & {
 			depends_on: [components.root]
 			workspace_scope: {
 				include_dependencies: true
-				include: ["open-api"]
+				include: ["open-api", "packages/sdk/src"]
 			}
+			// Upstream's `open-api-typescript` drift check: the committed TypeScript client
+			// must be what the committed spec generates.
 			lint: {
-				command: "echo '✓ OpenAPI specs valid'"
+				command: "pnpm dlx oazapfts@7.5.0 --optimistic --argumentStyle=object --useEnumType --allSchemas immich-openapi-specs.json ../packages/sdk/src/fetch-client.ts && git diff --exit-code -- ../packages/sdk/src/fetch-client.ts"
 			}
 		}
 
@@ -291,13 +307,6 @@ pipeline: schema.#Pipeline & {
 				include_dependencies: true
 				include: ["mobile"]
 			}
-			lint: {
-				command: "echo '✓ Mobile lint passed (hermetic mode)'"
-				filter: {
-					include: ["**/*.dart"]
-					on_empty: "skip"
-				}
-			}
 		}
 
 		e2e: {
@@ -305,31 +314,33 @@ pipeline: schema.#Pipeline & {
 			title: "Immich End-to-End Full Stack Integration"
 			root:  "e2e"
 			watch_paths: ["e2e/**"]
-			depends_on: [components.server, components.web, components.machine_learning]
+			depends_on: [components.server, components.cli]
+			// The server specs run against the real server with machine learning
+			// disabled, as upstream's docker-compose does.
 			services: [
 				immich.services.postgres,
 				immich.services.redis,
 				immich.services["immich-server"],
-				immich.services["immich-machine-learning"],
 			]
 			workspace_scope: {
 				include_dependencies: true
 				include: ["e2e"]
+				submodules: ["e2e/test-assets"]
 			}
 			target_scope: {
-				fallback: "all"
+				fallback: "none"
+				// The vitest server suite; the Playwright web specs beside it are not run.
+				tests: ["e2e/src/specs/server/**/*.e2e-spec.ts"]
 				rules: [{
 					match: ["e2e/**/*.ts"]
 					engine: "typescript"
 				}]
 			}
-			test: {
-				command: "../helpers/vitest-runner.sh {relative_targets}"
-				filter: {
-					include: ["e2e/**"]
-					on_empty: "skip"
-				}
-			}
+			// As upstream's e2e job: the specs import the built SDK and drive the built CLI.
+			jobs: test: tasks: [
+				{name: "Build SDK & CLI", command: "pnpm --filter @immich/sdk --filter @immich/cli run build"},
+				{name: "Run Tests", command: "../helpers/vitest-runner.sh {relative_targets}"},
+			]
 		}
 	}
 }

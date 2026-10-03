@@ -2,22 +2,12 @@
 # ==============================================================================
 # start-immich-ml.sh - Service Launcher for Immich Machine Learning Service
 # ==============================================================================
+# Runs the real FastAPI service; a missing environment fails its readiness probe
+# instead of being replaced by a stand-in that answers /ping.
 set -euo pipefail
 
-if [ -d "machine-learning/.venv" ] && command -v uv >/dev/null 2>&1 && [ -f "machine-learning/immich_ml/main.py" ]; then
-  exec uv run --directory machine-learning uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003
-else
-  exec python3 -c '
-import http.server, socketserver
-class H(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/plain")
-        self.end_headers()
-        self.wfile.write(b"pong")
-    def log_message(self, format, *args): pass
-socketserver.TCPServer.allow_reuse_address = True
-httpd = socketserver.TCPServer(("127.0.0.1", 3003), H)
-httpd.serve_forever()
-'
+if [ ! -f machine-learning/immich_ml/main.py ]; then
+  echo "❌ [immich-ml] machine-learning/ is not checked out" >&2
+  exit 1
 fi
+exec uv run --directory machine-learning uvicorn immich_ml.main:app --host 127.0.0.1 --port 3003
