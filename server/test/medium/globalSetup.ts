@@ -1,4 +1,4 @@
-import { Kysely } from 'kysely';
+import { Kysely, sql } from 'kysely';
 import { ConfigRepository } from 'src/repositories/config.repository';
 import { DatabaseRepository } from 'src/repositories/database.repository';
 import { LoggingRepository } from 'src/repositories/logging.repository';
@@ -43,7 +43,18 @@ const globalSetup = async () => {
     process.env.IMMICH_TEST_POSTGRES_URL = postgresUrl;
   }
 
+  if (postgresUrl) {
+    try {
+      const adminUrl = postgresUrl.replace(`/${templateName}`, '/postgres');
+      const adminDb = new Kysely<DB>(getKyselyConfig({ connectionType: 'url', url: adminUrl }));
+      await sql`CREATE DATABASE ${sql.raw(templateName)}`.execute(adminDb).catch(() => {});
+      await adminDb.destroy();
+    } catch {}
+  }
+
   const db = new Kysely<DB>(getKyselyConfig({ connectionType: 'url', url: postgresUrl }));
+  await sql`CREATE EXTENSION IF NOT EXISTS vector`.execute(db).catch(() => {});
+  await sql`CREATE EXTENSION IF NOT EXISTS cube`.execute(db).catch(() => {});
 
   const configRepository = new ConfigRepository();
   const logger = LoggingRepository.create();
