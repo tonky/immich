@@ -36,6 +36,9 @@ if [ ${#VITEST_CMD[@]} -eq 0 ]; then
   exit 1
 fi
 
+# The specs import the built workspace dependencies (sdk, plugin-sdk, cli).
+"$REPO_ROOT/helpers/build-workspace-deps.sh"
+
 # With no targets every shard would run the whole suite: let vitest split it instead.
 # (With targets, enact already handed each shard its own slice.)
 SHARD_ARGS=()

@@ -162,6 +162,13 @@ phase_e2e() {
 [ $# -gt 0 ] || rm -rf "$WORK/maps" "$WORK/windows"
 rm -rf "$WORK/logs"
 mkdir -p "$WORK/maps" "$WORK/logs"
+
+# The specs import the built workspace packages: build them once, not in every traced run.
+echo "🔨 building the workspace packages the suites import"
+enve run --locked -q -- pnpm --filter 'immich^...' --filter 'immich-web^...' --filter 'immich-e2e^...' \
+  --if-present run build >"$WORK/logs/build-deps.log" 2>&1
+export IMMICH_WORKSPACE_DEPS_BUILT=1
+
 for phase in "${PHASES[@]}"; do
   "phase_$phase"
 done
