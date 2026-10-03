@@ -198,7 +198,7 @@ jobs:
         for input in package.json pnpm-workspace.yaml enve.lock; do
           if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
         done
-        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --config.network-concurrency=16"
+        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16"
         $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --offline $PNPM_FLAGS ||
           $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --prefer-offline $PNPM_FLAGS || exit $?
         sha256sum --check "$ENACT_INSTALL_INPUTS"
@@ -805,7 +805,7 @@ jobs:
         for input in package.json pnpm-workspace.yaml enve.lock; do
           if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
         done
-        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --config.network-concurrency=16"
+        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16"
         $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --offline $PNPM_FLAGS ||
           $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --prefer-offline $PNPM_FLAGS || exit $?
         sha256sum --check "$ENACT_INSTALL_INPUTS"
