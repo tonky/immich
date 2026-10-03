@@ -16,11 +16,11 @@ on:
       all:
         description: Force execution of all components regardless of git changes
         required: false
-        default: "false"
+        default: 'false'
       no_cache:
         description: Disable task cache, forcing full execution
         required: false
-        default: "false"
+        default: 'false'
       updated:
         description: Component(s) to emulate as updated
         required: false
@@ -28,28 +28,28 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 env:
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
-  COREPACK_ENABLE_DOWNLOAD_PROMPT: "0"
-  ENVE_SERVICE_GID: "1000"
-  ENVE_SERVICE_UID: "1000"
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+  ENVE_SERVICE_GID: '1000'
+  ENVE_SERVICE_UID: '1000'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
   GOCACHE: /tmp/go-build
   GOPATH: /tmp/go
   UV_CACHE_DIR: /tmp/.cache/uv
   XDG_CACHE_HOME: /tmp/.cache
 jobs:
   check-and-lint:
-    name: "Stage: Check And Lint"
+    name: 'Stage: Check And Lint'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
     - name: Checkout Repository (sparse)
       uses: actions/checkout@v7
       with:
-        fetch-depth: "1"
-        fetch-tags: "false"
-        lfs: "false"
-        show-progress: "false"
+        fetch-depth: '1'
+        fetch-tags: 'false'
+        lfs: 'false'
+        show-progress: 'false'
         sparse-checkout: |-
           .enact
           cue.mod
@@ -59,6 +59,7 @@ jobs:
           enve.lock
           helpers
           patches
+          packages
           package.json
           pnpm-lock.yaml
           pnpm-workspace.yaml
@@ -71,8 +72,25 @@ jobs:
           server
           web
           machine-learning
-        sparse-checkout-cone-mode: "true"
-        submodules: "false"
+        sparse-checkout-cone-mode: 'true'
+        submodules: 'false'
+    - name: Restore enact CLI binary cache
+      id: enact_cli_cache
+      if: hashFiles('bin/enact') == ''
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-enact-cli-${{ hashFiles('Cargo.lock', 'crates/**') }}
+        path: ~/.cargo/bin/enact
+        restore-keys: ${{ runner.os }}-enact-cli-
+    - name: Restore enact Task CAS Cache
+      id: enact-tasks-cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
+        path: .enact/cache
+        restore-keys: ${{ runner.os }}-enact-tasks-
     - name: Ensure enve & enact CLI on PATH
       run: |
         git config --global --add safe.directory "*" 2>/dev/null || true
@@ -106,65 +124,17 @@ jobs:
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
         fi
-    - parallel:
-      - name: Restore enact CLI binary cache
-        id: enact_cli_cache
-        if: hashFiles('bin/enact') == ''
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-enact-cli-${{ hashFiles('Cargo.lock', 'crates/**') }}
-          path: ~/.cargo/bin/enact
-          restore-keys: ${{ runner.os }}-enact-cli-
-      - name: Restore enact Task CAS Cache
-        id: enact-tasks-cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
-          path: .enact/cache
-          restore-keys: ${{ runner.os }}-enact-tasks-
-      - name: Restore enve Store (L1 GHA Cache)
-        id: nix_l1_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-enve-store-v2-${{ hashFiles('**/enve.lock') }}
-          path: ~/.local/share/enve/store
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-enve-store-v2-
-      - name: Restore Node dependency cache
-        id: node_l1_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'enve.lock', 'pnpm-workspace.yaml') }}
-          path: |-
-            .enact/pnpm-store
-            node_modules/.cache
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-
-      - name: Restore Cache [node_build]
-        id: cache_node_build
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: node_build-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-          restore-keys: node_build-${{ runner.os }}-stage-check-and-lint-
-      - name: Restore Cache [python_cache]
-        id: cache_python_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: python_cache-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('machine-learning/pyproject.toml') }}
-          path: |-
-            machine-learning/.pytest_cache
-            machine-learning/.ruff_cache
-          restore-keys: python_cache-${{ runner.os }}-stage-check-and-lint-
+    - name: Restore Nix Store (L1 GHA Cache)
+      id: nix_l1_cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('**/enve.lock') }}
+        path: |-
+          /nix/store
+          ~/.local/share/enve/store
+        restore-keys: |
+          ${{ runner.os }}-nix-store-
     - name: Pull Dependencies via enve
       run: |-
         if [ -d "/nix" ]; then
@@ -175,7 +145,7 @@ jobs:
           ln -sfn "$HOME/.local/share/enve/store" /nix/store 2>/dev/null || true
         fi
         if [ -f "enve.lock" ]; then
-          if [ -n "$ENACT_R2_BUCKET" ] && ! enve run $([ -f enve.lock ] && echo --locked) -- true 2>/dev/null; then
+          if [ "${{ steps.nix_l1_cache.outputs.cache-hit }}" != "true" ] && [ -n "$ENACT_R2_BUCKET" ]; then
             enve cache pull enve.lock --cache "$ENACT_R2_BUCKET" --insecure -j 16
           fi
           enve run $([ -f enve.lock ] && echo --locked) -- true
@@ -185,7 +155,18 @@ jobs:
         AWS_REGION: auto
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ENACT_R2_SECRET_ACCESS_KEY || env.ENACT_R2_SECRET_ACCESS_KEY }}
         ENACT_R2_BUCKET: ${{ secrets.ENACT_R2_BUCKET || env.ENACT_R2_BUCKET }}
-        ENVE_CACHE_CONCURRENCY: "16"
+        ENVE_CACHE_CONCURRENCY: '16'
+    - name: Restore Node dependency cache
+      id: node_l1_cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-node-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          ~/.local/share/pnpm/store
+          ~/.cache/pnpm
+          node_modules/.cache
+        restore-keys: ${{ runner.os }}-node-stage-check-and-lint-
     - name: Install Project Dependencies
       run: |-
         RUN_PREFIX=""
@@ -193,16 +174,13 @@ jobs:
           RUN_PREFIX="enve run --locked -- "
         fi
         echo "📦 Installing project dependencies..."
-        ENACT_INSTALL_INPUTS=$(mktemp "$RUNNER_TEMP/enact-install-inputs.XXXXXX")
-        sha256sum pnpm-lock.yaml > "$ENACT_INSTALL_INPUTS"
-        for input in package.json pnpm-workspace.yaml enve.lock; do
-          if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
-        done
-        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16"
-        $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --offline $PNPM_FLAGS ||
-          $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --prefer-offline $PNPM_FLAGS || exit $?
-        sha256sum --check "$ENACT_INSTALL_INPUTS"
-        rm "$ENACT_INSTALL_INPUTS"
+        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink"
+        $RUN_PREFIX pnpm config set fetch-retries 2 2>/dev/null || true
+        $RUN_PREFIX pnpm config set fetch-retry-maxtimeout 10000 2>/dev/null || true
+        $RUN_PREFIX pnpm config set network-concurrency 16 2>/dev/null || true
+        $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --offline $PNPM_FLAGS 2>/dev/null || $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --prefer-offline $PNPM_FLAGS 2>/dev/null || $RUN_PREFIX pnpm install $FILTER_ARGS --no-frozen-lockfile --prefer-offline $PNPM_FLAGS
+        # The install must not rewrite the lockfile the run is keyed on.
+        git checkout -- pnpm-lock.yaml 2>/dev/null || true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Verify Pipeline Contracts & Sparse Cones (enact ci-verify)
@@ -217,6 +195,28 @@ jobs:
           echo "🔬 Running enact ci-verify..."
           $ENACT_BIN ci-verify --pipeline .enact --workflow ci
         fi
+    - name: Restore Cache [node_build]
+      id: cache_node_build
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: node_build-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          .turbo
+          server/dist
+          web/build
+          packages/*/dist
+        restore-keys: node_build-${{ runner.os }}-stage-check-and-lint-
+    - name: Restore Cache [python_cache]
+      id: cache_python_cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: python_cache-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('machine-learning/pyproject.toml') }}
+        path: |-
+          machine-learning/.pytest_cache
+          machine-learning/.ruff_cache
+        restore-keys: python_cache-${{ runner.os }}-stage-check-and-lint-
     - name: Execute Stage [Check And Lint]
       run: |-
         UPDATED_ARG=""
@@ -231,15 +231,7 @@ jobs:
         fi
         BASE_ARG=""
         BASE_REF="${ENACT_BASE_REF:-}"
-        if [ -n "${ENACT_BASE_SHA:-}" ]; then
-          if ! git rev-parse --verify "$ENACT_BASE_SHA" >/dev/null 2>&1; then
-            git fetch --no-tags --depth=1 origin "$ENACT_BASE_SHA" 2>/dev/null || true
-          fi
-          if git rev-parse --verify "$ENACT_BASE_SHA" >/dev/null 2>&1; then
-            BASE_ARG="--base $ENACT_BASE_SHA"
-          fi
-        fi
-        if [ -z "$BASE_ARG" ] && [ -z "$BASE_REF" ]; then
+        if [ -z "$BASE_REF" ]; then
           if [ "$GITHUB_EVENT_NAME" = "push" ]; then
             if [ -n "${ENACT_EVENT_BEFORE:-}" ] && [ "${ENACT_EVENT_BEFORE:-}" != "0000000000000000000000000000000000000000" ]; then
               BASE_REF="${ENACT_EVENT_BEFORE:-}"
@@ -261,7 +253,7 @@ jobs:
             fi
           fi
         fi
-        if [ -z "$BASE_ARG" ] && [ -n "$BASE_REF" ]; then
+        if [ -n "$BASE_REF" ]; then
           if ! git rev-parse --verify "$BASE_REF" >/dev/null 2>&1 && ! git rev-parse --verify "origin/$BASE_REF" >/dev/null 2>&1; then
             git fetch --no-tags --depth=50 origin "$BASE_REF" 2>/dev/null || true
           fi
@@ -292,7 +284,6 @@ jobs:
         AWS_REGION: auto
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ENACT_R2_SECRET_ACCESS_KEY || env.ENACT_R2_SECRET_ACCESS_KEY }}
         ENACT_BASE_REF: ${{ inputs.base_ref || github.base_ref || github.event.pull_request.base.ref }}
-        ENACT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         ENACT_DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'master' }}
         ENACT_EVENT_BEFORE: ${{ github.event.before }}
         ENACT_FORCE_NO_CACHE: ${{ inputs.no_cache == 'true' || vars.ENACT_NO_CACHE == 'true' || contains(github.event.pull_request.title, '[no-cache]') || contains(github.event.pull_request.body, '[no-cache]') || contains(github.event.pull_request.labels.*.name, 'no-cache') || contains(github.event.pull_request.labels.*.name, 'showcase') || startsWith(github.head_ref, 'showcase/') || startsWith(github.ref_name, 'showcase/') }}
@@ -300,43 +291,45 @@ jobs:
         ENACT_INPUT_UPDATED: ${{ inputs.updated }}
         ENACT_INTEGRATION_BRANCH: ${{ vars.ENACT_INTEGRATION_BRANCH }}
         ENACT_R2_BUCKET: ${{ secrets.ENACT_R2_BUCKET || env.ENACT_R2_BUCKET }}
-    - parallel:
-      - name: Save Cache [node_build]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_node_build.outputs.cache-primary-key }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-      - name: Save Cache [python_cache]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_python_cache.outputs.cache-primary-key }}
-          path: |-
-            machine-learning/.pytest_cache
-            machine-learning/.ruff_cache
-      - name: Save Node dependency cache
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.node_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.node_l1_cache.outputs.cache-primary-key }}
-          path: |-
-            .enact/pnpm-store
-            node_modules/.cache
-      - name: Save enve Store (L1 GHA Cache)
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.nix_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.nix_l1_cache.outputs.cache-primary-key }}
-          path: ~/.local/share/enve/store
+    - name: Save Cache [node_build]
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: node_build-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          .turbo
+          server/dist
+          web/build
+          packages/*/dist
+    - name: Save Cache [python_cache]
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: python_cache-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('machine-learning/pyproject.toml') }}
+        path: |-
+          machine-learning/.pytest_cache
+          machine-learning/.ruff_cache
+    - name: Save Node dependency cache
+      if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')) && steps.node_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-node-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          ~/.local/share/pnpm/store
+          ~/.cache/pnpm
+          node_modules/.cache
+    - name: Save Nix Store (L1 GHA Cache)
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.nix_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('**/enve.lock') }}
+        path: |-
+          /nix/store
+          ~/.local/share/enve/store
     - name: Upload Telemetry for [check-and-lint]
       if: always()
       continue-on-error: true
@@ -347,7 +340,7 @@ jobs:
         path: |-
           .enact/telemetry.json
           .enact/summary.html
-        retention-days: "1"
+        retention-days: '1'
   detect:
     name: Detect Affected Components
     runs-on: ubuntu-latest
@@ -358,10 +351,10 @@ jobs:
     - name: Checkout Repository (sparse)
       uses: actions/checkout@v7
       with:
-        fetch-depth: "1"
-        fetch-tags: "false"
-        lfs: "false"
-        show-progress: "false"
+        fetch-depth: '1'
+        fetch-tags: 'false'
+        lfs: 'false'
+        show-progress: 'false'
         sparse-checkout: |-
           .enact
           cue.mod
@@ -371,13 +364,14 @@ jobs:
           enve.lock
           helpers
           patches
+          packages
           package.json
           pnpm-lock.yaml
           pnpm-workspace.yaml
           tsconfig.json
           turbo.json
-        sparse-checkout-cone-mode: "true"
-        submodules: "false"
+        sparse-checkout-cone-mode: 'true'
+        submodules: 'false'
     - name: Restore enact CLI binary cache
       id: enact_cli_cache
       if: hashFiles('bin/enact') == ''
@@ -447,15 +441,7 @@ jobs:
         fi
         BASE_ARG=""
         BASE_REF="${ENACT_BASE_REF:-}"
-        if [ -n "${ENACT_BASE_SHA:-}" ]; then
-          if ! git rev-parse --verify "$ENACT_BASE_SHA" >/dev/null 2>&1; then
-            git fetch --no-tags --depth=1 origin "$ENACT_BASE_SHA" 2>/dev/null || true
-          fi
-          if git rev-parse --verify "$ENACT_BASE_SHA" >/dev/null 2>&1; then
-            BASE_ARG="--base $ENACT_BASE_SHA"
-          fi
-        fi
-        if [ -z "$BASE_ARG" ] && [ -z "$BASE_REF" ]; then
+        if [ -z "$BASE_REF" ]; then
           if [ "$GITHUB_EVENT_NAME" = "push" ]; then
             if [ -n "${ENACT_EVENT_BEFORE:-}" ] && [ "${ENACT_EVENT_BEFORE:-}" != "0000000000000000000000000000000000000000" ]; then
               BASE_REF="${ENACT_EVENT_BEFORE:-}"
@@ -477,7 +463,7 @@ jobs:
             fi
           fi
         fi
-        if [ -z "$BASE_ARG" ] && [ -n "$BASE_REF" ]; then
+        if [ -n "$BASE_REF" ]; then
           if ! git rev-parse --verify "$BASE_REF" >/dev/null 2>&1 && ! git rev-parse --verify "origin/$BASE_REF" >/dev/null 2>&1; then
             git fetch --no-tags --depth=50 origin "$BASE_REF" 2>/dev/null || true
           fi
@@ -510,7 +496,6 @@ jobs:
         AWS_REGION: auto
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ENACT_R2_SECRET_ACCESS_KEY }}
         ENACT_BASE_REF: ${{ inputs.base_ref || github.base_ref || github.event.pull_request.base.ref }}
-        ENACT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         ENACT_DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'master' }}
         ENACT_EVENT_BEFORE: ${{ github.event.before }}
         ENACT_FORCE_NO_CACHE: ${{ inputs.no_cache == 'true' || vars.ENACT_NO_CACHE == 'true' || contains(github.event.pull_request.title, '[no-cache]') || contains(github.event.pull_request.body, '[no-cache]') || contains(github.event.pull_request.labels.*.name, 'no-cache') || contains(github.event.pull_request.labels.*.name, 'showcase') || startsWith(github.head_ref, 'showcase/') || startsWith(github.ref_name, 'showcase/') }}
@@ -531,17 +516,18 @@ jobs:
     - name: Checkout Repository (sparse)
       uses: actions/checkout@v7
       with:
-        fetch-depth: "1"
-        fetch-tags: "false"
-        lfs: "false"
-        show-progress: "false"
+        fetch-depth: '1'
+        fetch-tags: 'false'
+        filter: blob:none
+        lfs: 'false'
+        show-progress: 'false'
         sparse-checkout: |-
           .enact
           cue.mod
           .github
           bin
-        sparse-checkout-cone-mode: "true"
-        submodules: "false"
+        sparse-checkout-cone-mode: 'true'
+        submodules: 'false'
     - name: Restore enact CLI binary cache
       id: enact_cli_cache
       if: hashFiles('bin/enact') == ''
@@ -601,7 +587,7 @@ jobs:
         if-no-files-found: ignore
         name: enact-workflow-summary
         path: .enact/summary.html
-        retention-days: "1"
+        retention-days: '1'
   test:
     name: Run Tests (${{ matrix.component }})
     needs:
@@ -618,22 +604,32 @@ jobs:
       if: ${{ matrix.sparse_checkout != '' }}
       uses: actions/checkout@v7
       with:
-        fetch-depth: "1"
-        fetch-tags: "false"
-        lfs: "false"
-        show-progress: "false"
+        fetch-depth: '1'
+        fetch-tags: 'false'
+        filter: blob:none
+        lfs: 'false'
+        show-progress: 'false'
         sparse-checkout: ${{ matrix.sparse_checkout }}
-        sparse-checkout-cone-mode: "true"
-        submodules: "false"
+        sparse-checkout-cone-mode: 'true'
+        submodules: 'false'
     - name: Checkout Repository (full)
       if: ${{ matrix.sparse_checkout == '' }}
       uses: actions/checkout@v7
       with:
-        fetch-depth: "1"
-        fetch-tags: "false"
-        lfs: "false"
-        show-progress: "false"
-        submodules: "false"
+        fetch-depth: '1'
+        fetch-tags: 'false'
+        lfs: 'false'
+        show-progress: 'false'
+        submodules: 'false'
+    - name: Restore enact CLI binary cache
+      id: enact_cli_cache
+      if: hashFiles('bin/enact') == ''
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-enact-cli-${{ hashFiles('Cargo.lock', 'crates/**') }}
+        path: ~/.cargo/bin/enact
+        restore-keys: ${{ runner.os }}-enact-cli-
     - name: Ensure enve & enact CLI on PATH
       run: |
         git config --global --add safe.directory "*" 2>/dev/null || true
@@ -667,102 +663,96 @@ jobs:
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
         fi
-    - parallel:
-      - name: Restore enact CLI binary cache
-        id: enact_cli_cache
-        if: hashFiles('bin/enact') == ''
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-enact-cli-${{ hashFiles('Cargo.lock', 'crates/**') }}
-          path: ~/.cargo/bin/enact
-          restore-keys: ${{ runner.os }}-enact-cli-
-      - name: Restore enact Task CAS Cache
-        id: enact-tasks-cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
-          path: .enact/cache
-          restore-keys: ${{ runner.os }}-enact-tasks-
-      - name: Restore Python build & venv cache
-        id: python_l1_cache
-        if: hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python'))
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-python-${{ hashFiles('**/uv.lock', '**/pyproject.toml', '**/requirements.txt', '**/poetry.lock') }}
-          path: |-
-            /tmp/.cache/uv
-            ~/.cache/uv
-            ~/.cache/pip
-          restore-keys: ${{ runner.os }}-python-
-      - name: Restore Go build cache
-        id: go_l1_cache
-        if: hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go'))
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          path: |-
-            /tmp/go-build
-            /tmp/go/pkg/mod
-          restore-keys: ${{ runner.os }}-go-
-      - name: Restore Rust target & cargo cache
-        id: rust_l1_cache
-        if: hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust'))
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
-          path: |-
-            ~/.cargo/registry/index
-            ~/.cargo/registry/cache
-            ~/.cargo/git/db
-            target/
-          restore-keys: ${{ runner.os }}-rust-
-      - name: Restore Node dependency cache
-        id: node_l1_cache
-        if: matrix.technology == '' || contains(matrix.technology, 'typescript') || contains(matrix.technology, 'javascript') || contains(matrix.technology, 'node')
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-node-v2-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'enve.lock', 'pnpm-workspace.yaml') }}
-          path: |-
-            .enact/pnpm-store
-            node_modules/.cache
-          restore-keys: ${{ runner.os }}-${{ runner.arch }}-node-v2-${{ matrix.task_id }}-
-      - name: Restore Cache [node_build]
-        id: cache_node_build
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: node_build-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-          restore-keys: node_build-${{ runner.os }}-${{ matrix.task_id }}-
-      - name: Restore Cache [python_cache]
-        id: cache_python_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: python_cache-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('machine-learning/pyproject.toml') }}
-          path: |-
-            machine-learning/.pytest_cache
-            machine-learning/.ruff_cache
-          restore-keys: python_cache-${{ runner.os }}-${{ matrix.task_id }}-
-      - name: Restore enve Store (L1 GHA Cache)
-        id: nix_l1_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-enve-store-v2-${{ hashFiles('**/enve.lock') }}
-          path: ~/.local/share/enve/store
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-enve-store-v2-
+    - name: Restore enact Task CAS Cache
+      id: enact-tasks-cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
+        path: .enact/cache
+        restore-keys: ${{ runner.os }}-enact-tasks-
+    - name: Restore Python build & venv cache
+      id: python_l1_cache
+      if: hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || matrix.technology == 'python')
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-python-${{ hashFiles('**/uv.lock', '**/pyproject.toml', '**/requirements.txt', '**/poetry.lock') }}
+        path: |-
+          /tmp/.cache/uv
+          ~/.cache/uv
+          ~/.cache/pip
+          .venv
+        restore-keys: ${{ runner.os }}-python-
+    - name: Restore Go build cache
+      id: go_l1_cache
+      if: hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || matrix.technology == 'go')
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        path: |-
+          /tmp/go-build
+          /tmp/go/pkg/mod
+        restore-keys: ${{ runner.os }}-go-
+    - name: Restore Rust target & cargo cache
+      id: rust_l1_cache
+      if: hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || matrix.technology == 'rust')
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+        path: |-
+          ~/.cargo/registry/index
+          ~/.cargo/registry/cache
+          ~/.cargo/git/db
+          target/
+        restore-keys: ${{ runner.os }}-rust-
+    - name: Restore Node dependency cache
+      id: node_l1_cache
+      if: matrix.technology == '' || matrix.technology == 'typescript' || matrix.technology == 'javascript' || matrix.technology == 'node'
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-node-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          ~/.local/share/pnpm/store
+          ~/.cache/pnpm
+          node_modules/.cache
+        restore-keys: ${{ runner.os }}-node-${{ matrix.task_id }}-
+    - name: Restore Cache [node_build]
+      id: cache_node_build
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: node_build-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          .turbo
+          server/dist
+          web/build
+          packages/*/dist
+        restore-keys: node_build-${{ runner.os }}-${{ matrix.task_id }}-
+    - name: Restore Cache [python_cache]
+      id: cache_python_cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: python_cache-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('machine-learning/pyproject.toml') }}
+        path: |-
+          machine-learning/.pytest_cache
+          machine-learning/.ruff_cache
+        restore-keys: python_cache-${{ runner.os }}-${{ matrix.task_id }}-
+    - name: Restore Nix Store (L1 GHA Cache)
+      id: nix_l1_cache
+      continue-on-error: true
+      uses: actions/cache/restore@v6
+      with:
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('**/enve.lock') }}
+        path: |-
+          /nix/store
+          ~/.local/share/enve/store
+        restore-keys: |
+          ${{ runner.os }}-nix-store-
     - name: Pull Dependencies via enve
       run: |-
         if [ -d "/nix" ]; then
@@ -773,13 +763,13 @@ jobs:
           ln -sfn "$HOME/.local/share/enve/store" /nix/store 2>/dev/null || true
         fi
         if [ -f "enve.lock" ]; then
-          if [ -n "$ENACT_R2_BUCKET" ] && ! enve run $([ -f enve.lock ] && echo --locked) -- true 2>/dev/null; then
+          if [ "${{ steps.nix_l1_cache.outputs.cache-hit }}" != "true" ] && [ -n "$ENACT_R2_BUCKET" ]; then
             enve cache pull enve.lock --cache "$ENACT_R2_BUCKET" --insecure -j 16
           fi
           enve run $([ -f enve.lock ] && echo --locked) -- true
         fi
         if [ -n "$ENACT_COMPONENT_DIR" ] && [ "$ENACT_COMPONENT_DIR" != "." ] && [ -f "$ENACT_COMPONENT_DIR/enve.lock" ]; then
-          if [ -n "$ENACT_R2_BUCKET" ] && ! (cd "$ENACT_COMPONENT_DIR" && enve run $([ -f enve.lock ] && echo --locked) -- true 2>/dev/null); then
+          if [ "${{ steps.nix_l1_cache.outputs.cache-hit }}" != "true" ] && [ -n "$ENACT_R2_BUCKET" ]; then
             enve cache pull "$ENACT_COMPONENT_DIR/enve.lock" --cache "$ENACT_R2_BUCKET" --insecure -j 16
           fi
           (cd "$ENACT_COMPONENT_DIR" && enve run $([ -f enve.lock ] && echo --locked) -- true)
@@ -790,9 +780,9 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ENACT_R2_SECRET_ACCESS_KEY || env.ENACT_R2_SECRET_ACCESS_KEY }}
         ENACT_COMPONENT_DIR: ${{ matrix.component_dir }}
         ENACT_R2_BUCKET: ${{ secrets.ENACT_R2_BUCKET || env.ENACT_R2_BUCKET }}
-        ENVE_CACHE_CONCURRENCY: "16"
+        ENVE_CACHE_CONCURRENCY: '16'
     - name: Install Project Dependencies
-      if: matrix.technology == '' || contains(matrix.technology, 'typescript') || contains(matrix.technology, 'javascript') || contains(matrix.technology, 'node')
+      if: matrix.technology == '' || matrix.technology == 'typescript' || matrix.technology == 'javascript' || matrix.technology == 'node'
       run: |-
         RUN_PREFIX=""
         if command -v enve >/dev/null 2>&1 && [ -f "enve.lock" ]; then
@@ -800,16 +790,13 @@ jobs:
         fi
         FILTER_ARGS="${ENACT_MATRIX_FILTER_ARGS:-}"
         echo "📦 Installing project dependencies..."
-        ENACT_INSTALL_INPUTS=$(mktemp "$RUNNER_TEMP/enact-install-inputs.XXXXXX")
-        sha256sum pnpm-lock.yaml > "$ENACT_INSTALL_INPUTS"
-        for input in package.json pnpm-workspace.yaml enve.lock; do
-          if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
-        done
-        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16"
-        $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --offline $PNPM_FLAGS ||
-          $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --store-dir "$GITHUB_WORKSPACE/.enact/pnpm-store" --prefer-offline $PNPM_FLAGS || exit $?
-        sha256sum --check "$ENACT_INSTALL_INPUTS"
-        rm "$ENACT_INSTALL_INPUTS"
+        PNPM_FLAGS="--config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink"
+        $RUN_PREFIX pnpm config set fetch-retries 2 2>/dev/null || true
+        $RUN_PREFIX pnpm config set fetch-retry-maxtimeout 10000 2>/dev/null || true
+        $RUN_PREFIX pnpm config set network-concurrency 16 2>/dev/null || true
+        $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --offline $PNPM_FLAGS 2>/dev/null || $RUN_PREFIX pnpm install $FILTER_ARGS --frozen-lockfile --prefer-offline $PNPM_FLAGS 2>/dev/null || $RUN_PREFIX pnpm install $FILTER_ARGS --no-frozen-lockfile --prefer-offline $PNPM_FLAGS
+        # The install must not rewrite the lockfile the run is keyed on.
+        git checkout -- pnpm-lock.yaml 2>/dev/null || true
       env:
         ENACT_MATRIX_FILTER_ARGS: ${{ matrix.filter_args }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -846,7 +833,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ENACT_R2_SECRET_ACCESS_KEY || env.ENACT_R2_SECRET_ACCESS_KEY }}
         ENACT_COMPONENT_DIR: ${{ matrix.component_dir }}
         ENACT_R2_BUCKET: ${{ secrets.ENACT_R2_BUCKET || env.ENACT_R2_BUCKET }}
-        ENVE_CACHE_CONCURRENCY: "16"
+        ENVE_CACHE_CONCURRENCY: '16'
     - name: Upload Execution Telemetry & Workflow Dashboard
       if: always()
       continue-on-error: true
@@ -857,62 +844,64 @@ jobs:
         path: |-
           .enact/telemetry.json
           .enact/summary.html
-        retention-days: "1"
-    - parallel:
-      - name: Save Python build & venv cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.python_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.python_l1_cache.outputs.cache-primary-key }}
-          path: |-
-            /tmp/.cache/uv
-            ~/.cache/uv
-            ~/.cache/pip
-      - name: Save Go build cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.go_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.go_l1_cache.outputs.cache-primary-key }}
-          path: |-
-            /tmp/go-build
-            /tmp/go/pkg/mod
-      - name: Save Rust target & cargo cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.rust_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.rust_l1_cache.outputs.cache-primary-key }}
-          path: |-
-            ~/.cargo/registry/index
-            ~/.cargo/registry/cache
-            ~/.cargo/git/db
-            target/
-      - name: Save enve Store (L1 GHA Cache)
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.nix_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.nix_l1_cache.outputs.cache-primary-key }}
-          path: ~/.local/share/enve/store
-      - name: Save Cache [node_build]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_node_build.outputs.cache-primary-key }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-      - name: Save Cache [python_cache]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_python_cache.outputs.cache-primary-key }}
-          path: |-
-            machine-learning/.pytest_cache
-            machine-learning/.ruff_cache
+        retention-days: '1'
+    - name: Save Python build & venv cache
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || matrix.technology == 'python') && steps.python_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-python-${{ hashFiles('**/uv.lock', '**/pyproject.toml', '**/requirements.txt', '**/poetry.lock') }}
+        path: |-
+          /tmp/.cache/uv
+          ~/.cache/uv
+          ~/.cache/pip
+          .venv
+    - name: Save Go build cache
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || matrix.technology == 'go') && steps.go_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        path: |-
+          /tmp/go-build
+          /tmp/go/pkg/mod
+    - name: Save Rust target & cargo cache
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || matrix.technology == 'rust') && steps.rust_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-rust-${{ hashFiles('**/Cargo.lock') }}
+        path: |-
+          ~/.cargo/registry/index
+          ~/.cargo/registry/cache
+          ~/.cargo/git/db
+          target/
+    - name: Save Nix Store (L1 GHA Cache)
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.nix_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('**/enve.lock') }}
+        path: |-
+          /nix/store
+          ~/.local/share/enve/store
+    - name: Save Cache [node_build]
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: node_build-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
+        path: |-
+          .turbo
+          server/dist
+          web/build
+          packages/*/dist
+    - name: Save Cache [python_cache]
+      if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: python_cache-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('machine-learning/pyproject.toml') }}
+        path: |-
+          machine-learning/.pytest_cache
+          machine-learning/.ruff_cache

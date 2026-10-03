@@ -46,6 +46,7 @@ pipeline: schema.#Pipeline & {
 			"bin",
 			"helpers",
 			"patches",
+			"packages",
 			"package.json",
 			"pnpm-lock.yaml",
 			"pnpm-workspace.yaml",
@@ -111,7 +112,7 @@ pipeline: schema.#Pipeline & {
 			depends_on: [components.root]
 			workspace_scope: {
 				include_dependencies: true
-				include: ["server"]
+				include: ["server", "packages"]
 			}
 			services: [immich.services.postgres, immich.services.redis]
 			service: immich.services["immich-server"]
@@ -239,7 +240,7 @@ pipeline: schema.#Pipeline & {
 				command: "../../helpers/typecheck-runner.sh"
 			}
 			test: {
-				command: "../../helpers/vitest-runner.sh {relative_targets}"
+				command: "../../helpers/vitest-runner.sh"
 			}
 		}
 
@@ -251,7 +252,7 @@ pipeline: schema.#Pipeline & {
 			depends_on: [components.root, components.sdk]
 			workspace_scope: {
 				include_dependencies: true
-				include: ["packages/cli"]
+				include: ["packages"]
 			}
 			target_scope: {
 				fallback: "all"

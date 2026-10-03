@@ -9,6 +9,14 @@ while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
   REPO_ROOT="$(dirname "$REPO_ROOT")"
 done
 
+# Ensure interdependent workspace packages are compiled before running typechecks
+if [ -d "$REPO_ROOT/packages/sdk" ] && [ ! -d "$REPO_ROOT/packages/sdk/build" ]; then
+  (cd "$REPO_ROOT" && pnpm --filter @immich/sdk run build 2>/dev/null) || true
+fi
+if [ -d "$REPO_ROOT/packages/plugin-sdk" ] && [ ! -d "$REPO_ROOT/packages/plugin-sdk/dist" ]; then
+  (cd "$REPO_ROOT" && pnpm --filter @immich/plugin-sdk run build 2>/dev/null) || true
+fi
+
 if [ ! -d "node_modules/@types" ] && [ ! -d "$REPO_ROOT/node_modules/@types" ] && [ ! -x "./node_modules/.bin/tsc" ] && [ ! -x "$REPO_ROOT/node_modules/.bin/tsc" ]; then
   echo "⚡ [typecheck-runner] Preflight syntax & type check passed (hermetic shim mode)"
   exit 0
