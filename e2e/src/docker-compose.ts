@@ -2,16 +2,6 @@ import { exec, spawn } from 'node:child_process';
 import { setTimeout } from 'node:timers';
 
 const setup = async () => {
-  if (
-    process.env.VITEST_DISABLE_DOCKER_SETUP === 'true' ||
-    process.env.IMMICH_TEST_POSTGRES_URL ||
-    process.env.IMMICH_SERVER_URL ||
-    process.env.CI
-  ) {
-    console.log('✓ Zero-docker enve environment active: skipping docker compose');
-    return async () => {};
-  }
-
   let _resolve: () => unknown;
   let _reject: (error: Error) => unknown;
 

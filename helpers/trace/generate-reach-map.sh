@@ -100,7 +100,7 @@ phase_unit() {
 
 phase_medium() {
   services_up postgres
-  await postgres enve run --locked -q -- pg_isready -h 127.0.0.1 -p 5432
+  await postgres enve run --locked -q -- pg_isready -h 127.0.0.1 -p 5435
   trace_suite 1 "${SERVER_MEDIUM[@]}"
   services_down
 }

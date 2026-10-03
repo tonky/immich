@@ -378,9 +378,10 @@ pipeline: schema.#Pipeline & {
 				}]
 			}
 			// The specs import the built SDK and drive the built CLI: vitest-runner.sh builds
-			// them first (helpers/build-workspace-deps.sh), as upstream's e2e job does.
+			// them first (helpers/build-workspace-deps.sh), as upstream's e2e job does. They
+			// `docker exec`/`docker cp` into the server: helpers/container/path/docker.
 			test: {
-				command: "../helpers/vitest-runner.sh {relative_targets}"
+				command: "PATH=\"$PWD/../helpers/container/path:$PATH\" ../helpers/vitest-runner.sh {relative_targets}"
 			}
 		}
 	}

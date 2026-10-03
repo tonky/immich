@@ -7,18 +7,19 @@
   "platforms": {
     "aarch64-darwin": {
       "binding": {
-        "environment_sha256": "4e7a68bdf0a82ef09a4e918fec5b855b73afd793255e1926bcb2ad01e9ae5c29",
-        "inventory_sha256": "4891131c263d16e4252014a7a5a9b43d8482d1f592a1c8d093e5d6593c871f5b",
+        "environment_sha256": "74ba2b90d6ace2c6b899de83663435ce120d19d87c941b68b06a0b1fb441cef4",
+        "inventory_sha256": "9d9c3efaee46ca36279d1c3a2c81d23e62148f275c7cf57e7361caa45cb413eb",
         "profile": null,
         "version": 1
       },
       "environment": {
-        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "DB_DATABASE_NAME": "immich",
         "DB_HOSTNAME": "127.0.0.1",
         "DB_PASSWORD": "",
-        "DB_PORT": "5432",
+        "DB_PORT": "5435",
         "DB_USERNAME": "postgres",
+        "DOCKER_HOST": "unix:///nonexistent/enact-runs-no-containers.sock",
         "ENVE_SERVICE_IMMICH_ML_HOST": "127.0.0.1",
         "ENVE_SERVICE_IMMICH_ML_PORT": "3003",
         "ENVE_SERVICE_IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -26,8 +27,8 @@
         "ENVE_SERVICE_IMMICH_SERVER_PORT": "2285",
         "ENVE_SERVICE_IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "ENVE_SERVICE_POSTGRES_HOST": "127.0.0.1",
-        "ENVE_SERVICE_POSTGRES_PORT": "5432",
-        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "ENVE_SERVICE_POSTGRES_PORT": "5435",
+        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "ENVE_SERVICE_VALKEY_HOST": "127.0.0.1",
         "ENVE_SERVICE_VALKEY_PORT": "6379",
         "ENVE_SERVICE_VALKEY_URL": "redis://127.0.0.1:6379/0",
@@ -37,12 +38,12 @@
         "IMMICH_SERVER_HOST": "127.0.0.1",
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
-        "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:5432/mich",
+        "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:5435/mich",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "http://127.0.0.1:2285",
         "POSTGRES_HOST": "127.0.0.1",
-        "POSTGRES_PORT": "5432",
-        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "POSTGRES_PORT": "5435",
+        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "REDIS_HOSTNAME": "127.0.0.1",
         "REDIS_PORT": "6379",
         "REDIS_URL": "redis://127.0.0.1:6379/0",
@@ -93,8 +94,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "4e7a68bdf0a82ef09a4e918fec5b855b73afd793255e1926bcb2ad01e9ae5c29",
-        "inventory_sha256": "27855bca6137136b38f1bad9064d465fe2ce3072170334281d9e879584cead13",
+        "environment_sha256": "74ba2b90d6ace2c6b899de83663435ce120d19d87c941b68b06a0b1fb441cef4",
+        "inventory_sha256": "91720258fb140a3b41712a9c3566cf68df7d61ca6cef543d9815da253b4bdd0a",
         "profile": null,
         "version": 1
       },
@@ -447,12 +448,6 @@
           "references": []
         },
         {
-          "hash_name": "h6q94p1jw42irzqybm1049fmxakh8701-mailcap-2.1.54",
-          "nar_hash": "sha256:1xbjd7qddfb3r809w1dyp7bhbpa8xvll9n295q1x38fa05v68spz",
-          "nar_size": 119360,
-          "references": []
-        },
-        {
           "hash_name": "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
           "nar_hash": "sha256:0h173b8lk2z3apcz4gf42lgyplvhchr64jn482px35g1nksrcg9q",
           "nar_size": 9308816,
@@ -579,12 +574,6 @@
             "jxd26cx6cgbjzal3mzw0vcv8pqdbh0bb-gmp-with-cxx-6.3.0",
             "lm3pknxi0ipypy3lxh1wmm8wvvavdwrn-glibc-2.42-84"
           ]
-        },
-        {
-          "hash_name": "p0ff33dca0fbkskqwrl3spvxcn5974h0-tzdata-2026c",
-          "nar_hash": "sha256:16yz4hiyv18nx0p537kgbmggl6aky903z58rpcpaqxjcrnqnq4zm",
-          "nar_size": 2138680,
-          "references": []
         },
         {
           "hash_name": "pfww4nv3wkgpyk1jvqqpz6ymxgj7cbbh-libxcrypt-4.5.2",
@@ -1733,6 +1722,12 @@
           ]
         },
         {
+          "hash_name": "h6q94p1jw42irzqybm1049fmxakh8701-mailcap-2.1.54",
+          "nar_hash": "sha256:1xbjd7qddfb3r809w1dyp7bhbpa8xvll9n295q1x38fa05v68spz",
+          "nar_size": 119360,
+          "references": []
+        },
+        {
           "hash_name": "h7ik0g1xxayy0z8h27zbvrgmac63irgs-zlib-1.3.2-dev",
           "nar_hash": "sha256:1minlaflg2gcxc3ag3sizfz2r0ahfrs3djqzarpj61ymgl430smm",
           "nar_size": 122832,
@@ -2215,6 +2210,12 @@
             "nq61v7a601gjndijq5nndprkzpwz4q9g-glibc-2.40-66-bin",
             "rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66"
           ]
+        },
+        {
+          "hash_name": "p0ff33dca0fbkskqwrl3spvxcn5974h0-tzdata-2026c",
+          "nar_hash": "sha256:16yz4hiyv18nx0p537kgbmggl6aky903z58rpcpaqxjcrnqnq4zm",
+          "nar_size": 2138680,
+          "references": []
         },
         {
           "hash_name": "p6cir20v12fjj5390b8xr9kdynm8bd9h-attr-2.6.0",
@@ -2864,12 +2865,13 @@
         }
       ],
       "environment": {
-        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "DB_DATABASE_NAME": "immich",
         "DB_HOSTNAME": "127.0.0.1",
         "DB_PASSWORD": "",
-        "DB_PORT": "5432",
+        "DB_PORT": "5435",
         "DB_USERNAME": "postgres",
+        "DOCKER_HOST": "unix:///nonexistent/enact-runs-no-containers.sock",
         "ENVE_SERVICE_IMMICH_ML_HOST": "127.0.0.1",
         "ENVE_SERVICE_IMMICH_ML_PORT": "3003",
         "ENVE_SERVICE_IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -2877,8 +2879,8 @@
         "ENVE_SERVICE_IMMICH_SERVER_PORT": "2285",
         "ENVE_SERVICE_IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "ENVE_SERVICE_POSTGRES_HOST": "127.0.0.1",
-        "ENVE_SERVICE_POSTGRES_PORT": "5432",
-        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "ENVE_SERVICE_POSTGRES_PORT": "5435",
+        "ENVE_SERVICE_POSTGRES_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "ENVE_SERVICE_VALKEY_HOST": "127.0.0.1",
         "ENVE_SERVICE_VALKEY_PORT": "6379",
         "ENVE_SERVICE_VALKEY_URL": "redis://127.0.0.1:6379/0",
@@ -2888,13 +2890,13 @@
         "IMMICH_SERVER_HOST": "127.0.0.1",
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
-        "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:5432/mich",
+        "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:5435/mich",
         "OPENSSL_NO_VENDOR": "1",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "http://127.0.0.1:2285",
         "POSTGRES_HOST": "127.0.0.1",
-        "POSTGRES_PORT": "5432",
-        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5432/postgres",
+        "POSTGRES_PORT": "5435",
+        "POSTGRES_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "REDIS_HOSTNAME": "127.0.0.1",
         "REDIS_PORT": "6379",
         "REDIS_URL": "redis://127.0.0.1:6379/0",

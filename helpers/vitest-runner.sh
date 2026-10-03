@@ -10,12 +10,6 @@ while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
 done
 
 
-if [ -f "playwright.config.ts" ] || [ -d "src/specs" ]; then
-  export IMMICH_TEST_POSTGRES_URL="postgres://postgres:postgres@127.0.0.1:5432/immich"
-else
-  export IMMICH_TEST_POSTGRES_URL="${IMMICH_TEST_POSTGRES_URL:-postgres://postgres@127.0.0.1:5432/mich}"
-fi
-
 TARGETS=("$@")
 
 # As `pnpm run` (upstream runs `pnpm test`): the package's and the workspace's bins first.
@@ -65,7 +59,7 @@ if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; th
   if [ ${#TARGETS[@]} -eq 0 ]; then
     vitest_run --config test/vitest.config.mjs
     "$REPO_ROOT/helpers/build-core-plugin.sh"
-    vitest_run --config test/vitest.config.medium.mjs
+    vitest_run --config test/enact/vitest.config.medium.mjs
     exit 0
   fi
   unit_targets=()
@@ -81,7 +75,7 @@ if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; th
   fi
   if [ ${#medium_targets[@]} -gt 0 ]; then
     "$REPO_ROOT/helpers/build-core-plugin.sh"
-    vitest_run --config test/vitest.config.medium.mjs "${medium_targets[@]}"
+    vitest_run --config test/enact/vitest.config.medium.mjs "${medium_targets[@]}"
   fi
 else
   vitest_run "${TARGETS[@]}"
