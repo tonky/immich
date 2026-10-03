@@ -17,7 +17,7 @@ profiles: dev: schema.#Profile & {
 	services: {
 		postgres: {
 			name:    "postgres"
-			command: "postgres -D \"$DATA_DIR\" -k /tmp -p 5432 -c shared_buffers=64MB -c work_mem=16MB -c max_connections=50 -c fsync=off -c synchronous_commit=off"
+			command: "helpers/start-postgres.sh"
 			environment: {
 				TZ:   "UTC"
 				PGTZ: "UTC"

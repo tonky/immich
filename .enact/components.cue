@@ -28,7 +28,6 @@ pipeline: schema.#Pipeline & {
 			"docker",
 			"docs",
 			"fastlane",
-			"i18n",
 			"install.sh",
 			"LICENSE",
 			"misc",
@@ -135,9 +134,9 @@ pipeline: schema.#Pipeline & {
 				command: "../helpers/typecheck-runner.sh"
 			}
 			migrate: {
-				command: "pnpm --filter @immich/server db:migrate || echo '✓ DB migrations up to date'"
+				command: "../helpers/schema-check-runner.sh"
 				filter: {
-					include: ["server/src/infra/migrations/**", "server/src/infra/entities/**"]
+					include: ["server/src/schema/**", "server/src/queries/**"]
 					on_empty: "skip"
 				}
 			}
@@ -154,7 +153,7 @@ pipeline: schema.#Pipeline & {
 			depends_on: [components.root]
 			workspace_scope: {
 				include_dependencies: true
-				include: ["web"]
+				include: ["web", "i18n"]
 			}
 			shards: 2
 			target_scope: {
@@ -334,6 +333,10 @@ pipeline: schema.#Pipeline & {
 			}
 			test: {
 				command: "../helpers/vitest-runner.sh {relative_targets}"
+				filter: {
+					include: ["e2e/**"]
+					on_empty: "skip"
+				}
 			}
 		}
 	}

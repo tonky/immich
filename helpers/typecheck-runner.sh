@@ -16,6 +16,9 @@ fi
 if [ -d "$REPO_ROOT/packages/plugin-sdk" ] && [ ! -d "$REPO_ROOT/packages/plugin-sdk/dist" ]; then
   (cd "$REPO_ROOT" && pnpm --filter @immich/plugin-sdk run build 2>/dev/null) || true
 fi
+if [ -f "svelte.config.js" ] && [ ! -d ".svelte-kit" ]; then
+  ./node_modules/.bin/svelte-kit sync 2>/dev/null || pnpm exec svelte-kit sync 2>/dev/null || true
+fi
 
 if [ ! -d "node_modules/@types" ] && [ ! -d "$REPO_ROOT/node_modules/@types" ] && [ ! -x "./node_modules/.bin/tsc" ] && [ ! -x "$REPO_ROOT/node_modules/.bin/tsc" ]; then
   echo "⚡ [typecheck-runner] Preflight syntax & type check passed (hermetic shim mode)"

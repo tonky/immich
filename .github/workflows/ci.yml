@@ -71,6 +71,7 @@ jobs:
           packages/sdk
           server
           web
+          i18n
           machine-learning
         sparse-checkout-cone-mode: 'true'
         submodules: 'false'
