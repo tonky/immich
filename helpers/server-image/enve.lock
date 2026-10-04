@@ -1,6 +1,6 @@
 {
   "nixpkgs": {
-    "rev": "55ba7f49ef2962b42cbd126522b7df5f95037679",
+    "rev": "73e728ddb6b7a12d18808f510813a13ee1fe4cce",
     "url": "github:NixOS/nixpkgs",
     "verified": true
   },
@@ -8,7 +8,7 @@
     "x86_64-linux": {
       "binding": {
         "environment_sha256": "f4934bf9853003262f5865e8a23c2f8e2bb4f1be776cda77e04ac190d1d51fbf",
-        "inventory_sha256": "9bd0b7c9197c373e5d5761a4aa7a5140b30e8317151af7c4a5135f52bd073cbd",
+        "inventory_sha256": "b45a67968fb369a6ee95f90b74d84a43cde67e987e525f327026baa14a2c0f0b",
         "profile": null,
         "version": 1
       },
@@ -1188,9 +1188,6 @@
           "references": []
         },
         {
-          "hash_name": "bbc5405xccflibvmfbwqll60sx08l78v-vips-8.18.5"
-        },
-        {
           "hash_name": "bf6wgamqnl3c91iamlb1branrfcwwy7x-libunistring-1.4.2",
           "nar_hash": "sha256-UjtTiE7TB0CyELrcpvS0uKif9JFLornBTuERfO5oXEU=",
           "nar_size": 2078944,
@@ -1341,6 +1338,9 @@
           ]
         },
         {
+          "hash_name": "ch9b4q1d8s948h6rwa5zk7flw6yc72ys-sharp-0.35.3"
+        },
+        {
           "hash_name": "chqgdbzpa05cai3spap6l8iz948vnzf2-libwebp-1.6.0",
           "nar_hash": "sha256-qavwai1TODQyuMwCfeZ8r9bqZXh14SiRxmf9pNErizc=",
           "nar_size": 1772464,
@@ -1478,9 +1478,6 @@
             "2y6fj2my9gaai48mv9mgycp9wmb0kv8a-ncurses-6.6",
             "l8si8gnvvq93yzms1jsgh5aixyf9rl5x-glibc-2.42-67"
           ]
-        },
-        {
-          "hash_name": "d31hdh5ac1qk33x8r64l65w8c8ihnsya-vips-8.18.5"
         },
         {
           "hash_name": "d98p1fdc3rcsjlyj7pikc9qp67z9y2jy-libpng-apng-1.6.58",
@@ -1855,9 +1852,6 @@
             "hvhjda48m17gfrlb50bfxp0r1r1klmpi-gtest-1.17.0-dev",
             "jp8aa66xzb31cdcrdxra2nnjjn1lnsna-gtest-1.17.0"
           ]
-        },
-        {
-          "hash_name": "hvmbk5hghq033mkwmj9jkwrcg5n88qk6-sharp-0.35.3"
         },
         {
           "hash_name": "hxix3bc16dhqf97y8kf07dsbncch61nq-x265-4.2",
@@ -3417,7 +3411,7 @@
         }
       ],
       "environment": {
-        "IMMICH_SHARP_PATH": "$ENVE_STORE_DIR/hvmbk5hghq033mkwmj9jkwrcg5n88qk6-sharp-0.35.3/node_modules/sharp"
+        "IMMICH_SHARP_PATH": "$ENVE_STORE_DIR/ch9b4q1d8s948h6rwa5zk7flw6yc72ys-sharp-0.35.3/node_modules/sharp"
       },
       "resolutionVersion": 2,
       "tools": {
@@ -3430,8 +3424,6 @@
         "sharp": {
           "buildInputs": [
             "mkaxwa22yh21hs6lfmli7smvp80rwlin-vips-8.18.5",
-            "bbc5405xccflibvmfbwqll60sx08l78v-vips-8.18.5",
-            "d31hdh5ac1qk33x8r64l65w8c8ihnsya-vips-8.18.5",
             "x98gls54ki3fmm2pv2cmi6z8mcda6glk-nodejs-24.18.0",
             "593rzz2xs5i67biyv2hz898j6v5ylms0-glib-2.88.1-dev",
             "h6bq6in7nbkmcwp64racbx6641pdpgil-glib-2.88.1-bin",
@@ -3458,7 +3450,7 @@
             "xrj3v3k9v5hvx3vl0jgfp5if3syqgh8g-gnumake-4.4.1",
             "rgnappqqc5vbq60gza5fflyk84sylwl6-python3-3.14.6"
           ],
-          "closure": "hvmbk5hghq033mkwmj9jkwrcg5n88qk6-sharp-0.35.3",
+          "closure": "ch9b4q1d8s948h6rwa5zk7flw6yc72ys-sharp-0.35.3",
           "version": "0.35.3"
         },
         "vips": {
