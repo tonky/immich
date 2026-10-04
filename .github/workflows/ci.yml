@@ -163,19 +163,6 @@ jobs:
             .enact/pnpm-store
             node_modules/.cache
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-
-      - name: Restore Cache [node_build]
-        id: cache_node_build
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: node_build-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-            packages/sdk/build
-          restore-keys: node_build-${{ runner.os }}-stage-check-and-lint-
       - name: Restore Cache [pinned_tools]
         id: cache_pinned_tools
         continue-on-error: true
@@ -330,18 +317,6 @@ jobs:
         ENACT_INTEGRATION_BRANCH: ${{ vars.ENACT_INTEGRATION_BRANCH }}
         ENACT_R2_BUCKET: ${{ secrets.ENACT_R2_BUCKET || env.ENACT_R2_BUCKET }}
     - parallel:
-      - name: Save Cache [node_build]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_node_build.outputs.cache-primary-key }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-            packages/sdk/build
       - name: Save Cache [pinned_tools]
         if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_pinned_tools.outputs.cache-hit != 'true'
         continue-on-error: true
@@ -819,19 +794,6 @@ jobs:
           key: geodata-geonames-ne-v5.1.2-${{ runner.os }}-${{ github.sha }}
           path: .enact/cache/immich-geodata
           restore-keys: geodata-geonames-ne-v5.1.2-${{ runner.os }}-
-      - name: Restore Cache [node_build]
-        id: cache_node_build
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: node_build-${{ runner.os }}-${{ matrix.task_id }}-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-            packages/sdk/build
-          restore-keys: node_build-${{ runner.os }}-${{ matrix.task_id }}-
       - name: Restore Cache [pinned_tools]
         id: cache_pinned_tools
         if: contains(format(',{0},', matrix.caches), ',pinned_tools,')
@@ -1001,18 +963,6 @@ jobs:
         with:
           key: ${{ steps.cache_geodata.outputs.cache-primary-key }}
           path: .enact/cache/immich-geodata
-      - name: Save Cache [node_build]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_node_build.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.cache_node_build.outputs.cache-primary-key }}
-          path: |-
-            .turbo
-            server/dist
-            web/build
-            packages/*/dist
-            packages/sdk/build
       - name: Save Cache [pinned_tools]
         if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && contains(format(',{0},', matrix.caches), ',pinned_tools,')) && steps.cache_pinned_tools.outputs.cache-hit != 'true'
         continue-on-error: true

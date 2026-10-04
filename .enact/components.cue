@@ -55,18 +55,10 @@ pipeline: schema.#Pipeline & {
 		]
 	}
 
+	// No build outputs (server/dist, web/build, packages/*/dist): the helpers build them
+	// when missing, so a cache keyed on the lockfile restored the base branch's server
+	// into every PR (STALE_BUILD_OUTPUT_CACHE). Each job builds from its own checkout.
 	caches: {
-		node_build: {
-			paths: [
-				".turbo",
-				"server/dist",
-				"web/build",
-				"packages/*/dist",
-				"packages/sdk/build",
-			]
-			key: ["package.json", "pnpm-lock.yaml"]
-			scope: "task"
-		}
 		// GeoNames + Natural Earth for the e2e server's reverse geocoding (~50MB download).
 		geodata: {
 			paths: [".enact/cache/immich-geodata"]
