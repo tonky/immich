@@ -1,6 +1,6 @@
-// Reach map assembly for generate-reach-map.sh (run from the repository root).
+// Reach map assembly for generate-reach-map.sh (run from the repository root), after
+// `enact trace pack` merged the per-spec maps:
 //
-//   merge <out.json> <in.json>...    one map from the per-spec maps `enact trace run` wrote
 //   coverage <map.json> <windows>    adds to each e2e spec the server sources it ran
 //
 // <windows> holds one directory per coverage window: `000-boot` (server start-up), then
@@ -31,32 +31,22 @@ const writeMap = (file, map) => {
   const targets = Object.fromEntries(
     Object.entries(map.targets)
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([target, fp]) => [target, { files: [...fp.files].sort(), dirs: [...fp.dirs].sort() }]),
+      .map(([target, fp]) => [
+        target,
+        { files: [...fp.files].sort(), dirs: [...fp.dirs].sort(), ...(fp.outcome && { outcome: fp.outcome }) },
+      ]),
   );
   fs.writeFileSync(file, JSON.stringify({ ...map, version: 1, targets }));
 };
 
-/** Targets as `{files: Set, dirs: Set}`. */
+/** Targets as `{files: Set, dirs: Set, outcome?}` (`outcome`: a failed run's, kept as is). */
 const footprints = (map) =>
   Object.fromEntries(
     Object.entries(map.targets ?? {}).map(([target, fp]) => [
       target,
-      { files: new Set(flatten(fp.files)), dirs: new Set(flatten(fp.dirs)) },
+      { files: new Set(flatten(fp.files)), dirs: new Set(flatten(fp.dirs)), outcome: fp.outcome },
     ]),
   );
-
-const merge = (out, inputs) => {
-  const targets = {};
-  for (const input of inputs) {
-    for (const [target, fp] of Object.entries(footprints(readMap(input)))) {
-      const into = (targets[target] ??= { files: new Set(), dirs: new Set() });
-      fp.files.forEach((f) => into.files.add(f));
-      fp.dirs.forEach((d) => into.dirs.add(d));
-    }
-  }
-  writeMap(out, { targets });
-  console.log(`🧩 merged ${inputs.length} maps: ${Object.keys(targets).length} targets → ${out}`);
-};
 
 // --- coverage -----------------------------------------------------------------------
 
@@ -153,16 +143,12 @@ const coverage = (mapFile, windowsDir) => {
 
 const [command, ...args] = process.argv.slice(2);
 switch (command) {
-  case 'merge': {
-    merge(args[0], args.slice(1));
-    break;
-  }
   case 'coverage': {
     coverage(args[0], args[1]);
     break;
   }
   default: {
-    console.error('usage: reach-map.mjs merge <out.json> <in.json>... | coverage <map.json> <windows-dir>');
+    console.error('usage: reach-map.mjs coverage <map.json> <windows-dir>');
     process.exit(2);
   }
 }

@@ -71,38 +71,183 @@ import (
 	isolation: #BuildIsolation.Required
 	readOnly: [...string] | *[]
 })
-#BuildSpec: {
-	sandbox?:       #BuildSandbox
-	pname:          string
-	version:        string
-	src:            string
-	subPackages?:   _
-	ldflags?:       _
-	npmFlags?:      _
-	nodeVersion?:   _
-	packageJson?:   _
-	packageLock?:   _
-	buildScript?:   _
-	format?:        _
-	pythonVersion?: _
-	features?:      _
-	cargoFlags?:    _
-	target?:        _
-	erlangVersion?: _
-	environment?:   _
-	[string]:       _
+#Platform: "x86_64-linux" | "aarch64-linux" | "x86_64-darwin" | "aarch64-darwin"
+
+// A canonical Nix package identifier (e.g. "ripgrep", "bat", "postgresql_16", "vchord").
+#NixPackageName: string & =~"^[a-zA-Z0-9_.-]+$"
+
+// A Nix attribute path inside nixpkgs (e.g. "go_1_24", "legacyPackages.x86_64-linux.ripgrep").
+#NixAttribute: string & =~"^[a-zA-Z0-9_.-]+$"
+
+// A remote HTTP or HTTPS download URL for source archives or binaries.
+#HttpUrl: string & =~"^https?://.+"
+
+// A filesystem path (relative to project root or absolute).
+#FilePath: string
+
+// A source location: either a remote HTTP URL or a local filesystem path.
+#SourceLocation: #HttpUrl | #FilePath
+
+// A platform-discriminated mapping of source locations.
+#PlatformSourceMap: {
+	[#Platform]: #SourceLocation
 }
 
-// A package in `tools`. `version` is honoured against the project's nixpkgs revision;
-// `rev` overrides that revision for this package alone, for a version it cannot satisfy.
-#PackageRef: string | {
-	pname:     string
-	attr?:     string
+// A source specification: either a single source location or a platform-specific map.
+#SourceSpec: #SourceLocation | #PlatformSourceMap
+
+// 64-character hexadecimal SHA-256 integrity hash.
+#Sha256Hex: string & =~"^[0-9a-fA-F]{64}$"
+
+// Nix or W3C SRI format hash (e.g. "sha256-AAAA...", "sha512-BBBB...").
+#SriHash: string & =~"^sha(256|512)-[A-Za-z0-9+/=]+$"
+
+// Cryptographic checksum digest (hex or SRI format).
+#Checksum: #Sha256Hex | #SriHash
+
+// A platform-discriminated mapping of checksum digests.
+#PlatformHashMap: {
+	[#Platform]: #Checksum
+}
+
+// An integrity hash specification: either a single checksum or a platform-specific map.
+#HashSpec: #Checksum | #PlatformHashMap
+
+// A fixed-output remote resource fetch specification with cryptographic integrity hash.
+#FetchSpec: {
+	url:     #HttpUrl
+	hash?:   #Checksum
+	sha256?: #Checksum
+}
+
+// Shell script commands executed during a build or install phase.
+#ShellScript: string
+
+// Path or name of an executable builder (e.g. "/bin/sh", "bash").
+#ExecutablePath: string
+
+// Command-line argument passed to a builder.
+#CommandArgument: string
+
+// Go package import path or directory (e.g. ".", "./cmd/server", "github.com/org/repo").
+#GoPackagePath: string
+
+// Go linker flag passed to `go build -ldflags` (e.g. "-X main.version=1.0.0", "-s -w").
+#GoLdFlag: string
+
+// Cargo command-line flag passed to `cargo build` (e.g. "-Z", "--offline").
+#CargoFlag: string
+
+// Cargo feature name (e.g. "postgres", "simd", "default").
+#CargoFeature: string
+
+// NPM/PNPM command-line flag (e.g. "--frozen-lockfile", "--legacy-peer-deps").
+#NpmFlag: string
+
+// Package feature flags: either a list of feature names or a map of feature toggle booleans.
+#PackageFeatures: [...string] | {[string]: bool}
+
+// A package resolved directly from the Nixpkgs universe.
+#NixPackage: {
+	pname:     #NixPackageName
+	attr?:     #NixAttribute
 	version?:  #SemVer
 	rev?:      #NixpkgsRev
-	features?: _
-	[string]:  _
+	features?: #PackageFeatures
 }
+
+// A strongly-typed package or build specification in enve.
+// Unifies package declaration, source specification, and build toolchain flags.
+#PackageSpec: {
+	pname:     #NixPackageName
+	attr?:     #NixAttribute
+	version?:  #SemVer
+	rev?:      #NixpkgsRev
+	features?: #PackageFeatures
+
+	// Source & Integrity
+	src?:     #SourceSpec
+	sha256?:  #HashSpec
+	sandbox?: #BuildSandbox
+	inputs?: [...#PackageRef]
+	buildInputs?: [...#PackageRef]
+	fetch?: [string]: #FetchSpec
+	installPhase?: #ShellScript
+	buildScript?:  #ShellScript
+	builder?:      #ExecutablePath
+	args?: [...#CommandArgument]
+	exports?: [string]: string
+
+	// Language Presets & Flags
+	subPackages?: #GoPackagePath | [...#GoPackagePath]
+	ldflags?: #GoLdFlag | [...#GoLdFlag]
+	cgo?:       0 | 1
+	goVersion?: #SemVer
+	cargoFlags?: [...#CargoFlag]
+	packageJson?: #FilePath
+	packageLock?: #FilePath
+	nodeVersion?: #SemVer
+	npmFlags?: [...#NpmFlag]
+	format?:        #PythonPackageFormatMode
+	pythonVersion?: #SemVer
+	target?:        string
+	erlangVersion?: #SemVer
+
+	environment?: [string]: _
+}
+
+// A custom package build specification: requires explicit source and semver.
+#BuildSpec: #PackageSpec & {
+	src:     #SourceSpec
+	version: #SemVer
+}
+
+// Prebuilt binary release archives (e.g. GitHub release tarballs, zips, debs)
+#ArchiveBuildSpec: #BuildSpec & {
+	installPhase?: #ShellScript
+}
+
+// Go application compilation specification
+#GoBuildSpec: #BuildSpec & {
+	subPackages?: #GoPackagePath | [...#GoPackagePath] | *"."
+	ldflags?: #GoLdFlag | [...#GoLdFlag]
+	cgo?: 0 | 1 | *0
+}
+
+// Rust / Cargo compilation specification
+#RustBuildSpec: #BuildSpec & {
+	cargoFlags?: [...#CargoFlag] | *[]
+	features?: [...#CargoFeature] | *[]
+	release?: bool | *true
+}
+
+// Node.js application build specification
+#NodeBuildSpec: #BuildSpec & {
+	buildScript?: #ShellScript | *"build"
+	packageJson?: #FilePath | *"package.json"
+}
+
+// Python package build specification
+#PythonBuildSpec: #BuildSpec & {
+	format?: #PythonPackageFormatMode
+}
+
+// Gleam application build specification
+#GleamBuildSpec: #BuildSpec
+
+// Erlang application build specification
+#ErlangBuildSpec: #BuildSpec
+
+// Custom / Generic shell build specification
+#GenericBuildSpec: #BuildSpec & {
+	builder?: #ExecutablePath | *"/bin/sh"
+	args?: [...#CommandArgument]
+	buildScript?: #ShellScript
+}
+
+// A package declaration in `tools:` or service dependencies.
+// Can be a standard Nix package name string (#NixPackageName) or a strongly-typed #PackageSpec.
+#PackageRef: #NixPackageName | #PackageSpec
 
 #ServiceHealthCheck: {
 	port?:     #Port
@@ -331,6 +476,7 @@ import (
 	url?:         string
 	package?:     #PackageRef
 	packages?: [...#PackageRef]
+	extensions?: [...#PackageRef]
 	image?:     string
 	command?:   string
 	build?:     #BuildSpec
@@ -792,15 +938,6 @@ import (
 	telemetry?: _
 	[string]:   _
 }
-
-#GoBuildSpec:   #BuildSpec
-#NodeBuildSpec: #BuildSpec
-#PythonBuildSpec: #BuildSpec & {
-	format?: #PythonPackageFormatMode
-}
-#RustBuildSpec:   #BuildSpec
-#GleamBuildSpec:  #BuildSpec
-#ErlangBuildSpec: #BuildSpec
 
 // The profiles an enve file declares: `profiles: schema.#Profiles & {dev: …, ci: …}`.
 // `-p/--profile` selects one by key, and `dev` is selected when the flag is absent.

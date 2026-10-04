@@ -17,6 +17,11 @@ TARGETS=("$@")
 # the PATH it inherits (e2e links the cli's bin, the cli does not link its own).
 PATH="$PWD/node_modules/.bin:$REPO_ROOT/node_modules/.bin:$PATH"
 export PATH
+# The e2e specs `docker exec`/`docker cp` into the server: helpers/container/path/docker.
+# Here, not in the job's command, so the reach map's recording runs the same specs.
+if [ "$PWD" = "$REPO_ROOT/e2e" ]; then
+  PATH="$REPO_ROOT/helpers/container/path:$PATH"
+fi
 
 VITEST_CMD=()
 if [ -x "./node_modules/.bin/vitest" ]; then

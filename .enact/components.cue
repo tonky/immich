@@ -55,6 +55,54 @@ pipeline: schema.#Pipeline & {
 		]
 	}
 
+	// Build outputs the traces read: no diff names them, so a change to their sources
+	// reaches their readers only through these. Rules don't chain: the plugin bundles
+	// (esbuild) inline @immich/sdk, so they list its sources too. `.svelte-kit/tsconfig.json`
+	// has its own rule: 167 server specs read only it (tsconfig discovery). svelte-kit sync
+	// reads route modules (`+page.ts`: load types) but only lists `.svelte` routes, so
+	// those are `layout`: adding or deleting one regenerates `.svelte-kit`, editing doesn't.
+	analysis: derived: [{
+		outputs: ["packages/sdk/build/**"]
+		inputs: ["packages/sdk/src/**", "packages/sdk/package.json", "packages/sdk/tsconfig.json"]
+	}, {
+		outputs: ["packages/plugin-sdk/dist/**"]
+		inputs: [
+			"packages/plugin-sdk/src/**", "packages/plugin-sdk/esbuild.js", "packages/plugin-sdk/plugin-sdk.mjs",
+			"packages/plugin-sdk/package.json", "packages/plugin-sdk/tsconfig.json", "packages/sdk/src/**",
+		]
+	}, {
+		outputs: ["packages/plugin-core/dist/**"]
+		inputs: [
+			"packages/plugin-core/src/**", "packages/plugin-core/esbuild.js", "packages/plugin-core/manifest.json",
+			"packages/plugin-core/package.json", "packages/plugin-core/tsconfig.json",
+			"packages/plugin-sdk/src/**", "packages/sdk/src/**",
+		]
+	}, {
+		// `nest build`: immich-admin (`docker exec`) runs it inside the e2e specs' tree.
+		outputs: ["server/dist/**"]
+		inputs: [
+			"server/src/**", "server/nest-cli.json", "server/package.json", "server/tsconfig.json",
+			"server/tsconfig.build.json",
+		]
+	}, {
+		// `vite build` bundles the cli with everything it imports, the sdk included.
+		outputs: ["packages/cli/dist/**"]
+		inputs: [
+			"packages/cli/src/**", "packages/cli/vite.config.ts", "packages/cli/package.json",
+			"packages/cli/tsconfig.json", "packages/sdk/src/**",
+		]
+	}, {
+		outputs: ["web/.svelte-kit/tsconfig.json"]
+		inputs: ["web/svelte.config.js"]
+	}, {
+		outputs: ["web/.svelte-kit/*.d.ts", "web/.svelte-kit/generated/**", "web/.svelte-kit/types/**"]
+		inputs: [
+			"web/svelte.config.js", "web/src/routes/**/+*.ts", "web/src/routes/**/+*.js",
+			"web/src/params/**", "web/src/app.html", "web/src/hooks.*", "web/src/service-worker/**",
+		]
+		layout: ["web/src/routes/**"]
+	}]
+
 	// No build outputs (server/dist, web/build, packages/*/dist): the helpers build them
 	// when missing, so a cache keyed on the lockfile restored the base branch's server
 	// into every PR (STALE_BUILD_OUTPUT_CACHE). Each job builds from its own checkout.
@@ -386,10 +434,10 @@ pipeline: schema.#Pipeline & {
 				}]
 			}
 			// The specs import the built SDK and drive the built CLI: vitest-runner.sh builds
-			// them first (helpers/build-workspace-deps.sh), as upstream's e2e job does. They
-			// `docker exec`/`docker cp` into the server: helpers/container/path/docker.
+			// them first (helpers/build-workspace-deps.sh), as upstream's e2e job does, and put
+			// the `docker` the specs exec into the server on PATH (helpers/container/path).
 			test: {
-				command: "PATH=\"$PWD/../helpers/container/path:$PATH\" ../helpers/vitest-runner.sh {relative_targets}"
+				command: "../helpers/vitest-runner.sh {relative_targets}"
 			}
 		}
 	}
