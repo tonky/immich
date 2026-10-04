@@ -2,9 +2,10 @@
 # ==============================================================================
 # start-immich-server.sh - Service Launcher for the Immich Backend Server
 # ==============================================================================
-# Runs the real server the e2e suite talks to, as upstream's docker-compose does:
-# builds server/dist and web/build when missing, provisions geodata, then execs node. It
-# never substitutes a stand-in: a server that cannot start fails its readiness probe.
+# Runs the real server the e2e suite talks to, as upstream's docker-compose does: builds
+# server/dist and web/build when their sources changed, provisions geodata, then execs
+# node with nixpkgs' sharp (HEIC, JXL, RAW). It never substitutes a stand-in: a server
+# that cannot start fails its readiness probe.
 set -euo pipefail
 
 if [ ! -d node_modules ]; then
@@ -12,18 +13,13 @@ if [ ! -d node_modules ]; then
   exit 1
 fi
 
-if [ ! -f server/dist/main.js ]; then
-  # `immich...` builds the server's workspace deps first (sdk, plugin-sdk), like its Dockerfile.
-  echo "🔨 [immich-server] building server/dist..."
-  pnpm --filter 'immich...' run build
-fi
-
-if [ ! -f web/build/index.html ]; then
-  # The image's /build/www (helpers/container/immich-e2e-server.mounts): shared-link pages
-  # render from its index.html. `immich-web...` builds the sdk first, as its Dockerfile stage.
-  echo "🔨 [immich-server] building web/build..."
-  pnpm --filter 'immich-web...' run build
-fi
+# Rebuilt whenever their sources changed, not only when missing (helpers/build-if-stale.sh).
+# `immich...` builds the server's workspace deps first (sdk, plugin-sdk), like its Dockerfile.
+helpers/build-if-stale.sh 'immich...' server/dist
+# The image's /build/www (helpers/container/immich-e2e-server.mounts): shared-link pages
+# render from its index.html. `immich-web...` builds the sdk first, as its Dockerfile stage;
+# translations come from ../i18n.
+helpers/build-if-stale.sh 'immich-web...' web/build i18n
 
 # Video thumbnails and probes with upstream's pinned jellyfin-ffmpeg; the image's
 # `ENV PATH=…:/usr/src/app/server/bin` (immich-admin, for `docker exec`).
@@ -45,6 +41,15 @@ helpers/provision-geodata.sh "$STATE/build/geodata"
 # The image ships the core plugin at /build/plugins/immich-plugin-core (manifest + dist).
 helpers/build-core-plugin.sh
 ln -sfn "$PWD/packages/plugin-core" "$STATE/build/plugins/immich-plugin-core"
+
+# HEIC, JXL and RAW, as the image's libvips decodes them: the server's sharp is nixpkgs'
+# immich's, on node from the same nixpkgs (helpers/store-sharp.sh), until sharp builds
+# from source here. Set last: the builds above run on the dev profile's node.
+store=$(helpers/store-sharp.sh)
+IMMICH_SHARP_PATH=${store#*$'\n'}
+NODE_OPTIONS="--require $PWD/helpers/store-sharp.cjs${NODE_OPTIONS:+ $NODE_OPTIONS}"
+PATH="${store%%$'\n'*}:$PATH"
+export IMMICH_SHARP_PATH NODE_OPTIONS PATH
 # `docker exec` (helpers/container/path/docker) runs with the container's environment.
 env -0 > "$STATE/env"
 
