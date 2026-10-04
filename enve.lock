@@ -7,8 +7,8 @@
   "platforms": {
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "2f979c967ecbb475b285e7004252de498c75460812c6b85b9d29487d4008025a",
-        "inventory_sha256": "9bfb4616abbc507be608a0fcb867cf200a4a1005487b6e257bf461b0b61497dc",
+        "environment_sha256": "f36fdd9863b6da24b8e5a41314bca14aec5591c070da6718bce048e5bb0d18b6",
+        "inventory_sha256": "47c7bc3d25038311fc4667e661169564c0c7992138eea5e81b29d82de7bef3d5",
         "profile": null,
         "version": 1
       },
@@ -27,7 +27,7 @@
         },
         {
           "hash_name": "0a9k0r3wf695ibidnygdx6kkx8zhdhhg-kmod-31-lib",
-          "nar_hash": "sha256:184v0f29hwc2nq2ni4zly8ww3kpb8wdh2qm4bmsrgfcgd7nadjvm",
+          "nar_hash": "sha256-dcum7GmPuZd1XaRiARtH687BOfL0k2gFtoJxmIQDm6A=",
           "nar_size": 132696,
           "references": [
             "0a9k0r3wf695ibidnygdx6kkx8zhdhhg-kmod-31-lib",
@@ -47,7 +47,7 @@
         },
         {
           "hash_name": "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
-          "nar_hash": "sha256:0j8f9iywfppqrkqbk73m5r6swisfb7nymarg0yk30xqmd1wl46ps",
+          "nar_hash": "sha256-+hpCeWgVdzCmBy+r6u1ZTkeuTS51nLnwzPhex31MDkk=",
           "nar_size": 10317392,
           "references": [
             "0vqb1mcas5j8dv6bhbrshinlgsg6bvgi-gcc-15.3.0-lib",
@@ -84,7 +84,7 @@
         },
         {
           "hash_name": "1gz4arjikrgvbhkd59zx565wf1qp8fhg-libevent-2.1.13",
-          "nar_hash": "sha256:0nykxn967lvfp7d8hjwm2dqmjwclhp7lgpvzpdpcrpfm19agyds2",
+          "nar_hash": "sha256-Qjf/VArV3cxuu3/fR8+FlHFZcROVS4jauW7TY5Lt01s=",
           "nar_size": 911496,
           "references": [
             "1gz4arjikrgvbhkd59zx565wf1qp8fhg-libevent-2.1.13",
@@ -541,7 +541,7 @@
         },
         {
           "hash_name": "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
-          "nar_hash": "sha256:1fvi35gv5c5gy2rlml3n9i9wgcp2jc3mmiznaai61xdw49rj76yi",
+          "nar_hash": "sha256-0ZsjcyK89WCiUvbHWgeT4rLHU0x20Eqz8K+wsl8Zcbs=",
           "nar_size": 1856848,
           "references": [
             "9ipfvwnqp1q8ijnmi5sxvlx9r8w34lw3-bash-5.3p15",
@@ -929,7 +929,7 @@
         },
         {
           "hash_name": "gckp2y92mdfny4cydahvgghxxm968l1n-qrencode-4.1.1",
-          "nar_hash": "sha256:1bcy9vk8x936yps6xz4sbpf2gdby0i1jlrcvsgrn7gla21q23ckj",
+          "nar_hash": "sha256-crIhcBCKvmPz05tlKkMEfrUn3F2a/G709WakjuZOnq0=",
           "nar_size": 68048,
           "references": [
             "gckp2y92mdfny4cydahvgghxxm968l1n-qrencode-4.1.1",
@@ -996,7 +996,7 @@
         },
         {
           "hash_name": "gvhdvn542cwd3wr2978nh4ydzp89msq7-systemd-minimal-libs-261.3",
-          "nar_hash": "sha256:00z8xh49zywh0ng7davh06831ziin3l9cnack5bj8417bh32wfil",
+          "nar_hash": "sha256-NDouBlwnECRXmUxZluiwMf4wkAFwq3aeBZD7nwjs6AM=",
           "nar_size": 4664456,
           "references": [
             "gvhdvn542cwd3wr2978nh4ydzp89msq7-systemd-minimal-libs-261.3",
@@ -1048,7 +1048,7 @@
         },
         {
           "hash_name": "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
-          "nar_hash": "sha256:0h173b8lk2z3apcz4gf42lgyplvhchr64jn482px35g1nksrcg9q",
+          "nar_hash": "sha256-OD2W9bThldGvQMRKYjJkcNPrHxXEPfLZVeOLSdEaJ0A=",
           "nar_size": 9308816,
           "references": [
             "hg41dqig0qxm7shyi0a0xkw29a14i3js-openssl-3.6.3",
@@ -1158,7 +1158,7 @@
         },
         {
           "hash_name": "j9j2ywvz4nzkv7sb5xa80gk1b3x8rh9z-unbound-1.26.1-lib",
-          "nar_hash": "sha256:03r1n9666k9qzxq9cgc02sqa8s9zkyr94y08n06hc559wvpri4hl",
+          "nar_hash": "sha256-FJKY7+apFAYNsAh4krKfP2mksBaAPZZw/zhNY0yyIQ8=",
           "nar_size": 1244840,
           "references": [
             "1gz4arjikrgvbhkd59zx565wf1qp8fhg-libevent-2.1.13",
@@ -1188,7 +1188,7 @@
         },
         {
           "hash_name": "jp6w9riaqyh7871qjgmdxvc73q6j8ymn-nettle-3.10.2",
-          "nar_hash": "sha256:04f2m5p38gq71h8h0496pm1drddqz4ql281ldd3sjxdfijlc5aqr",
+          "nar_hash": "sha256-GavCqIyudalHazQgQTH5uLXcQr0mEQARDAc/NG6pwhE=",
           "nar_size": 749040,
           "references": [
             "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
@@ -1261,7 +1261,7 @@
         },
         {
           "hash_name": "kkf8p18x7bzclm671aq839qnp0rc3r5s-util-linux-minimal-2.42.3-login",
-          "nar_hash": "sha256:09a0izaj0sf8z2lzjn0bybivj8cyhc07kvm8hkskzasahdrf5fxx",
+          "nar_hash": "sha256-vbvicoNKqz/1hKjueQCDniG54/ILWPmp+MhpINWPQCU=",
           "nar_size": 98360,
           "references": [
             "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
@@ -1314,7 +1314,7 @@
         },
         {
           "hash_name": "l3p6y554mkxi4vipnnp8809kxj0g1lyv-zlib-1.3.2",
-          "nar_hash": "sha256:03l8di5kdhpi5a5dbg9kr849wx5x7rfhl9c0wck7vbcgqq0qa05v",
+          "nar_hash": "sha256-uwCFAcaPrX0m44AlCl0+vXSeCMozvdWKKvHCNktsiA4=",
           "nar_size": 132608,
           "references": [
             "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84"
@@ -1470,7 +1470,7 @@
         },
         {
           "hash_name": "n1i9ph766v9kbjs961j2aiw4qaagc1wj-json-c-0.18",
-          "nar_hash": "sha256-idMBTW5O0sfwOVDEnxffclqiangXBpXB5YnJrbFBFDQ=",
+          "nar_hash": "sha256:0d0l86qsvjc9wp0ra1hpg1ma4nkjvwbrzi2h77qcgljfdr6h3lw9",
           "nar_size": 256312,
           "references": [
             "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25"
@@ -1478,7 +1478,7 @@
         },
         {
           "hash_name": "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
-          "nar_hash": "sha256:0ypl8gla1lil5zqb5ib1pi8p7niwiq11mcvpmbfnypvnz4n1k2j2",
+          "nar_hash": "sha256-QooZLPl2X2/dqnezGgKOPNpzUbxhxbLwLzTSoOhD9Ho=",
           "nar_size": 35073128,
           "references": [
             "n51dhmdbik1kfrsm62j5knavmigwrl1a-glibc-2.42-84",
@@ -1497,7 +1497,7 @@
         },
         {
           "hash_name": "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
-          "nar_hash": "sha256:0l0mcrrkj3msvp6j9f4mhkpkc3i3xvhf1yx4brgs6q0wb6nrwhx6",
+          "nar_hash": "sha256-pkOerVkcYKNfXqT74ODuIw4274SVuCTN3boOOXNmFVA=",
           "nar_size": 368176,
           "references": [
             "nga9d6m9iplygw3iqghk2g840nz7b0gy-libidn2-2.3.8",
@@ -1707,7 +1707,7 @@
         },
         {
           "hash_name": "qmhksr7a5niv5kc2yslal3lq55inny75-p11-kit-0.26.2",
-          "nar_hash": "sha256-1zP0LyeNdzWKAvMLO4KLiJpgClDkalls8J2snitsXMs=",
+          "nar_hash": "sha256:1jswdhmrxb4xy1n5jsp4a05616l8if13n2zk0a53axwd4wpz8cyp",
           "nar_size": 6043352,
           "references": [
             "abk7a5mlrqgdmgg91a0mmxq2hv1v9jid-libtasn1-4.21.0",
@@ -1810,7 +1810,7 @@
         },
         {
           "hash_name": "s7306mp3pdbw8xx2gicsqvyganjhsywp-elfutils-0.195",
-          "nar_hash": "sha256-idbsGooEBN+pyYpShT+VDssQnvaSsXqASZC0bWN/vY0=",
+          "nar_hash": "sha256:13dxgxinvd4h9607mccjysg11jqfjlzqallar6lxy104i8dfrml9",
           "nar_size": 4324160,
           "references": [
             "36alc2mwna4nzf6djdj2hvh4w4r3cai5-curl-8.22.0",
@@ -1849,7 +1849,7 @@
         },
         {
           "hash_name": "ssvq1r0xd8f7paf6zqgpfql1a4drwhy2-xgcc-15.3.0-libgcc",
-          "nar_hash": "sha256:1bvhsl1iqnbbgmxgp2hi0j8nj5ip5n6h6m2awanbnhwrl8fazjvh",
+          "nar_hash": "sha256-cMuvHKKZQ7us4kpUA40tNxZpkQQRivt6fWtZHAPVcK8=",
           "nar_size": 197672,
           "references": []
         },
@@ -1975,7 +1975,7 @@
         },
         {
           "hash_name": "wi6kaycsa2479qrxv9xy6yg3q5ggfs6j-gcc-15.3.0-libgcc",
-          "nar_hash": "sha256:06nm4cbrlaysrb1iv8qa1j1aah3bi4zpr2r4pfiik4537qb45qxl",
+          "nar_hash": "sha256-tONCFj6jkBmjuySLfD+Ja0ClggwKox3Dytormhcj1Ro=",
           "nar_size": 197752,
           "references": []
         },
@@ -1996,7 +1996,7 @@
         },
         {
           "hash_name": "wx1y0adli2qggk81pm4marx3km1scqxg-libxcrypt-4.5.2",
-          "nar_hash": "sha256:0q46pm0if7jlc9r2v7bk2jj32gzy93mzs9fv20m99flxw0x0q4r4",
+          "nar_hash": "sha256-JBMMOuCdupQqENsl/etI/j8xpBRznS1yYlQeF0G9hmA=",
           "nar_size": 152544,
           "references": [
             "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
@@ -2228,7 +2228,7 @@
         },
         {
           "hash_name": "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2",
-          "nar_hash": "sha256:178xz8sz0llzvvx7zc6zhqyhdv4d6n621g6yxmxhiabma9bwb14s",
+          "nar_hash": "sha256-moTFV1J1qQh77d68IIw1jewGPYbfsH/63p9S8DX6HZ0=",
           "nar_size": 2078944,
           "references": [
             "yh8rykx8wakl1ccn8rc351f6r2wbg4cn-libunistring-1.4.2"
@@ -2290,7 +2290,7 @@
         },
         {
           "hash_name": "z7j20jl3wdi418wbajrbximy6j472y2j-gmp-with-cxx-6.3.0",
-          "nar_hash": "sha256:1hb5l3dvlsxdgxl2lyp10ps5jf5ql1yvn71a9hlzk47mx9bah79n",
+          "nar_hash": "sha256-Nh2oVur1kPkpTCocu32guDhZ9AXheipof61rutugZcE=",
           "nar_size": 787528,
           "references": [
             "h4wfwic161kxrr74jlzla5lsm28hgary-glibc-2.44-25",
