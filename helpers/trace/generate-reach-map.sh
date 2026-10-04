@@ -13,7 +13,7 @@
 #
 # Usage: helpers/trace/generate-reach-map.sh [unit] [medium] [e2e]   (default: all, from
 #        scratch; named phases re-record their specs into the last run's maps)
-# Env:   JOBS (parallel unit specs, default 4) · ENACT (enact binary) · SETTLE (seconds
+# Env:   JOBS (parallel unit specs, default 4) · ENACT (default bin/enact) · SETTLE (seconds
 #        the server gets to finish a spec's queued jobs, default 2) · ONLY (regex: trace
 #        only the matching specs, for a quick check)
 set -euo pipefail
@@ -21,7 +21,9 @@ set -euo pipefail
 ROOT=$(git rev-parse --show-toplevel)
 cd "$ROOT"
 TRACE=helpers/trace
-ENACT=${ENACT:-enact}
+# The checkout's own enact (the one CI runs), not whichever is on PATH: an older one
+# records traces without the current map's fields.
+ENACT=${ENACT:-$ROOT/bin/enact}
 JOBS=${JOBS:-4}
 SETTLE=${SETTLE:-2}
 WORK=$ROOT/.enact/cache/trace-work
@@ -66,9 +68,9 @@ trace_suite() {
   specs "$glob" | xargs -P "$jobs" -I{} bash -c 'trace_spec "$@"' _ "$dir" {}
 }
 
-# services_up <service>: starts it and its dependencies in the background.
+# services_up <service...>: starts them and their dependencies in the background.
 services_up() {
-  enve up --locked -q "$1" >"$WORK/logs/services-$1.log" 2>&1 &
+  enve up --locked -q "$@" >"$WORK/logs/services-$1.log" 2>&1 &
   SERVICES=$!
   trap services_down EXIT
 }
@@ -142,10 +144,19 @@ phase_e2e() {
   COVERAGE=$WORK/coverage
   rm -rf "$COVERAGE" "$WORK/windows"
   mkdir -p "$COVERAGE"
-  NODE_V8_COVERAGE=$COVERAGE NODE_OPTIONS="--require $ROOT/$TRACE/coverage-hook.cjs" services_up immich-server
+  # The e2e job's services: the oauth specs sign in at e2e-auth-server. Only the server's
+  # processes get SIGUSR2; the provider writes its coverage at exit, after the last window.
+  NODE_V8_COVERAGE=$COVERAGE NODE_OPTIONS="--require $ROOT/$TRACE/coverage-hook.cjs" \
+    services_up immich-server e2e-auth-server
   await immich-server curl -sf http://127.0.0.1:2285/api/server/ping
+  await e2e-auth-server bash -c 'exec 3<>/dev/tcp/127.0.0.1/2286'
+  # Files written before the first SIGUSR2 came from processes and threads that exited
+  # during start-up (build checks, boot-time workers): start-up coverage, kept in the boot
+  # window, but not threads that answer the signal.
+  local exited
+  exited=$(coverage_files "$COVERAGE")
   take_window 000-boot
-  THREADS=$(coverage_files "$WORK/windows/000-boot")
+  THREADS=$(($(coverage_files "$WORK/windows/000-boot") - exited))
   echo "📡 server ready: $THREADS coverage threads"
 
   local i=0 spec
@@ -175,7 +186,7 @@ for phase in "${PHASES[@]}"; do
 done
 
 MAP=$WORK/trace-reach.json
-enve run --locked -q -- node "$TRACE/reach-map.mjs" merge "$MAP" "$WORK"/maps/*.json
+"$ENACT" trace pack "$WORK"/maps/*.json -o "$MAP"
 if [ -d "$WORK/windows" ]; then
   enve run --locked -q -- node "$TRACE/reach-map.mjs" coverage "$MAP" "$WORK/windows"
 fi

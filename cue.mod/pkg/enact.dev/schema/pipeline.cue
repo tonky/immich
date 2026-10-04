@@ -229,6 +229,19 @@ package schema
 #Analysis: {
 	dependencies?: #DependencyRules
 	python?:       #PythonAnalysis
+	// Files a build writes (git-ignored, never in a diff) and the sources it reads: a
+	// change to one of `inputs` reaches every traced test that read one of `outputs`.
+	derived?: [...#DerivedOutputs]
+}
+
+#DerivedOutputs: {
+	// Repository-relative globs (`*` stops at `/`, `**` doesn't). `outputs` is not empty,
+	// nor are both `inputs` and `layout`.
+	outputs: [...string]
+	inputs?: [...string]
+	// Files whose addition or deletion (not edit) rebuilds the outputs: a generator that
+	// lists them (file-based routes), so editing one reaches only its own readers.
+	layout?: [...string]
 }
 
 #DependencyRules: {
