@@ -3,13 +3,15 @@
 # view.sh - Runs a command in a container's filesystem view, without containers
 # ==============================================================================
 # The host's root (every top-level directory bound in place) plus the container's own
-# paths from helpers/container/<name>.mounts, under bubblewrap: the server sees
+# paths from helpers/container/<name>.mounts and its network's names from <name>.hosts,
+# under bubblewrap: the server sees
 # /test-assets and /data as in upstream's compose, and `docker exec`/`docker cp`
 # (path/docker) reach the same files. Network, processes and user stay the host's.
 #
 # On GitHub's runners the runner is the container: a disposable VM with passwordless
 # sudo, no bubblewrap, and user namespaces restricted by AppArmor. The same paths are
-# bind-mounted onto its root once per job, and the command runs directly.
+# bind-mounted onto its root and the names added to its /etc/hosts once per job, and the
+# command runs directly.
 #
 # Usage: helpers/container/view.sh <container> <command> [args...]
 set -euo pipefail
@@ -19,25 +21,41 @@ shift
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 STATE="$REPO_ROOT/.enve/containers/$name"
 MOUNTS="$REPO_ROOT/helpers/container/$name.mounts"
+HOSTS="$REPO_ROOT/helpers/container/$name.hosts"
 [ -f "$MOUNTS" ] || { echo "❌ [container] no mounts for $name ($MOUNTS)" >&2; exit 1; }
+
+# entries <file>: its lines without comments and blank lines.
+entries() {
+  local line
+  while read -r line; do
+    case "$line" in '' | '#'*) continue ;; esac
+    echo "$line"
+  done < "$1"
+}
 
 # The mounts file, as host/container path pairs.
 mounts=()
 while read -r host path; do
   case "$host" in
-    '' | '#'*) continue ;;
     state/*) host="$STATE/${host#state/}" ;;
     *) host="$REPO_ROOT/$host" ;;
   esac
   mkdir -p "$host"
   mounts+=("$host" "$path")
-done < "$MOUNTS"
+done < <(entries "$MOUNTS")
+
+hosts=()
+[ ! -f "$HOSTS" ] || mapfile -t hosts < <(entries "$HOSTS")
 
 if [ "${GITHUB_ACTIONS:-}" = true ]; then
   for ((i = 0; i < ${#mounts[@]}; i += 2)); do
     mountpoint -q "${mounts[i + 1]}" && continue
-    sudo -n mkdir -p "${mounts[i + 1]}"
+    # A path inside an earlier mount is the user's own directory.
+    mkdir -p "${mounts[i + 1]}" 2>/dev/null || sudo -n mkdir -p "${mounts[i + 1]}"
     sudo -n mount --bind "${mounts[i]}" "${mounts[i + 1]}"
+  done
+  for entry in "${hosts[@]}"; do
+    grep -qxF "$entry" /etc/hosts || echo "$entry" | sudo -n tee -a /etc/hosts >/dev/null
   done
   exec "$@"
 fi
@@ -55,5 +73,9 @@ args+=(--dev-bind /dev /dev --proc /proc --bind /tmp /tmp)
 for ((i = 0; i < ${#mounts[@]}; i += 2)); do
   args+=(--bind "${mounts[i]}" "${mounts[i + 1]}")
 done
+if [ ${#hosts[@]} -gt 0 ]; then
+  { cat /etc/hosts; printf '%s\n' "${hosts[@]}"; } > "$STATE/hosts"
+  args+=(--ro-bind "$STATE/hosts" /etc/hosts)
+fi
 
 exec bwrap "${args[@]}" --die-with-parent --chdir "$PWD" -- "$@"

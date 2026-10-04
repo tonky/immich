@@ -3,8 +3,8 @@
 # start-immich-server.sh - Service Launcher for the Immich Backend Server
 # ==============================================================================
 # Runs the real server the e2e suite talks to, as upstream's docker-compose does:
-# builds server/dist when missing, provisions geodata, then execs node. It never
-# substitutes a stand-in: a server that cannot start fails its readiness probe.
+# builds server/dist and web/build when missing, provisions geodata, then execs node. It
+# never substitutes a stand-in: a server that cannot start fails its readiness probe.
 set -euo pipefail
 
 if [ ! -d node_modules ]; then
@@ -16,6 +16,13 @@ if [ ! -f server/dist/main.js ]; then
   # `immich...` builds the server's workspace deps first (sdk, plugin-sdk), like its Dockerfile.
   echo "🔨 [immich-server] building server/dist..."
   pnpm --filter 'immich...' run build
+fi
+
+if [ ! -f web/build/index.html ]; then
+  # The image's /build/www (helpers/container/immich-e2e-server.mounts): shared-link pages
+  # render from its index.html. `immich-web...` builds the sdk first, as its Dockerfile stage.
+  echo "🔨 [immich-server] building web/build..."
+  pnpm --filter 'immich-web...' run build
 fi
 
 # Video thumbnails and probes with upstream's pinned jellyfin-ffmpeg; the image's
