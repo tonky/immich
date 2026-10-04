@@ -8,10 +8,8 @@
 # /test-assets and /data as in upstream's compose, and `docker exec`/`docker cp`
 # (path/docker) reach the same files. Network, processes and user stay the host's.
 #
-# On GitHub's runners the runner is the container: a disposable VM with passwordless
-# sudo, no bubblewrap, and user namespaces restricted by AppArmor. The same paths are
-# bind-mounted onto its root and the names added to its /etc/hosts once per job, and the
-# command runs directly.
+# The same on GitHub's runners: the repository's bin/bwrap is on PATH and the CI setup
+# lifts their AppArmor restriction on user namespaces.
 #
 # Usage: helpers/container/view.sh <container> <command> [args...]
 set -euo pipefail
@@ -46,19 +44,6 @@ done < <(entries "$MOUNTS")
 
 hosts=()
 [ ! -f "$HOSTS" ] || mapfile -t hosts < <(entries "$HOSTS")
-
-if [ "${GITHUB_ACTIONS:-}" = true ]; then
-  for ((i = 0; i < ${#mounts[@]}; i += 2)); do
-    mountpoint -q "${mounts[i + 1]}" && continue
-    # A path inside an earlier mount is the user's own directory.
-    mkdir -p "${mounts[i + 1]}" 2>/dev/null || sudo -n mkdir -p "${mounts[i + 1]}"
-    sudo -n mount --bind "${mounts[i]}" "${mounts[i + 1]}"
-  done
-  for entry in "${hosts[@]}"; do
-    grep -qxF "$entry" /etc/hosts || echo "$entry" | sudo -n tee -a /etc/hosts >/dev/null
-  done
-  exec "$@"
-fi
 
 args=(--tmpfs /)
 for dir in /*; do

@@ -34,7 +34,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   GOCACHE: /tmp/go-build
   GOPATH: /tmp/go
-  UV_CACHE_DIR: /tmp/.cache/uv
+  UV_CACHE_DIR: ${{ vars.ENACT_UV_CACHE_DIR || '/tmp/.cache/uv' }}
   XDG_CACHE_HOME: /tmp/.cache
 jobs:
   check-and-lint:
@@ -100,7 +100,7 @@ jobs:
         fi
         BIN_DIR="${GITHUB_WORKSPACE:-$PWD}/bin"
         if [ -d "$BIN_DIR" ]; then
-          for b in enact enve; do
+          for b in enact enve bwrap; do
             if [ -f "$BIN_DIR/$b" ]; then
               cp -f "$BIN_DIR/$b" "$HOME/.cargo/bin/" 2>/dev/null || true
               chmod +x "$HOME/.cargo/bin/$b" "$BIN_DIR/$b" 2>/dev/null || true
@@ -110,8 +110,18 @@ jobs:
         fi
         echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
         export PATH="$BIN_DIR:$HOME/.cargo/bin:$PATH"
-        # Host aliases from enve.cue (default profile): enve maps them inside its sandbox only.
-        if command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
+        # Isolation as on a Linux workstation: with bubblewrap on PATH (e.g. the repository's
+        # bin/bwrap), enve sandboxes commands and services and maps the profile's hosts inside.
+        # GitHub's Ubuntu runners restrict unprivileged user namespaces (AppArmor), which bwrap
+        # needs; the VM is disposable, so lift that. Without a working bwrap, enve runs on the host:
+        # its profile's host aliases go to the runner's /etc/hosts instead.
+        if command -v bwrap >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 \
+          && [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+          sudo sysctl -q -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+        fi
+        if command -v bwrap >/dev/null 2>&1 && bwrap --bind / / true 2>/dev/null; then
+          echo "enve isolation: $(bwrap --version)"
+        elif command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
           enve cue export -q -e profiles.dev.hosts enve.cue 2>/dev/null \
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
@@ -442,7 +452,7 @@ jobs:
         fi
         BIN_DIR="${GITHUB_WORKSPACE:-$PWD}/bin"
         if [ -d "$BIN_DIR" ]; then
-          for b in enact enve; do
+          for b in enact enve bwrap; do
             if [ -f "$BIN_DIR/$b" ]; then
               cp -f "$BIN_DIR/$b" "$HOME/.cargo/bin/" 2>/dev/null || true
               chmod +x "$HOME/.cargo/bin/$b" "$BIN_DIR/$b" 2>/dev/null || true
@@ -452,8 +462,18 @@ jobs:
         fi
         echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
         export PATH="$BIN_DIR:$HOME/.cargo/bin:$PATH"
-        # Host aliases from enve.cue (default profile): enve maps them inside its sandbox only.
-        if command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
+        # Isolation as on a Linux workstation: with bubblewrap on PATH (e.g. the repository's
+        # bin/bwrap), enve sandboxes commands and services and maps the profile's hosts inside.
+        # GitHub's Ubuntu runners restrict unprivileged user namespaces (AppArmor), which bwrap
+        # needs; the VM is disposable, so lift that. Without a working bwrap, enve runs on the host:
+        # its profile's host aliases go to the runner's /etc/hosts instead.
+        if command -v bwrap >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 \
+          && [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+          sudo sysctl -q -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+        fi
+        if command -v bwrap >/dev/null 2>&1 && bwrap --bind / / true 2>/dev/null; then
+          echo "enve isolation: $(bwrap --version)"
+        elif command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
           enve cue export -q -e profiles.dev.hosts enve.cue 2>/dev/null \
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
@@ -598,7 +618,7 @@ jobs:
         fi
         BIN_DIR="${GITHUB_WORKSPACE:-$PWD}/bin"
         if [ -d "$BIN_DIR" ]; then
-          for b in enact enve; do
+          for b in enact enve bwrap; do
             if [ -f "$BIN_DIR/$b" ]; then
               cp -f "$BIN_DIR/$b" "$HOME/.cargo/bin/" 2>/dev/null || true
               chmod +x "$HOME/.cargo/bin/$b" "$BIN_DIR/$b" 2>/dev/null || true
@@ -608,8 +628,18 @@ jobs:
         fi
         echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
         export PATH="$BIN_DIR:$HOME/.cargo/bin:$PATH"
-        # Host aliases from enve.cue (default profile): enve maps them inside its sandbox only.
-        if command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
+        # Isolation as on a Linux workstation: with bubblewrap on PATH (e.g. the repository's
+        # bin/bwrap), enve sandboxes commands and services and maps the profile's hosts inside.
+        # GitHub's Ubuntu runners restrict unprivileged user namespaces (AppArmor), which bwrap
+        # needs; the VM is disposable, so lift that. Without a working bwrap, enve runs on the host:
+        # its profile's host aliases go to the runner's /etc/hosts instead.
+        if command -v bwrap >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 \
+          && [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+          sudo sysctl -q -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+        fi
+        if command -v bwrap >/dev/null 2>&1 && bwrap --bind / / true 2>/dev/null; then
+          echo "enve isolation: $(bwrap --version)"
+        elif command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
           enve cue export -q -e profiles.dev.hosts enve.cue 2>/dev/null \
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
@@ -688,7 +718,7 @@ jobs:
         fi
         BIN_DIR="${GITHUB_WORKSPACE:-$PWD}/bin"
         if [ -d "$BIN_DIR" ]; then
-          for b in enact enve; do
+          for b in enact enve bwrap; do
             if [ -f "$BIN_DIR/$b" ]; then
               cp -f "$BIN_DIR/$b" "$HOME/.cargo/bin/" 2>/dev/null || true
               chmod +x "$HOME/.cargo/bin/$b" "$BIN_DIR/$b" 2>/dev/null || true
@@ -698,8 +728,18 @@ jobs:
         fi
         echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
         export PATH="$BIN_DIR:$HOME/.cargo/bin:$PATH"
-        # Host aliases from enve.cue (default profile): enve maps them inside its sandbox only.
-        if command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
+        # Isolation as on a Linux workstation: with bubblewrap on PATH (e.g. the repository's
+        # bin/bwrap), enve sandboxes commands and services and maps the profile's hosts inside.
+        # GitHub's Ubuntu runners restrict unprivileged user namespaces (AppArmor), which bwrap
+        # needs; the VM is disposable, so lift that. Without a working bwrap, enve runs on the host:
+        # its profile's host aliases go to the runner's /etc/hosts instead.
+        if command -v bwrap >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1 \
+          && [ "$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>/dev/null)" = 1 ]; then
+          sudo sysctl -q -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+        fi
+        if command -v bwrap >/dev/null 2>&1 && bwrap --bind / / true 2>/dev/null; then
+          echo "enve isolation: $(bwrap --version)"
+        elif command -v sudo >/dev/null 2>&1 && command -v enve >/dev/null 2>&1 && [ -f enve.cue ]; then
           enve cue export -q -e profiles.dev.hosts enve.cue 2>/dev/null \
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
@@ -724,19 +764,19 @@ jobs:
           restore-keys: ${{ runner.os }}-enact-tasks-
       - name: Restore Python build & venv cache
         id: python_l1_cache
-        if: hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python'))
+        if: hashFiles('**/pyproject.toml', '**/requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python')) && vars.ENACT_UV_CACHE_DIR == ''
         continue-on-error: true
         uses: actions/cache/restore@v6
         with:
           key: ${{ runner.os }}-python-${{ hashFiles('**/uv.lock', '**/pyproject.toml', '**/requirements.txt', '**/poetry.lock') }}
           path: |-
-            /tmp/.cache/uv
+            ${{ env.UV_CACHE_DIR }}
             ~/.cache/uv
             ~/.cache/pip
           restore-keys: ${{ runner.os }}-python-
       - name: Restore Go build cache
         id: go_l1_cache
-        if: hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go'))
+        if: hashFiles('**/go.mod', '**/go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go'))
         continue-on-error: true
         uses: actions/cache/restore@v6
         with:
@@ -747,7 +787,7 @@ jobs:
           restore-keys: ${{ runner.os }}-go-
       - name: Restore Rust target & cargo cache
         id: rust_l1_cache
-        if: hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust'))
+        if: hashFiles('**/Cargo.toml', '**/Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust'))
         continue-on-error: true
         uses: actions/cache/restore@v6
         with:
@@ -914,19 +954,19 @@ jobs:
           .enact/telemetry.json
           .enact/summary.html
         retention-days: "1"
+    - name: Save Python build & venv cache
+      if: (!cancelled() && vars.ENACT_UV_CACHE_DIR == '' && (success() || steps.python_install.outcome == 'success') && ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('**/pyproject.toml', '**/requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python')) && vars.ENACT_UV_CACHE_DIR == '' && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1'))) && steps.python_l1_cache.outputs.cache-hit != 'true'
+      continue-on-error: true
+      uses: actions/cache/save@v6
+      with:
+        key: ${{ steps.python_l1_cache.outputs.cache-primary-key }}
+        path: |-
+          ${{ env.UV_CACHE_DIR }}
+          ~/.cache/uv
+          ~/.cache/pip
     - parallel:
-      - name: Save Python build & venv cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('pyproject.toml', 'requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.python_l1_cache.outputs.cache-hit != 'true'
-        continue-on-error: true
-        uses: actions/cache/save@v6
-        with:
-          key: ${{ steps.python_l1_cache.outputs.cache-primary-key }}
-          path: |-
-            /tmp/.cache/uv
-            ~/.cache/uv
-            ~/.cache/pip
       - name: Save Go build cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('go.mod', 'go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.go_l1_cache.outputs.cache-hit != 'true'
+        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('**/go.mod', '**/go.sum') != '' && (matrix.technology == '' || contains(matrix.technology, 'go')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.go_l1_cache.outputs.cache-hit != 'true'
         continue-on-error: true
         uses: actions/cache/save@v6
         with:
@@ -935,7 +975,7 @@ jobs:
             /tmp/go-build
             /tmp/go/pkg/mod
       - name: Save Rust target & cargo cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('Cargo.toml', 'Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.rust_l1_cache.outputs.cache-hit != 'true'
+        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('**/Cargo.toml', '**/Cargo.lock') != '' && (matrix.technology == '' || contains(matrix.technology, 'rust')) && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1')) && steps.rust_l1_cache.outputs.cache-hit != 'true'
         continue-on-error: true
         uses: actions/cache/save@v6
         with:
