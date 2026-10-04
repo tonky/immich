@@ -84,7 +84,8 @@ profiles: dev: schema.#Profile & {
 				IMMICH_IGNORE_MOUNT_CHECK_ERRORS: "true"
 			}
 			readinessProbe: {
-				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:2285/api/server/ping || exit 1"
+				// The API answers and the worker has imported geodata (the script says why).
+				command: "sh -c helpers/immich-server-ready.sh"
 				port:    2285
 				// Headroom for building server/dist and web/build, fetching or building
 				// helpers/server-image (node, vips, sharp) and running migrations on a cold runner.
