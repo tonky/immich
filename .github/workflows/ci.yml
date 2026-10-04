@@ -384,6 +384,7 @@ jobs:
         path: |-
           .enact/telemetry.json
           .enact/summary.html
+          .enact/runs/*/services/*.log
         retention-days: "1"
   detect:
     name: Detect Affected Components
@@ -953,6 +954,7 @@ jobs:
         path: |-
           .enact/telemetry.json
           .enact/summary.html
+          .enact/runs/*/services/*.log
         retention-days: "1"
     - name: Save Python build & venv cache
       if: (!cancelled() && vars.ENACT_UV_CACHE_DIR == '' && (success() || steps.python_install.outcome == 'success') && ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && hashFiles('**/pyproject.toml', '**/requirements.txt') != '' && (matrix.technology == '' || contains(matrix.technology, 'python')) && vars.ENACT_UV_CACHE_DIR == '' && (matrix.shard_index == '' || matrix.shard_index == 1 || matrix.shard_index == '1'))) && steps.python_l1_cache.outputs.cache-hit != 'true'
