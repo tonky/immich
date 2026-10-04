@@ -265,6 +265,20 @@ pipeline: schema.#Pipeline & {
 			}
 		}
 
+		// The oauth specs' provider (the e2e-auth-server service); upstream runs no checks
+		// of its own.
+		e2e_auth_server: {
+			name:  "@immich/e2e-auth-server"
+			title: "Immich e2e OAuth Provider"
+			root:  "packages/e2e-auth-server"
+			watch_paths: ["packages/e2e-auth-server/**"]
+			depends_on: [components.root]
+			workspace_scope: {
+				include_dependencies: true
+				include: ["packages/e2e-auth-server"]
+			}
+		}
+
 		sdk: {
 			name:  "@immich/sdk"
 			title: "Immich OpenAPI Generated TypeScript SDK"
@@ -354,14 +368,16 @@ pipeline: schema.#Pipeline & {
 			title: "Immich End-to-End Full Stack Integration"
 			root:  "e2e"
 			watch_paths: ["e2e/**"]
-			// Its server runs the core plugin, as the image ships it (start-immich-server.sh).
-			depends_on: [components.server, components.cli, components.plugin_core]
+			// Its server runs the core plugin and serves the web build, as the image ships
+			// them (start-immich-server.sh); the oauth specs sign in at e2e-auth-server.
+			depends_on: [components.server, components.cli, components.plugin_core, components.web, components.e2e_auth_server]
 			// The server specs run against the real server with machine learning
 			// disabled, as upstream's docker-compose does.
 			services: [
 				immich.services.postgres,
 				immich.services.valkey,
 				immich.services["immich-server"],
+				immich.services["e2e-auth-server"],
 			]
 			workspace_scope: {
 				include_dependencies: true

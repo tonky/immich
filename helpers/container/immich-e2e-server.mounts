@@ -8,3 +8,5 @@ e2e/test-assets  /test-assets
 state/data       /data
 # the image's build data (IMMICH_BUILD_DATA defaults to /build): geodata, plugins
 state/build      /build
+# the image's web build (`COPY --from=web /usr/src/app/web/build /build/www`)
+web/build        /build/www

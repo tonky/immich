@@ -7,8 +7,8 @@
   "platforms": {
     "aarch64-darwin": {
       "binding": {
-        "environment_sha256": "74ba2b90d6ace2c6b899de83663435ce120d19d87c941b68b06a0b1fb441cef4",
-        "inventory_sha256": "9d9c3efaee46ca36279d1c3a2c81d23e62148f275c7cf57e7361caa45cb413eb",
+        "environment_sha256": "2f979c967ecbb475b285e7004252de498c75460812c6b85b9d29487d4008025a",
+        "inventory_sha256": "87cd05f2ba8e6c3de932b45c8c51a941aa253849e1c6ab1c4397a41c807896d6",
         "profile": null,
         "version": 1
       },
@@ -20,6 +20,12 @@
         "DB_PORT": "5435",
         "DB_USERNAME": "postgres",
         "DOCKER_HOST": "unix:///nonexistent/enact-runs-no-containers.sock",
+        "E2E_AUTH_SERVER_HOST": "127.0.0.1",
+        "E2E_AUTH_SERVER_PORT": "2286",
+        "E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_HOST": "127.0.0.1",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_PORT": "2286",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
         "ENVE_SERVICE_IMMICH_ML_HOST": "127.0.0.1",
         "ENVE_SERVICE_IMMICH_ML_PORT": "3003",
         "ENVE_SERVICE_IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -94,8 +100,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "74ba2b90d6ace2c6b899de83663435ce120d19d87c941b68b06a0b1fb441cef4",
-        "inventory_sha256": "91720258fb140a3b41712a9c3566cf68df7d61ca6cef543d9815da253b4bdd0a",
+        "environment_sha256": "2f979c967ecbb475b285e7004252de498c75460812c6b85b9d29487d4008025a",
+        "inventory_sha256": "1f9c6f8a07ca25a43c6ebc78a12a5c69e8d669c926d9ad2dabb249668225a8a8",
         "profile": null,
         "version": 1
       },
@@ -2872,6 +2878,12 @@
         "DB_PORT": "5435",
         "DB_USERNAME": "postgres",
         "DOCKER_HOST": "unix:///nonexistent/enact-runs-no-containers.sock",
+        "E2E_AUTH_SERVER_HOST": "127.0.0.1",
+        "E2E_AUTH_SERVER_PORT": "2286",
+        "E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_HOST": "127.0.0.1",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_PORT": "2286",
+        "ENVE_SERVICE_E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
         "ENVE_SERVICE_IMMICH_ML_HOST": "127.0.0.1",
         "ENVE_SERVICE_IMMICH_ML_PORT": "3003",
         "ENVE_SERVICE_IMMICH_ML_URL": "http://127.0.0.1:3003",
