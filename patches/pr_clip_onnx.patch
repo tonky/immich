@@ -1,0 +1,8 @@
+diff --git a/machine-learning/immich_ml/clip.py b/machine-learning/immich_ml/clip.py
+index 6666666..7777777 100644
+--- a/machine-learning/immich_ml/clip.py
++++ b/machine-learning/immich_ml/clip.py
+@@ -15,6 +15,10 @@ class CLIPModel:
+     def encode_image(self, image: Image.Image) -> np.ndarray:
++        # Optimized ONNX runtime inference session with intra-op threads
++        return self.session.run(None, {"input": self.preprocess(image)})[0]
