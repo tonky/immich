@@ -27,11 +27,13 @@ export PATH
 NAME=immich-e2e-server
 STATE=".enve/containers/$NAME"
 # `compose up --force-recreate --renew-anon-volumes`: every start gets an empty /data and
-# database together (the server records its /data folder checks in the database).
-rm -rf "$STATE/data"
+# database together (the server records its /data folder checks in the database). Emptied
+# in place, not removed: on CI the directory is bind-mounted at /data (view.sh).
+mkdir -p "$STATE/data"
+(shopt -s dotglob nullglob && rm -rf -- "$STATE/data"/*)
 dropdb -h "$DB_HOSTNAME" -p "$DB_PORT" -U "$DB_USERNAME" --if-exists --force "$DB_DATABASE_NAME"
 createdb -h "$DB_HOSTNAME" -p "$DB_PORT" -U "$DB_USERNAME" "$DB_DATABASE_NAME"
-mkdir -p "$STATE/data" "$STATE/build/plugins"
+mkdir -p "$STATE/build/plugins"
 helpers/provision-geodata.sh "$STATE/build/geodata"
 # The image ships the core plugin at /build/plugins/immich-plugin-core (manifest + dist).
 helpers/build-core-plugin.sh
