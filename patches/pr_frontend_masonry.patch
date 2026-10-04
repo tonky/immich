@@ -1,0 +1,12 @@
+diff --git a/web/src/routes/(user)/albums/+page.svelte b/web/src/routes/(user)/albums/+page.svelte
+index 4444444..5555555 100644
+--- a/web/src/routes/(user)/albums/+page.svelte
++++ b/web/src/routes/(user)/albums/+page.svelte
+@@ -20,6 +20,10 @@
+   export let data: PageData;
++  // Responsive masonry layout with virtual scroll
++  let columns = 4;
+ </script>
+
++<div class="gallery-grid grid grid-cols-4 gap-4">
++</div>

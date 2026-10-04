@@ -42,13 +42,12 @@ helpers/provision-geodata.sh "$STATE/build/geodata"
 helpers/build-core-plugin.sh
 ln -sfn "$PWD/packages/plugin-core" "$STATE/build/plugins/immich-plugin-core"
 
-# HEIC, JXL and RAW, as the image's libvips decodes them: the server's sharp is nixpkgs'
-# immich's, on node from the same nixpkgs (helpers/store-sharp.sh), until sharp builds
-# from source here. Set last: the builds above run on the dev profile's node.
-store=$(helpers/store-sharp.sh)
-IMMICH_SHARP_PATH=${store#*$'\n'}
-NODE_OPTIONS="--require $PWD/helpers/store-sharp.cjs${NODE_OPTIONS:+ $NODE_OPTIONS}"
-PATH="${store%%$'\n'*}:$PATH"
+# The image's node and sharp (libvips with HEIC, JXL and RAW): helpers/server-image.sh.
+# Set last: the builds above run on the dev profile's node.
+image=$(helpers/server-image.sh)
+IMMICH_SHARP_PATH=${image#*$'\n'}
+NODE_OPTIONS="--require $PWD/helpers/server-image.cjs${NODE_OPTIONS:+ $NODE_OPTIONS}"
+PATH="${image%%$'\n'*}:$PATH"
 export IMMICH_SHARP_PATH NODE_OPTIONS PATH
 # `docker exec` (helpers/container/path/docker) runs with the container's environment.
 env -0 > "$STATE/env"

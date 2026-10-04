@@ -86,8 +86,8 @@ profiles: dev: schema.#Profile & {
 			readinessProbe: {
 				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:2285/api/server/ping || exit 1"
 				port:    2285
-				// Headroom for building server/dist and web/build, fetching helpers/store-sharp's
-				// closure and running migrations on a cold runner.
+				// Headroom for building server/dist and web/build, fetching or building
+				// helpers/server-image (node, vips, sharp) and running migrations on a cold runner.
 				timeout: "300s"
 			}
 		}

@@ -1,0 +1,30 @@
+diff --git a/server/src/domain/smart-search/smart-search.service.ts b/server/src/domain/smart-search/smart-search.service.ts
+index 1111111..2222222 100644
+--- a/server/src/domain/smart-search/smart-search.service.ts
++++ b/server/src/domain/smart-search/smart-search.service.ts
+@@ -10,6 +10,12 @@ export class SmartSearchService {
+   async search(userId: string, query: string, limit = 100) {
++    // Optimized vector cosine similarity search with pgvector HNSW index
++    const embedding = await this.mlService.encodeText(query);
++    return this.repository.searchByEmbedding(userId, embedding, limit);
+   }
+ }
+diff --git a/server/src/infra/migrations/1700000000000-AddSmartSearchIndex.ts b/server/src/infra/migrations/1700000000000-AddSmartSearchIndex.ts
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/server/src/infra/migrations/1700000000000-AddSmartSearchIndex.ts
+@@ -0,0 +1,15 @@
++import { MigrationInterface, QueryRunner } from 'typeorm';
++
++export class AddSmartSearchIndex1700000000000 implements MigrationInterface {
++  public async up(queryRunner: QueryRunner): Promise<void> {
++    await queryRunner.query(
++      `CREATE INDEX IF NOT EXISTS "idx_smart_search_embedding_hnsw" ON "smart_search" USING hnsw ("embedding" vector_cosine_ops);`
++    );
++  }
++
++  public async down(queryRunner: QueryRunner): Promise<void> {
++    await queryRunner.query(`DROP INDEX IF EXISTS "idx_smart_search_embedding_hnsw";`);
++  }
++}
