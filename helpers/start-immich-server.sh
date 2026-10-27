@@ -21,14 +21,15 @@ helpers/build-if-stale.sh 'immich...' server/dist
 # translations come from ../i18n.
 helpers/build-if-stale.sh 'immich-web...' web/build i18n
 
-# Video thumbnails and probes with upstream's pinned jellyfin-ffmpeg; the image's
-# `ENV PATH=…:/usr/src/app/server/bin` (immich-admin, for `docker exec`).
-PATH="$(helpers/pinned-tool.sh jellyfin-ffmpeg):$PATH:$PWD/server/bin"
+# The image's `ENV PATH=…:/usr/src/app/server/bin` (immich-admin, for `docker exec`). Video
+# thumbnails and probes use upstream's pinned jellyfin-ffmpeg, on the profile's PATH.
+PATH="$PATH:$PWD/server/bin"
 export PATH
 
-# The compose's container, as helpers/container/immich-e2e-server.mounts lays it out.
+# The compose's container, as helpers/container/immich-e2e-server.mounts lays it out: one
+# per service instance (view.sh), so runs side by side each have their own /data.
 NAME=immich-e2e-server
-STATE=".enve/containers/$NAME"
+STATE=".enve/containers/$NAME${ENVE_INSTANCE:+.$ENVE_INSTANCE}"
 # `compose up --force-recreate --renew-anon-volumes`: every start gets an empty /data and
 # database together (the server records its /data folder checks in the database). Emptied
 # in place, not removed: on CI the directory is bind-mounted at /data (view.sh).

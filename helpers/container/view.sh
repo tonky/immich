@@ -17,7 +17,8 @@ set -euo pipefail
 name="${1:?usage: view.sh <container> <command> [args...]}"
 shift
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-STATE="$REPO_ROOT/.enve/containers/$name"
+# One container per service instance (ENVE_INSTANCE), as each instance runs its own server.
+STATE="$REPO_ROOT/.enve/containers/$name${ENVE_INSTANCE:+.$ENVE_INSTANCE}"
 MOUNTS="$REPO_ROOT/helpers/container/$name.mounts"
 HOSTS="$REPO_ROOT/helpers/container/$name.hosts"
 [ -f "$MOUNTS" ] || { echo "❌ [container] no mounts for $name ($MOUNTS)" >&2; exit 1; }

@@ -19,7 +19,8 @@ unsupported() {
 in_container() {
   local name="$1" env_file
   shift
-  env_file="$REPO_ROOT/.enve/containers/$name/env"
+  # The instance's container (view.sh): the specs run with their services' ENVE_INSTANCE.
+  env_file="$REPO_ROOT/.enve/containers/$name${ENVE_INSTANCE:+.$ENVE_INSTANCE}/env"
   [ -f "$env_file" ] || { echo "❌ docker (enact stand-in): container $name is not running" >&2; exit 1; }
   local vars
   mapfile -d '' vars < "$env_file"

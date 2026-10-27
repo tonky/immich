@@ -26,17 +26,21 @@ mkdir -p "$CACHE" "$TARGET"
 CACHE="$(cd "$CACHE" && pwd)" # the links below must not be relative
 fetch "$GEONAMES/admin1CodesASCII.txt" "$CACHE/admin1CodesASCII.txt"
 fetch "$GEONAMES/admin2Codes.txt" "$CACHE/admin2Codes.txt"
+fetch "$GEONAMES/countryInfo.txt" "$CACHE/countryInfo.txt"
 fetch "$NATURAL_EARTH" "$CACHE/ne_10m_admin_0_countries.geojson"
+# The archive goes outside the checkout: a server traced on a cold cache read it there, and
+# its footprint named a file gone once the import finished (`trace stale`: changed).
 if [ ! -s "$CACHE/cities500.txt" ]; then
-  fetch "$GEONAMES/cities500.zip" "$CACHE/cities500.zip"
+  zip_dir="$(mktemp -d)"
+  fetch "$GEONAMES/cities500.zip" "$zip_dir/cities500.zip"
   python3 -c 'import sys, zipfile; zipfile.ZipFile(sys.argv[1]).extract("cities500.txt", sys.argv[2])' \
-    "$CACHE/cities500.zip" "$CACHE"
-  rm -f "$CACHE/cities500.zip"
+    "$zip_dir/cities500.zip" "$CACHE"
+  rm -rf "$zip_dir"
 fi
 # The server re-imports geodata whenever this stamp differs from the one it recorded.
 [ -s "$CACHE/geodata-date.txt" ] || date -u +%Y-%m-%dT%H:%M:%S%z | tr -d '\n' > "$CACHE/geodata-date.txt"
 
-for f in admin1CodesASCII.txt admin2Codes.txt cities500.txt ne_10m_admin_0_countries.geojson geodata-date.txt; do
+for f in admin1CodesASCII.txt admin2Codes.txt countryInfo.txt cities500.txt ne_10m_admin_0_countries.geojson geodata-date.txt; do
   ln -sf "$CACHE/$f" "$TARGET/$f"
 done
 echo "✓ [geodata] ready in $TARGET"

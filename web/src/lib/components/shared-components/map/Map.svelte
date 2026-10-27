@@ -1,18 +1,17 @@
 <script lang="ts" module>
-  import mapboxRtlUrl from '@mapbox/mapbox-gl-rtl-text?url';
-  import { addProtocol, setRTLTextPlugin } from 'maplibre-gl';
+  import { addProtocol, setWorkerUrl } from 'maplibre-gl';
+  import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
   import { Protocol } from 'pmtiles';
 
   let protocol = new Protocol();
+  setWorkerUrl(workerUrl);
   void addProtocol('pmtiles', protocol.tile);
-  void setRTLTextPlugin(mapboxRtlUrl, true);
 </script>
 
 <script lang="ts">
   import { afterNavigate } from '$app/navigation';
   import OnEvents from '$lib/components/OnEvents.svelte';
   import { assetViewerManager } from '$lib/managers/asset-viewer-manager.svelte';
-  import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
   import MapSettingsModal from '$lib/modals/MapSettingsModal.svelte';
   import { mapSettings } from '$lib/stores/preferences.store';
   import { getAssetMediaUrl, handlePromiseError } from '$lib/utils';
@@ -48,6 +47,11 @@
     ScaleControl,
   } from 'svelte-maplibre';
   import type { SelectionBBox } from './types';
+  import { createPreloadedQuery } from '$lib/queries/client';
+  import { getPublicConfigQuery } from '$lib/queries/config-public.query';
+
+  const query = createPreloadedQuery(getPublicConfigQuery);
+  const publicConfig = $derived(query.data);
 
   interface Props {
     mapMarkers?: MapMarkerResponseDto[];
@@ -111,9 +115,7 @@
   let abortController: AbortController;
 
   const mapTheme = $derived($mapSettings.allowDarkMode ? themeManager.value : Theme.Light);
-  const styleUrl = $derived(
-    mapTheme === Theme.Dark ? serverConfigManager.value.mapDarkStyleUrl : serverConfigManager.value.mapLightStyleUrl,
-  );
+  const styleUrl = $derived(mapTheme === Theme.Dark ? publicConfig.map.darkStyle : publicConfig.map.lightStyle);
 
   export function addClipMapMarker(lng: number, lat: number) {
     if (!map) {
@@ -400,7 +402,7 @@
             <Control position="top-left">
               <ControlGroup>
                 <ControlButton onclick={() => (viewportGridActive ? onViewportClose?.() : handleViewportSelect())}>
-                  <Icon title={$t('show_photos_in_area')} icon={mdiImageMultiple} size="100%" class="text-black/80" />
+                  <Icon title={$t('show_photos_in_area')} icon={mdiImageMultiple} size="70%" class="text-black/80" />
                 </ControlButton>
               </ControlGroup>
             </Control>
@@ -414,7 +416,7 @@
         <Control>
           <ControlGroup>
             <ControlButton onclick={handleSettingsClick}>
-              <Icon icon={mdiCog} size="100%" class="text-black/80" />
+              <Icon icon={mdiCog} size="70%" class="text-black/80" />
             </ControlButton>
           </ControlGroup>
         </Control>

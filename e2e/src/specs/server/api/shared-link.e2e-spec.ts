@@ -7,9 +7,9 @@ import {
   createAlbum,
   deleteUserAdmin,
 } from '@immich/sdk';
-import { createUserDto, uuidDto } from 'src/fixtures';
-import { errorDto } from 'src/responses';
-import { app, asBearerAuth, baseUrl, shareUrl, utils } from 'src/utils';
+import { createUserDto, uuidDto } from 'src/fixtures.js';
+import { errorDto } from 'src/responses.js';
+import { app, asBearerAuth, baseUrl, shareUrl, utils } from 'src/utils.js';
 import request from 'supertest';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -106,7 +106,7 @@ describe('/shared-links', () => {
       const resp = await request(shareUrl).get(`/${linkWithAssets.key}`);
       expect(resp.status).toBe(200);
       expect(resp.header['content-type']).toContain('text/html');
-      expect(resp.text).toContain(`<meta property="og:image" content="http://127.0.0.1:2285`);
+      expect(resp.text).toContain(`<meta property="og:image" content="${baseUrl}`);
     });
 
     it('should fall back to my.immich.app og:image meta tag for shared asset if Host header is not present', async () => {
@@ -204,6 +204,13 @@ describe('/shared-links', () => {
           type: SharedLinkType.Album,
         }),
       );
+    });
+
+    it('should not return album users', async () => {
+      const { status, body } = await request(app).get('/shared-links/me').query({ key: linkWithAlbum.key });
+
+      expect(status).toBe(200);
+      expect(body.album.albumUsers).toEqual([]);
     });
 
     it('should return unauthorized for incorrect shared link', async () => {
@@ -329,6 +336,16 @@ describe('/shared-links', () => {
           userId: user1.userId,
         }),
       );
+    });
+
+    it('should create an album shared link when the client sends an empty assetIds array', async () => {
+      const { status, body } = await request(app)
+        .post('/shared-links')
+        .set('Authorization', `Bearer ${user1.accessToken}`)
+        .send({ type: SharedLinkType.Album, albumId: album.id, assetIds: [] });
+
+      expect(status).toBe(201);
+      expect(body).toEqual(expect.objectContaining({ type: SharedLinkType.Album, userId: user1.userId }));
     });
   });
 

@@ -9,14 +9,15 @@ import {
   updateConfig,
 } from '@immich/sdk';
 import { createHash, randomBytes } from 'node:crypto';
-import { errorDto } from 'src/responses';
-import { app, asBearerAuth, baseUrl, utils } from 'src/utils';
+import { errorDto } from 'src/responses.js';
+import { app, asBearerAuth, baseUrl, utils } from 'src/utils.js';
 import request from 'supertest';
 import { beforeAll, describe, expect, it } from 'vitest';
 
+const authServerPort = process.env.ENVE_SERVICE_E2E_AUTH_SERVER_PORT ?? '2286';
 const authServer = {
-  internal: 'http://e2e-auth-server:2286',
-  external: 'http://127.0.0.1:2286',
+  internal: `http://e2e-auth-server:${authServerPort}`,
+  external: `http://127.0.0.1:${authServerPort}`,
 };
 
 const mobileOverrideRedirectUri = 'https://photos.immich.app/oauth/mobile-redirect';
@@ -106,21 +107,21 @@ describe(`/oauth`, () => {
     it('should return a redirect uri', async () => {
       const { status, body } = await request(app)
         .post('/oauth/authorize')
-        .send({ redirectUri: 'http://127.0.0.1:2285/auth/login' });
+        .send({ redirectUri: `${baseUrl}/auth/login` });
       expect(status).toBe(201);
       expect(body).toEqual({ url: expect.stringContaining(`${authServer.internal}/auth?`) });
 
       const params = new URL(body.url).searchParams;
       expect(params.get('client_id')).toBe('client-default');
       expect(params.get('response_type')).toBe('code');
-      expect(params.get('redirect_uri')).toBe('http://127.0.0.1:2285/auth/login');
+      expect(params.get('redirect_uri')).toBe(`${baseUrl}/auth/login`);
       expect(params.get('state')).toBeDefined();
     });
 
     it('should not include the prompt parameter when not configured', async () => {
       const { status, body } = await request(app)
         .post('/oauth/authorize')
-        .send({ redirectUri: 'http://127.0.0.1:2285/auth/login' });
+        .send({ redirectUri: `${baseUrl}/auth/login` });
       expect(status).toBe(201);
 
       const params = new URL(body.url).searchParams;
@@ -137,7 +138,7 @@ describe(`/oauth`, () => {
 
       const { status, body } = await request(app)
         .post('/oauth/authorize')
-        .send({ redirectUri: 'http://127.0.0.1:2285/auth/login' });
+        .send({ redirectUri: `${baseUrl}/auth/login` });
       expect(status).toBe(201);
 
       const params = new URL(body.url).searchParams;
@@ -396,7 +397,7 @@ describe(`/oauth`, () => {
 
       await expect(getSessions({ headers: asBearerAuth(callbackBody.accessToken) })).resolves.toHaveLength(1);
 
-      const logoutToken = await generateLogoutToken('http://0.0.0.0:2286', 'backchannel-logout-user');
+      const logoutToken = await generateLogoutToken(`http://0.0.0.0:${authServerPort}`, 'backchannel-logout-user');
       const { status, body } = await request(app).post('/oauth/backchannel-logout').send({ logout_token: logoutToken });
       expect(status).toBe(200);
       expect(body).toMatchObject({});
@@ -487,7 +488,7 @@ describe(`/oauth`, () => {
     it('should reject OAuth discovery over HTTP', async () => {
       const { status } = await request(app)
         .post('/oauth/authorize')
-        .send({ redirectUri: 'http://127.0.0.1:2285/auth/login' });
+        .send({ redirectUri: `${baseUrl}/auth/login` });
       expect(status).toBe(500);
     });
   });

@@ -33,18 +33,32 @@ const writeMap = (file, map) => {
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([target, fp]) => [
         target,
-        { files: [...fp.files].sort(), dirs: [...fp.dirs].sort(), ...(fp.outcome && { outcome: fp.outcome }) },
+        {
+          files: [...fp.files].sort(),
+          dirs: [...fp.dirs].sort(),
+          ...(fp.probes && { probes: fp.probes }),
+          ...(fp.outcome && { outcome: fp.outcome }),
+          ...(fp.digest && { digest: fp.digest }),
+        },
       ]),
   );
   fs.writeFileSync(file, JSON.stringify({ ...map, version: 1, targets }));
 };
 
-/** Targets as `{files: Set, dirs: Set, outcome?}` (`outcome`: a failed run's, kept as is). */
+/** Targets as `{files: Set, dirs: Set, probes?, outcome?, digest?}` (the paths a run
+ *  probed and read nothing of, a failed run's `outcome`, and the `digest` of what the
+ *  trace read, kept as they are). */
 const footprints = (map) =>
   Object.fromEntries(
     Object.entries(map.targets ?? {}).map(([target, fp]) => [
       target,
-      { files: new Set(flatten(fp.files)), dirs: new Set(flatten(fp.dirs)), outcome: fp.outcome },
+      {
+        files: new Set(flatten(fp.files)),
+        dirs: new Set(flatten(fp.dirs)),
+        probes: fp.probes,
+        outcome: fp.outcome,
+        digest: fp.digest,
+      },
     ]),
   );
 
@@ -132,6 +146,9 @@ const coverage = (mapFile, windowsDir) => {
   for (const [target, files] of perSpec) {
     const into = (targets[target] ??= { files: new Set(), dirs: new Set() });
     [...files, ...unattributed].forEach((f) => into.files.add(f));
+    // The trace's digest covers what its process read, not the server's sources: the final
+    // `enact trace pack --fingerprint` gives it one over both.
+    delete into.digest;
     console.log(`  ${target}: ${files.size} server sources`);
   }
   console.log(

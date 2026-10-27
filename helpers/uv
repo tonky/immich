@@ -1,4 +1,55 @@
 #!/usr/bin/env bash
-# uv at upstream's pinned version (machine-learning/mise.toml), from tools.lock.
+# uv at upstream's pinned version (machine-learning/mise.toml), from enve.cue.
+#
+# The interpreter is the one upstream's CI runs too: machine-learning/.python-version asks
+# for 3.13 (mise's python 3.12 is on PATH but unused), and uv 0.8.15 downloads its 3.13
+# (3.13.7) with the checksum it embeds. Only uv-managed interpreters, and only those this
+# uv put in the tools cache: the per-user ~/.local/share/uv/python held a newer uv's
+# 3.13.15 on one machine, and a host python3.13 (Homebrew, apt) would otherwise win.
+#
+# `run` syncs first, without opencv-python: immich-ml requires opencv-python-headless and
+# rapidocr requires opencv-python, and both wheels unpack into the same `cv2/`. Which one
+# a sync leaves there varied from one fresh sync to the next (4.11.0.86 with the GUI build,
+# which needs the host's libGL.so.1, or 4.13.0.92 headless), so tests imported a different
+# cv2, or none, from run to run. Here it is always immich-ml's own: headless.
 set -euo pipefail
-exec "$("$(dirname "${BASH_SOURCE[0]}")/pinned-tool.sh" uv)/uv" "$@"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+uv="$(command -v uv)"
+export UV_PYTHON_PREFERENCE=only-managed
+# One per uv store object: a new pin starts its own.
+uv_object="$(readlink -f "$uv")"
+uv_object="${uv_object%/bin/uv}"
+export UV_PYTHON_INSTALL_DIR="$REPO_ROOT/.enact/state/cache/uv-python/${uv_object##*/}"
+
+[ "${1:-}" = run ] || exec "$uv" "$@"
+shift
+
+# The run's project options apply to its sync too; anything else is not supported here.
+# (`${opts[@]+…}`: bash 3.2, macOS's, fails on an empty array under `set -u`.)
+opts=()
+project="$PWD"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --extra | --group | --project | --directory)
+      [ "$1" = --directory ] && project="$2"
+      [ "$1" = --project ] && project="$2"
+      opts+=("$1" "$2")
+      shift 2
+      ;;
+    --) shift; break ;;
+    -*) echo "❌ [uv] run option $1 is not supported by helpers/uv" >&2; exit 2 ;;
+    *) break ;;
+  esac
+done
+
+sync=(sync --locked --quiet ${opts[@]+"${opts[@]}"})
+if [ -f "$project/uv.lock" ] && [[ "$(< "$project/uv.lock")" == *'name = "opencv-python-headless"'* ]]; then
+  sync+=(--no-install-package opencv-python)
+  # Removing opencv-python deletes the cv2/ files the headless wheel shares: reinstall it.
+  shopt -s nullglob
+  gui=("$project"/.venv/lib/python*/site-packages/opencv_python-*.dist-info)
+  shopt -u nullglob
+  [ ${#gui[@]} -eq 0 ] || sync+=(--reinstall-package opencv-python-headless)
+fi
+"$uv" "${sync[@]}"
+exec "$uv" run --no-sync ${opts[@]+"${opts[@]}"} "$@"

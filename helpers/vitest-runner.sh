@@ -12,6 +12,12 @@ done
 
 TARGETS=("$@")
 
+# Footprints enact asks for (ENACT_FOOTPRINT_DIR: `enact run` recording while it runs,
+# `enact trace record`): the wanted specs are traced one by one, the others run as here.
+if [ -n "${ENACT_FOOTPRINT_DIR:-}" ]; then
+  exec "$REPO_ROOT/helpers/trace/footprints.sh" "$REPO_ROOT/helpers/vitest-runner.sh" "${TARGETS[@]}"
+fi
+
 # As `pnpm run` (upstream runs `pnpm test`): the package's and the workspace's bins first.
 # The cli e2e specs spawn `pnpm exec immich` in packages/cli, which finds `immich` only on
 # the PATH it inherits (e2e links the cli's bin, the cli does not link its own).
@@ -21,6 +27,12 @@ export PATH
 # Here, not in the job's command, so the reach map's recording runs the same specs.
 if [ "$PWD" = "$REPO_ROOT/e2e" ]; then
   PATH="$REPO_ROOT/helpers/container/path:$PATH"
+  # The cli specs keep their login (auth.yml: which server) and upload files under
+  # tmpdir() (patches/): a directory per run, so runs side by side on one host, each on
+  # its own service instance, don't log each other's cli in elsewhere.
+  TMPDIR="$(mktemp -d "${TMPDIR:-/tmp}/immich-e2e.XXXXXX")"
+  export TMPDIR
+  trap 'rm -rf "$TMPDIR"' EXIT
 fi
 
 VITEST_CMD=()
@@ -45,22 +57,37 @@ fi
 "$REPO_ROOT/helpers/build-workspace-deps.sh"
 
 # With no targets every shard would run the whole suite: let vitest split it instead.
-# (With targets, enact already handed each shard its own slice.)
+# (With targets, enact already handed each shard its own slice.) A suite with no tests
+# fails, as vitest fails on no files; a shard past the first may draw none when there are
+# fewer files than shards, while the first draws one whenever the suite has any.
 SHARD_ARGS=()
 if [ ${#TARGETS[@]} -eq 0 ] && [ "${ENACT_SHARD_TOTAL:-1}" -gt 1 ]; then
-  # A shard may draw no files when there are fewer files than shards.
-  SHARD_ARGS=("--shard=${ENACT_SHARD_INDEX:?}/${ENACT_SHARD_TOTAL}" --passWithNoTests)
+  SHARD_ARGS=("--shard=${ENACT_SHARD_INDEX:?}/${ENACT_SHARD_TOTAL}")
+  [ "$ENACT_SHARD_INDEX" -le 1 ] || SHARD_ARGS+=(--passWithNoTests)
+fi
+
+# One worker per CPU enact gave the shard: vitest otherwise sizes its pool to the host, and
+# each parallel shard takes it all (two server shards held 7 GB and tripped the host guard).
+# e2e's config pins its own pool (maxWorkers: 1): the specs share one server.
+POOL_ARGS=()
+if [ -n "${ENACT_SHARD_WORKERS:-}" ] && [ "$PWD" != "$REPO_ROOT/e2e" ]; then
+  POOL_ARGS=("--maxWorkers=${ENACT_SHARD_WORKERS}")
+fi
+
+# Traced by `enact trace run --attribution` (helpers/trace/trace-files.sh): one forked worker
+# per spec, and the reporter saying which modules each spec loaded.
+ATTRIBUTION_ARGS=()
+if [ -n "${ENACT_ATTRIBUTION_FILE:-}" ]; then
+  ATTRIBUTION_ARGS=(--pool=forks --isolate --reporter=default
+    "--reporter=$REPO_ROOT/helpers/trace/vitest-attribution.mjs")
 fi
 
 vitest_run() {
-  "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "$@"
+  "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "${POOL_ARGS[@]}" "${ATTRIBUTION_ARGS[@]}" "$@"
 }
 
 # The server keeps unit and medium (database) specs under separate configs.
 if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; then
-  # Medium specs assert ffprobe's packet timings: upstream's pinned jellyfin-ffmpeg.
-  PATH="$("$REPO_ROOT/helpers/pinned-tool.sh" jellyfin-ffmpeg):$PATH"
-  export PATH
   if [ ${#TARGETS[@]} -eq 0 ]; then
     vitest_run --config test/vitest.config.mjs
     "$REPO_ROOT/helpers/build-core-plugin.sh"
@@ -71,7 +98,7 @@ if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; th
   medium_targets=()
   for t in "${TARGETS[@]}"; do
     case "$t" in
-      test/medium/*) medium_targets+=("$t") ;;
+      test/medium | test/medium/* | ./test/medium | ./test/medium/*) medium_targets+=("$t") ;;
       *) unit_targets+=("$t") ;;
     esac
   done

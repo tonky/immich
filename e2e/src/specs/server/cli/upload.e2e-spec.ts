@@ -1,7 +1,7 @@
 import { LoginResponseDto, getAllAlbums, getAssetStatistics } from '@immich/sdk';
 import { cpSync, readFileSync } from 'node:fs';
 import { mkdir, readdir, rm, symlink } from 'node:fs/promises';
-import { asKeyAuth, immichCli, specialCharStrings, testAssetDir, utils } from 'src/utils';
+import { asKeyAuth, immichCli, specialCharStrings, tempDir, testAssetDir, utils } from 'src/utils.js';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 interface Test {
@@ -116,7 +116,7 @@ describe(`immich upload`, () => {
     describe(`should accept special cases`, () => {
       for (const { test, paths, files } of tests) {
         it(test, async () => {
-          const baseDir = `/tmp/upload/`;
+          const baseDir = `${tempDir}/upload/`;
 
           const testPaths = Object.keys(files).map((filePath) => `${baseDir}/${filePath}`);
           for (const filePath of testPaths) {
@@ -394,16 +394,16 @@ describe(`immich upload`, () => {
 
   describe('immich upload --delete', () => {
     it('should delete local files if specified', async () => {
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
       const filesToLink = await readdir(`${testAssetDir}/albums/nature`);
       for (const file of filesToLink) {
-        await symlink(`${testAssetDir}/albums/nature/${file}`, `/tmp/albums/nature/${file}`);
+        await symlink(`${testAssetDir}/albums/nature/${file}`, `${tempDir}/albums/nature/${file}`);
       }
 
-      const { stderr, stdout, exitCode } = await immichCli(['upload', `/tmp/albums/nature`, '--delete']);
+      const { stderr, stdout, exitCode } = await immichCli(['upload', `${tempDir}/albums/nature`, '--delete']);
 
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files).toEqual([]);
 
       expect(stdout.split('\n')).toEqual(
@@ -420,16 +420,16 @@ describe(`immich upload`, () => {
     });
 
     it('should have accurate dry run', async () => {
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
       const filesToLink = await readdir(`${testAssetDir}/albums/nature`);
       for (const file of filesToLink) {
-        await symlink(`${testAssetDir}/albums/nature/${file}`, `/tmp/albums/nature/${file}`);
+        await symlink(`${testAssetDir}/albums/nature/${file}`, `${tempDir}/albums/nature/${file}`);
       }
 
-      const { stderr, stdout, exitCode } = await immichCli(['upload', `/tmp/albums/nature`, '--delete', '--dry-run']);
+      const { stderr, stdout, exitCode } = await immichCli(['upload', `${tempDir}/albums/nature`, '--delete', '--dry-run']);
 
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files.length).toBe(9);
 
       expect(stdout.split('\n')).toEqual(
@@ -459,19 +459,19 @@ describe(`immich upload`, () => {
       );
       expect(firstExitCode).toBe(0);
 
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
-      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `/tmp/albums/nature/silver_fir.jpg`);
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
+      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `${tempDir}/albums/nature/silver_fir.jpg`);
 
       // Upload with --delete-duplicates flag
       const { stderr, stdout, exitCode } = await immichCli([
         'upload',
-        `/tmp/albums/nature/silver_fir.jpg`,
+        `${tempDir}/albums/nature/silver_fir.jpg`,
         '--delete-duplicates',
       ]);
 
       // Check that the duplicate file was deleted
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files.length).toBe(0);
 
       expect(stdout.split('\n')).toEqual(
@@ -500,20 +500,20 @@ describe(`immich upload`, () => {
       );
       expect(firstExitCode).toBe(0);
 
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
-      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `/tmp/albums/nature/silver_fir.jpg`);
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
+      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `${tempDir}/albums/nature/silver_fir.jpg`);
 
       // Upload with --delete-duplicates and --dry-run flags
       const { stderr, stdout, exitCode } = await immichCli([
         'upload',
-        `/tmp/albums/nature/silver_fir.jpg`,
+        `${tempDir}/albums/nature/silver_fir.jpg`,
         '--delete-duplicates',
         '--dry-run',
       ]);
 
       // Check that the duplicate file was NOT deleted in dry run mode
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files.length).toBe(1);
 
       expect(stdout.split('\n')).toEqual(
@@ -544,21 +544,21 @@ describe(`immich upload`, () => {
       expect(firstExitCode).toBe(0);
 
       // Both new and duplicate files
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
-      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `/tmp/albums/nature/silver_fir.jpg`); // duplicate
-      await symlink(`${testAssetDir}/albums/nature/el_torcal_rocks.jpg`, `/tmp/albums/nature/el_torcal_rocks.jpg`); // new
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
+      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `${tempDir}/albums/nature/silver_fir.jpg`); // duplicate
+      await symlink(`${testAssetDir}/albums/nature/el_torcal_rocks.jpg`, `${tempDir}/albums/nature/el_torcal_rocks.jpg`); // new
 
       // Upload with both --delete and --delete-duplicates flags
       const { stderr, stdout, exitCode } = await immichCli([
         'upload',
-        `/tmp/albums/nature`,
+        `${tempDir}/albums/nature`,
         '--delete',
         '--delete-duplicates',
       ]);
 
       // Check that both files were deleted (new file due to --delete, duplicate due to --delete-duplicates)
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files.length).toBe(0);
 
       expect(stdout.split('\n')).toEqual(
@@ -589,16 +589,16 @@ describe(`immich upload`, () => {
       expect(firstExitCode).toBe(0);
 
       // Both new and duplicate files
-      await mkdir(`/tmp/albums/nature`, { recursive: true });
-      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `/tmp/albums/nature/silver_fir.jpg`); // duplicate
-      await symlink(`${testAssetDir}/albums/nature/el_torcal_rocks.jpg`, `/tmp/albums/nature/el_torcal_rocks.jpg`); // new
+      await mkdir(`${tempDir}/albums/nature`, { recursive: true });
+      await symlink(`${testAssetDir}/albums/nature/silver_fir.jpg`, `${tempDir}/albums/nature/silver_fir.jpg`); // duplicate
+      await symlink(`${testAssetDir}/albums/nature/el_torcal_rocks.jpg`, `${tempDir}/albums/nature/el_torcal_rocks.jpg`); // new
 
       // Upload with only --delete-duplicates flag
-      const { stderr, stdout, exitCode } = await immichCli(['upload', `/tmp/albums/nature`, '--delete-duplicates']);
+      const { stderr, stdout, exitCode } = await immichCli(['upload', `${tempDir}/albums/nature`, '--delete-duplicates']);
 
       // Check that only the duplicate was deleted, new file should remain
-      const files = await readdir(`/tmp/albums/nature`);
-      await rm(`/tmp/albums/nature`, { recursive: true });
+      const files = await readdir(`${tempDir}/albums/nature`);
+      await rm(`${tempDir}/albums/nature`, { recursive: true });
       expect(files).toEqual(['el_torcal_rocks.jpg']);
 
       expect(stdout.split('\n')).toEqual(

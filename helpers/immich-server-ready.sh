@@ -11,8 +11,8 @@
 # Usage: helpers/immich-server-ready.sh   (exit 0 when ready)
 set -euo pipefail
 
-curl -s -f --connect-timeout 1 --max-time 3 "http://127.0.0.1:${IMMICH_PORT:-2285}/api/server/ping" >/dev/null
-imported="$(psql -h "${DB_HOSTNAME:-127.0.0.1}" -p "${DB_PORT:-5435}" -U "${DB_USERNAME:-postgres}" \
+curl -s -f --connect-timeout 1 --max-time 3 "http://127.0.0.1:${IMMICH_PORT}/api/server/ping" >/dev/null
+imported="$(psql -h "${DB_HOSTNAME:-127.0.0.1}" -p "${DB_PORT}" -U "${DB_USERNAME:-postgres}" \
   -d "${DB_DATABASE_NAME:-immich}" -tAc \
   "SELECT 1 FROM system_metadata WHERE key = 'reverse-geocoding-state'" 2>/dev/null || true)"
 [ "$imported" = 1 ]

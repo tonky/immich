@@ -2,7 +2,7 @@
 # ==============================================================================
 # server-image.sh - Prints the e2e server's node and sharp, as upstream's image has them
 # ==============================================================================
-# node 24.18.0 and sharp built on libvips with upstream's loaders (HEIC, JXL, RAW): what,
+# node 24.21.0 and sharp built on libvips with upstream's loaders (HEIC, JXL, RAW): what,
 # and why an environment of its own, in helpers/server-image/enve.cue. Its locked closure
 # is fetched or built on first use. helpers/server-image.cjs points the server's
 # `require('sharp')` at it; the server runs on that environment's node, which loads it.

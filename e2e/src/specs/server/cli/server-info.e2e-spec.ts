@@ -1,4 +1,4 @@
-import { immichCli, utils } from 'src/utils';
+import { app, immichCli, utils } from 'src/utils.js';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 describe(`immich server-info`, () => {
@@ -12,7 +12,7 @@ describe(`immich server-info`, () => {
     const { stderr, stdout, exitCode } = await immichCli(['server-info']);
     expect(stdout.split('\n')).toEqual([
       expect.stringContaining('Server Info (via admin@immich.cloud'),
-      '  Url: http://127.0.0.1:2285/api',
+      `  Url: ${app}`,
       expect.stringContaining('Version:'),
       '  Formats:',
       expect.stringContaining('Images:'),

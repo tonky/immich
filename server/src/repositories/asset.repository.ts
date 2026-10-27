@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import {
-  ExpressionBuilder,
-  Insertable,
-  Kysely,
-  NotNull,
-  Selectable,
-  SelectQueryBuilder,
-  ShallowDehydrateObject,
-  sql,
-  Updateable,
+  type ExpressionBuilder,
+  type Insertable,
+  type Kysely,
+  type NotNull,
+  type SelectQueryBuilder,
+  type Selectable,
+  type ShallowDehydrateObject,
   UpdateResult,
+  type Updateable,
+  sql,
 } from 'kysely';
 import { jsonArrayFrom } from 'kysely/helpers/postgres';
-import { isEmpty, isUndefined, omitBy } from 'lodash';
+import { isEmpty, isUndefined, omitBy } from 'lodash-es';
 import { InjectKysely } from 'nestjs-kysely';
-import { LockableProperty, Stack } from 'src/database';
-import { Chunked, ChunkedArray, DummyValue, GenerateSql } from 'src/decorators';
-import { AuthDto } from 'src/dtos/auth.dto';
+import { LockableProperty, Stack } from 'src/database.js';
+import { Chunked, ChunkedArray, DummyValue, GenerateSql } from 'src/decorators.js';
+import { type AuthDto, isMetadataHidden } from 'src/dtos/auth.dto.js';
 import {
   AssetFileType,
   AssetOrder,
@@ -25,14 +25,14 @@ import {
   AssetType,
   AssetVisibility,
   CalendarHeatmapType,
-} from 'src/enum';
-import { DB } from 'src/schema';
-import { AssetAudioTable, AssetKeyframeTable, AssetVideoTable } from 'src/schema/tables/asset-av.table';
-import { AssetExifTable } from 'src/schema/tables/asset-exif.table';
-import { AssetFileTable } from 'src/schema/tables/asset-file.table';
-import { AssetJobStatusTable } from 'src/schema/tables/asset-job-status.table';
-import { AssetMetadataTable } from 'src/schema/tables/asset-metadata.table';
-import { AssetTable } from 'src/schema/tables/asset.table';
+} from 'src/enum.js';
+import { DB } from 'src/schema/index.js';
+import { AssetAudioTable, AssetKeyframeTable, AssetVideoTable } from 'src/schema/tables/asset-av.table.js';
+import { AssetExifTable } from 'src/schema/tables/asset-exif.table.js';
+import { AssetFileTable } from 'src/schema/tables/asset-file.table.js';
+import { AssetJobStatusTable } from 'src/schema/tables/asset-job-status.table.js';
+import { AssetMetadataTable } from 'src/schema/tables/asset-metadata.table.js';
+import { AssetTable } from 'src/schema/tables/asset.table.js';
 import {
   anyUuid,
   asUuid,
@@ -53,8 +53,8 @@ import {
   withSmartSearch,
   withTagId,
   withTags,
-} from 'src/utils/database';
-import { globToPostgresRegex } from 'src/utils/misc';
+} from 'src/utils/database.js';
+import { globToPostgresRegex } from 'src/utils/misc.js';
 
 export type AssetStats = Record<AssetType, number>;
 
@@ -791,7 +791,7 @@ export class AssetRepository {
             qb.where((eb) => {
               // TODO this should become a shared `hasAccess` style helper once implement sharing in more places
               const isOwner = eb('asset.ownerId', '=', anyUuid(options.userIds!));
-              return options.personId ? eb.or([isOwner, inSharedAlbum(eb, auth.user.id)]) : isOwner;
+              return options.personId ? eb.or([isOwner, inSharedAlbum(auth.user.id, 'asset.id')]) : isOwner;
             }),
           )
           .$if(options.isFavorite !== undefined, (qb) => qb.where('asset.isFavorite', '=', options.isFavorite!))
@@ -814,6 +814,7 @@ export class AssetRepository {
   })
   getTimeBucket(timeBucket: string, options: TimeBucketOptions, auth: AuthDto) {
     const order = options.order ?? 'desc';
+    const bucket = timeBucket.replace(/^[+-]/, '');
     const query = this.db
       .with('cte', (qb) =>
         qb
@@ -848,9 +849,7 @@ export class AssetRepository {
               )
               .as('ratio'),
           ])
-          .$if(!auth.sharedLink || auth.sharedLink.showExif, (qb) =>
-            qb.select(['asset_exif.city', 'asset_exif.country']),
-          )
+          .$if(!isMetadataHidden(auth), (qb) => qb.select(['asset_exif.city', 'asset_exif.country']))
           .$if(!!options.withCoordinates, (qb) => qb.select(['asset_exif.latitude', 'asset_exif.longitude']))
           .where('asset.deletedAt', options.isTrashed ? 'is not' : 'is', null)
           .$if(options.visibility === undefined, withDefaultVisibility)
@@ -867,7 +866,14 @@ export class AssetRepository {
 
             return withBoundingBox(withBoundingCircle, bbox);
           })
-          .where(truncatedDate(options.orderBy), '=', timeBucket.replace(/^[+-]/, ''))
+          .$if(options.orderBy === AssetOrderBy.CreatedAt, (qb) =>
+            qb
+              .where('asset.createdAt', '>=', sql<Date>`${bucket}::timestamp AT TIME ZONE 'UTC'`)
+              .where('asset.createdAt', '<', sql<Date>`(${bucket}::timestamp + interval '1 month') AT TIME ZONE 'UTC'`),
+          )
+          .$if(options.orderBy !== AssetOrderBy.CreatedAt, (qb) =>
+            qb.where(truncatedDate(options.orderBy), '=', bucket),
+          )
           .$if(!!options.albumId, (qb) =>
             qb.where((eb) =>
               eb.exists(
@@ -882,7 +888,7 @@ export class AssetRepository {
           .$if(!!options.userIds, (qb) =>
             qb.where((eb) => {
               const isOwner = eb('asset.ownerId', '=', anyUuid(options.userIds!));
-              return options.personId ? eb.or([isOwner, inSharedAlbum(eb, auth.user.id)]) : isOwner;
+              return options.personId ? eb.or([isOwner, inSharedAlbum(auth.user.id, 'asset.id')]) : isOwner;
             }),
           )
           .$if(options.isFavorite !== undefined, (qb) => qb.where('asset.isFavorite', '=', options.isFavorite!))
@@ -948,7 +954,7 @@ export class AssetRepository {
             eb.fn.coalesce(eb.fn('array_agg', ['status']), sql.lit('{}')).as('status'),
             eb.fn.coalesce(eb.fn('array_agg', ['thumbhash']), sql.lit('{}')).as('thumbhash'),
           ])
-          .$if(!auth.sharedLink || auth.sharedLink.showExif, (qb) =>
+          .$if(!isMetadataHidden(auth), (qb) =>
             qb.select((eb) => [
               eb.fn.coalesce(eb.fn('array_agg', ['city']), sql.lit('{}')).as('city'),
               eb.fn.coalesce(eb.fn('array_agg', ['country']), sql.lit('{}')).as('country'),
@@ -1102,7 +1108,7 @@ export class AssetRepository {
       .where((eb) =>
         eb.or([
           eb.not(eb.or(paths.map((path) => eb('originalPath', 'like', path)))),
-          eb.or(exclusions.map((pattern) => eb('originalPath', '~', pattern))),
+          eb.or(exclusions.map((pattern) => eb('originalPath', '~*', pattern))),
         ]),
       )
       .executeTakeFirstOrThrow();

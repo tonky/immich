@@ -9,7 +9,6 @@ import 'package:immich_mobile/constants/constants.dart';
 import 'package:immich_mobile/domain/models/store.model.dart';
 import 'package:immich_mobile/entities/store.entity.dart';
 import 'package:immich_mobile/infrastructure/repositories/network.repository.dart';
-import 'package:immich_mobile/utils/debug_print.dart';
 import 'package:logging/logging.dart';
 
 final uploadRepositoryProvider = Provider((ref) => UploadRepository());
@@ -37,20 +36,12 @@ class UploadRepository {
     );
   }
 
-  Future<void> enqueueBackground(UploadTask task) {
-    return FileDownloader().enqueue(task);
-  }
-
   Future<List<bool>> enqueueBackgroundAll(List<UploadTask> tasks) {
     return FileDownloader().enqueueAll(tasks);
   }
 
   Future<void> deleteDatabaseRecords(String group) {
     return FileDownloader().database.deleteAllRecords(group: group);
-  }
-
-  Future<bool> cancelAll(String group) {
-    return FileDownloader().cancelAll(group: group);
   }
 
   Future<int> reset(String group) {
@@ -64,28 +55,6 @@ class UploadRepository {
 
   Future<void> start() {
     return FileDownloader().start();
-  }
-
-  Future<void> getUploadInfo() async {
-    final [enqueuedTasks, runningTasks, canceledTasks, waitingTasks, pausedTasks] = await Future.wait([
-      FileDownloader().database.allRecordsWithStatus(TaskStatus.enqueued, group: kBackupGroup),
-      FileDownloader().database.allRecordsWithStatus(TaskStatus.running, group: kBackupGroup),
-      FileDownloader().database.allRecordsWithStatus(TaskStatus.canceled, group: kBackupGroup),
-      FileDownloader().database.allRecordsWithStatus(TaskStatus.waitingToRetry, group: kBackupGroup),
-      FileDownloader().database.allRecordsWithStatus(TaskStatus.paused, group: kBackupGroup),
-    ]);
-
-    dPrint(
-      () =>
-          """
-      Upload Info:
-      Enqueued: ${enqueuedTasks.length}
-      Running: ${runningTasks.length}
-      Canceled: ${canceledTasks.length}
-      Waiting: ${waitingTasks.length}
-      Paused: ${pausedTasks.length}
-    """,
-    );
   }
 
   Future<UploadResult> uploadFile({
@@ -119,7 +88,7 @@ class UploadRepository {
       } on RequestAbortedException {
         rethrow;
       } on ClientException catch (error) {
-        logger.warning("Upload $logContext failed before a response, resending once: $error");
+        logger.warning("Upload $logContext failed before a response, resending once", error);
         response = await client.send(buildRequest());
       }
 
@@ -155,8 +124,8 @@ class UploadRepository {
       logger.warning("Upload $logContext was cancelled");
       return UploadResult.cancelled();
     } catch (error, stackTrace) {
-      logger.warning("Error uploading $logContext: $error: $stackTrace");
-      return UploadResult.error(errorMessage: error.toString());
+      logger.warning("Error uploading $logContext", error, stackTrace);
+      return UploadResult(isSuccess: false, isCancelled: false, errorMessage: error.toString(), error: error);
     }
   }
 }
@@ -197,6 +166,7 @@ class UploadResult {
   final String? remoteAssetId;
   final String? errorMessage;
   final int? statusCode;
+  final Object? error;
 
   const UploadResult({
     required this.isSuccess,
@@ -204,6 +174,7 @@ class UploadResult {
     this.remoteAssetId,
     this.errorMessage,
     this.statusCode,
+    this.error,
   });
 
   factory UploadResult.success({required String remoteAssetId}) {

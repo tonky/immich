@@ -105,10 +105,10 @@ const getClaims = (sub: string, use?: string) => {
 
 const setup = async () => {
   const redirectUris = [
-    'http://127.0.0.1:2285/auth/login',
+    `http://127.0.0.1:${process.env.ENVE_SERVICE_IMMICH_SERVER_PORT ?? 2285}/auth/login`,
     'https://photos.immich.app/oauth/mobile-redirect',
   ];
-  const port = 2286;
+  const port = Number(process.env.ENVE_SERVICE_E2E_AUTH_SERVER_PORT ?? 2286);
   const host = '0.0.0.0';
   const oidc = new Provider(`http://${host}:${port}`, {
     renderError: async (ctx, out, error) => {
@@ -145,7 +145,6 @@ const setup = async () => {
         session: 'oidc.session',
         interaction: 'oidc.interaction',
         resume: 'oidc.resume',
-        state: 'oidc.state',
       },
     },
     conformIdTokenClaims: false,
