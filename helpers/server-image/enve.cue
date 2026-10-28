@@ -75,6 +75,9 @@ profiles: dev: schema.#Profile & {
 				  LIBRARY_PATH="${dir#-L}${LIBRARY_PATH:+:$LIBRARY_PATH}"
 				done
 				export LIBRARY_PATH
+				# The programs in bin/ load the libvips beside them: meson installs them with
+				# no RUNPATH into the output (nixpkgs' ld-wrapper adds one, enve's doesn't).
+				if [ "$(uname -s)" = Linux ]; then export LDFLAGS='-Wl,-rpath,$ORIGIN/../lib'; fi
 				meson setup build --buildtype=release --libdir=lib --prefix="$out" \\
 				  -Dintrospection=disabled -Dtiff=disabled -Dmodules=disabled -Dauto_features=disabled \\
 				  -Dexif=enabled -Dlcms=enabled -Djpeg=enabled -Dpng=enabled -Dwebp=enabled \\
@@ -95,6 +98,7 @@ profiles: dev: schema.#Profile & {
 				    [ -n "$found" ] || { echo "vips: $needed of ${lib##*/} is on no RUNPATH entry ($runpath)" >&2; exit 1; }
 				  done
 				done
+				"$out/bin/vips" --version
 				"""
 		},
 		// server/Dockerfile's sharp build. Its packages are the closure of sharp in upstream's

@@ -82,6 +82,8 @@ pipeline: schema.#Pipeline & {
 			"server/src/**", "server/nest-cli.json", "server/package.json", "server/tsconfig.json",
 			"server/tsconfig.build.json",
 		]
+		// tsc, sourceMap on: the e2e specs' server functions are placed in server/src.
+		mapped: ["server/src/**"]
 	}, {
 		// `vite build` bundles the cli with everything it imports, the sdk included.
 		outputs: ["packages/cli/dist/**"]
