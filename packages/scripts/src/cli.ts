@@ -18,7 +18,7 @@ export const cli = (argv: string[]) => {
 
   program
     .name('pnpm cli')
-    .description('Scripts for managing this repository, releases, etc.')
+    .description('Scripts for managing the repo, releases, etc.')
     .version('0.1.0');
 
   program
