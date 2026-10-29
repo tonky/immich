@@ -262,15 +262,25 @@ pipeline: schema.#Pipeline & {
 				}]
 			}
 			// Its bin/*.sh get upstream's ShellCheck job's check.
-			lint: {
-				command: "../helpers/lint-runner.sh {relative_changed_files}"
-				filter: {
-					include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md,sh}"]
-					on_empty: "skip"
+			jobs: {
+				lint: {
+					direct:   true
+					services: false
+					resources: {cpus: 2, memory_mb: 1280}
+					tasks: [{
+						command: "../helpers/lint-runner.sh {relative_changed_files}"
+						filter: {
+							include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md,sh}"]
+							on_empty: "skip"
+						}
+					}]
 				}
-			}
-			typecheck: {
-				command: "../helpers/typecheck-runner.sh"
+				typecheck: {
+					direct:   true
+					services: false
+					resources: {cpus: 2, memory_mb: 3072}
+					tasks: [{command: "../helpers/typecheck-runner.sh"}]
+				}
 			}
 			migrate: {
 				command: "../helpers/schema-check-runner.sh"
@@ -627,6 +637,7 @@ pipeline: schema.#Pipeline & {
 			// Upstream's `e2e-tests-web`: the Playwright web, ui and maintenance suites.
 			jobs: web: {
 				name: "Web E2E"
+				recorder: "trace"
 				target_scope: {
 					fallback: "all"
 					tests: [
