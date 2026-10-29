@@ -374,73 +374,6 @@ jobs:
             | jq -r 'to_entries[] | "\(.value) \(.key)"' 2>/dev/null \
             | sudo tee -a /etc/hosts >/dev/null || true
         fi
-    - parallel:
-      - name: Restore enact Task CAS Cache
-        id: enact-tasks-cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
-          path: .enact/state/cache
-          restore-keys: ${{ runner.os }}-enact-tasks-
-      - name: Restore Node dependency cache
-        id: node_l1_cache
-        if: ${{ steps.runner_caches.outputs.host == '' }}
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'enve.lock', 'pnpm-workspace.yaml') }}
-          path: |-
-            .enact/state/pnpm-store
-            node_modules/.cache
-          restore-keys: |-
-            ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-
-            ${{ runner.os }}-${{ runner.arch }}-node-v2-
-      - name: Restore Cache [python_cache]
-        id: cache_python_cache
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: python_cache-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('machine-learning/pyproject.toml') }}
-          path: |-
-            machine-learning/.pytest_cache
-            machine-learning/.ruff_cache
-          restore-keys: python_cache-${{ runner.os }}-stage-check-and-lint-
-      - name: Restore Cache [uv_python]
-        id: cache_uv_python
-        continue-on-error: true
-        uses: actions/cache/restore@v6
-        with:
-          key: uv_python-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('enve.lock') }}
-          path: .enact/state/cache/uv-python
-          restore-keys: uv_python-${{ runner.os }}-stage-check-and-lint-
-    - name: Record Restored Package Caches
-      if: ${{ steps.runner_caches.outputs.host == '' }}
-      continue-on-error: true
-      run: |
-        # ENACT_CACHE_DELTA: one `<cache id> <path>` line per cached path.
-        delta_dir="${RUNNER_TEMP:-/tmp}/enact-cache-delta"
-        delta_ids() { awk 'NF { print $1 }' <<<"$ENACT_CACHE_DELTA" | sort -u; }
-        # The entries under the cache's paths (dot entries pruned: locks and temporaries), sorted.
-        delta_list() {
-            local want="$1" id path
-            while read -r id path; do
-                [ "$id" = "$want" ] || continue
-                path="${path/#\~/$HOME}"
-                [ -d "$path" ] || continue
-                find "$path" -mindepth 1 -name '.*' -prune -o -print 2>/dev/null || true
-            done <<<"$ENACT_CACHE_DELTA" | LC_ALL=C sort -u
-        }
-        set -euo pipefail
-        mkdir -p "$delta_dir"
-        for id in $(delta_ids); do
-            delta_list "$id" > "$delta_dir/$id.restored"
-            printf '%s: %s entries after the restore\n' "$id" "$(wc -l < "$delta_dir/$id.restored")"
-        done
-      env:
-        ENACT_CACHE_DELTA: |-
-          node_l1_cache .enact/state/pnpm-store
-          node_l1_cache node_modules/.cache
     - name: Download the Reach Map
       continue-on-error: true
       uses: actions/download-artifact@v8
@@ -452,79 +385,8 @@ jobs:
         if [ -f "$RUNNER_TEMP/enact-reach/map.bin" ]; then
           echo "ENACT_REACH_FILE=$RUNNER_TEMP/enact-reach/map.bin" >> "$GITHUB_ENV"
         fi
-    - name: Pull Dependencies via enve
-      run: |-
-        store="${ENVE_STORE_DIR:-$HOME/.local/share/enve/store}"
-        if [ -d "/nix" ]; then
-          if [ -d "/nix/store" ] && [ ! -L "/nix/store" ]; then
-            cp -rn /nix/store/* "$store/" 2>/dev/null || true
-            rm -rf /nix/store 2>/dev/null || true
-          fi
-          ln -sfn "$store" /nix/store 2>/dev/null || true
-        fi
-        if [ -f "enve.lock" ]; then
-          if [ -n "$ENACT_R2_BUCKET" ] && ! enve run --locked -- true 2>/dev/null; then
-            enve cache pull enve.lock --cache "$ENACT_R2_BUCKET" -j 16
-          fi
-          enve run --locked -- true
-        fi
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || env.R2_ACCESS_KEY_ID }}
-        AWS_REGION: auto
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY || env.R2_SECRET_ACCESS_KEY }}
-        ENACT_R2_BUCKET: ${{ secrets.R2_BUCKET || env.R2_BUCKET }}
-        ENVE_CACHE_CONCURRENCY: "16"
-    - name: Check enve Stores into the Host Cache
-      if: ${{ steps.runner_caches.outputs.host != '' }}
-      run: |
-        #!/usr/bin/env bash
-        # enve materializes into `ENVE_STORE_DIR` only while it trusts the directory, and otherwise
-        # falls back to its user store or `/tmp/enve-<uid>/store` without failing: on a runner with
-        # a host cache that throws the persistent store away on every run. Fails when the job's enve
-        # calls wrote into a fallback since the runner cache probe.
-        set -euo pipefail
-        stamp="${RUNNER_TEMP:-/tmp}/enact-host-cache.stamp"
-        for fallback in "${XDG_DATA_HOME:-$HOME/.local/share}/enve/store" "/tmp/enve-$(id -u)/store"; do
-            { [ "$fallback" != "$ENVE_STORE_DIR" ] && [ -d "$fallback" ]; } || continue
-            if [ -n "$(find "$fallback" -mindepth 1 -maxdepth 1 -newer "$stamp" -print -quit 2>/dev/null)" ]; then
-                echo "::error::enve stored into $fallback, not the host cache's $ENVE_STORE_DIR, which it doesn't trust (an owner other than $(id -un) or root, or writable by others)"
-                exit 1
-            fi
-        done
-        echo "enve stores into the host cache: $ENVE_STORE_DIR"
-    - name: Install Project Dependencies
-      if: hashFiles('package.json') != ''
-      run: |-
-        RUN_PREFIX=""
-        if command -v enve >/dev/null 2>&1 && [ -f "enve.lock" ]; then
-          RUN_PREFIX="enve run --locked -- "
-        fi
-        echo "📦 Installing project dependencies..."
-        ENACT_INSTALL_INPUTS=$(mktemp "$RUNNER_TEMP/enact-install-inputs.XXXXXX")
-        sha256sum pnpm-lock.yaml > "$ENACT_INSTALL_INPUTS"
-        for input in package.json pnpm-workspace.yaml enve.lock; do
-          if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
-        done
-        $RUN_PREFIX pnpm install "$@" --frozen-lockfile --store-dir "${ENACT_PNPM_STORE:-$PWD/.enact/state/pnpm-store}" --offline --config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16 ||
-          $RUN_PREFIX pnpm install "$@" --frozen-lockfile --store-dir "${ENACT_PNPM_STORE:-$PWD/.enact/state/pnpm-store}" --prefer-offline --config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16 || exit $?
-        sha256sum --check "$ENACT_INSTALL_INPUTS"
-        rm "$ENACT_INSTALL_INPUTS"
-        echo "ENACT_PREPARED=${ENACT_PREPARED:+$ENACT_PREPARED,}node" >> "$GITHUB_ENV"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Verify Pipeline Contracts & Sparse Cones (enact ci-verify)
-      run: |-
-        ENACT_BIN=""
-        if command -v enact >/dev/null 2>&1; then
-          ENACT_BIN="enact"
-        elif [ -x "bin/enact" ]; then
-          ENACT_BIN="bin/enact"
-        fi
-        if [ -n "$ENACT_BIN" ]; then
-          echo "🔬 Running enact ci-verify..."
-          $ENACT_BIN ci-verify --pipeline .enact --workflow ci
-        fi
-    - name: Execute Stage [Check And Lint]
+    - name: Plan Stage [Check And Lint]
+      id: stage_plan
       run: |-
         # Resolves the diff base, and leaves the planning flags of the `enact` command after this
         # script in "$@": --base, --all or --updated and --files, --no-cache.
@@ -679,7 +541,327 @@ jobs:
         if [ "${ENACT_FORCE_NO_CACHE:-}" = "true" ]; then
           set -- "$@" --no-cache
         fi
-        enact run --pipeline .enact --workflow ci "$@" check-and-lint
+        PLAN_ARGS=()
+        for arg in "$@"; do
+          if [ "$arg" != --no-cache ]; then PLAN_ARGS+=("$arg"); fi
+        done
+        set -- "${PLAN_ARGS[@]}"
+        enact dry-run --pipeline .enact --workflow ci "$@" --stage check-and-lint --github-output "$GITHUB_OUTPUT"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || env.R2_ACCESS_KEY_ID }}
+        AWS_REGION: auto
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY || env.R2_SECRET_ACCESS_KEY }}
+        ENACT_BASE_REF: ${{ inputs.base_ref || github.base_ref || github.event.pull_request.base.ref }}
+        ENACT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        ENACT_DEFAULT_BRANCH: ${{ github.event.repository.default_branch || 'master' }}
+        ENACT_EVENT_BEFORE: ${{ github.event.before }}
+        ENACT_FORCE_NO_CACHE: ${{ inputs.no_cache == 'true' || vars.ENACT_NO_CACHE == 'true' || contains(github.event.pull_request.title, '[no-cache]') || contains(github.event.pull_request.body, '[no-cache]') || contains(github.event.pull_request.labels.*.name, 'no-cache') || contains(github.event.pull_request.labels.*.name, 'showcase') || startsWith(github.head_ref, 'showcase/') || startsWith(github.ref_name, 'showcase/') }}
+        ENACT_INPUT_ALL: ${{ inputs.all }}
+        ENACT_INPUT_FILES: ${{ inputs.files }}
+        ENACT_INPUT_UPDATED: ${{ inputs.updated }}
+        ENACT_INPUT_WARM_REACH: ${{ inputs.warm_reach }}
+        ENACT_INTEGRATION_BRANCH: ${{ vars.ENACT_INTEGRATION_BRANCH }}
+        ENACT_R2_BUCKET: ${{ secrets.R2_BUCKET || env.R2_BUCKET }}
+    - parallel:
+      - name: Restore enact Task CAS Cache
+        id: enact-tasks-cache
+        if: ${{ steps.stage_plan.outputs.stage_has_work == 'true' }}
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: ${{ runner.os }}-enact-tasks-${{ github.sha }}
+          path: .enact/state/cache
+          restore-keys: ${{ runner.os }}-enact-tasks-
+      - name: Restore Node dependency cache
+        id: node_l1_cache
+        if: ${{ (steps.runner_caches.outputs.host == '') && steps.stage_plan.outputs.stage_has_work == 'true' }}
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-${{ hashFiles('package.json', 'pnpm-lock.yaml', 'enve.lock', 'pnpm-workspace.yaml') }}
+          path: |-
+            .enact/state/pnpm-store
+            node_modules/.cache
+          restore-keys: |-
+            ${{ runner.os }}-${{ runner.arch }}-node-v2-stage-check-and-lint-
+            ${{ runner.os }}-${{ runner.arch }}-node-v2-
+      - name: Restore Cache [python_cache]
+        id: cache_python_cache
+        if: ${{ steps.stage_plan.outputs.stage_has_work == 'true' }}
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: python_cache-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('machine-learning/pyproject.toml') }}
+          path: |-
+            machine-learning/.pytest_cache
+            machine-learning/.ruff_cache
+          restore-keys: python_cache-${{ runner.os }}-stage-check-and-lint-
+      - name: Restore Cache [uv_python]
+        id: cache_uv_python
+        if: ${{ steps.stage_plan.outputs.stage_has_work == 'true' }}
+        continue-on-error: true
+        uses: actions/cache/restore@v6
+        with:
+          key: uv_python-${{ runner.os }}-stage-check-and-lint-${{ hashFiles('enve.lock') }}
+          path: .enact/state/cache/uv-python
+          restore-keys: uv_python-${{ runner.os }}-stage-check-and-lint-
+    - name: Record Restored Package Caches
+      if: ${{ (steps.runner_caches.outputs.host == '') && steps.stage_plan.outputs.stage_has_work == 'true' }}
+      continue-on-error: true
+      run: |
+        # ENACT_CACHE_DELTA: one `<cache id> <path>` line per cached path.
+        delta_dir="${RUNNER_TEMP:-/tmp}/enact-cache-delta"
+        delta_ids() { awk 'NF { print $1 }' <<<"$ENACT_CACHE_DELTA" | sort -u; }
+        # The entries under the cache's paths (dot entries pruned: locks and temporaries), sorted.
+        delta_list() {
+            local want="$1" id path
+            while read -r id path; do
+                [ "$id" = "$want" ] || continue
+                path="${path/#\~/$HOME}"
+                [ -d "$path" ] || continue
+                find "$path" -mindepth 1 -name '.*' -prune -o -print 2>/dev/null || true
+            done <<<"$ENACT_CACHE_DELTA" | LC_ALL=C sort -u
+        }
+        set -euo pipefail
+        mkdir -p "$delta_dir"
+        for id in $(delta_ids); do
+            delta_list "$id" > "$delta_dir/$id.restored"
+            printf '%s: %s entries after the restore\n' "$id" "$(wc -l < "$delta_dir/$id.restored")"
+        done
+      env:
+        ENACT_CACHE_DELTA: |-
+          node_l1_cache .enact/state/pnpm-store
+          node_l1_cache node_modules/.cache
+    - name: Pull Dependencies via enve
+      if: ${{ steps.stage_plan.outputs.stage_has_work == 'true' }}
+      run: |-
+        store="${ENVE_STORE_DIR:-$HOME/.local/share/enve/store}"
+        if [ -d "/nix" ]; then
+          if [ -d "/nix/store" ] && [ ! -L "/nix/store" ]; then
+            cp -rn /nix/store/* "$store/" 2>/dev/null || true
+            rm -rf /nix/store 2>/dev/null || true
+          fi
+          ln -sfn "$store" /nix/store 2>/dev/null || true
+        fi
+        if [ -f "enve.lock" ]; then
+          if [ -n "$ENACT_R2_BUCKET" ] && ! enve run --locked -- true 2>/dev/null; then
+            enve cache pull enve.lock --cache "$ENACT_R2_BUCKET" -j 16
+          fi
+          enve run --locked -- true
+        fi
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || env.R2_ACCESS_KEY_ID }}
+        AWS_REGION: auto
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY || env.R2_SECRET_ACCESS_KEY }}
+        ENACT_R2_BUCKET: ${{ secrets.R2_BUCKET || env.R2_BUCKET }}
+        ENVE_CACHE_CONCURRENCY: "16"
+    - name: Check enve Stores into the Host Cache
+      if: ${{ (steps.runner_caches.outputs.host != '') && steps.stage_plan.outputs.stage_has_work == 'true' }}
+      run: |
+        #!/usr/bin/env bash
+        # enve materializes into `ENVE_STORE_DIR` only while it trusts the directory, and otherwise
+        # falls back to its user store or `/tmp/enve-<uid>/store` without failing: on a runner with
+        # a host cache that throws the persistent store away on every run. Fails when the job's enve
+        # calls wrote into a fallback since the runner cache probe.
+        set -euo pipefail
+        stamp="${RUNNER_TEMP:-/tmp}/enact-host-cache.stamp"
+        for fallback in "${XDG_DATA_HOME:-$HOME/.local/share}/enve/store" "/tmp/enve-$(id -u)/store"; do
+            { [ "$fallback" != "$ENVE_STORE_DIR" ] && [ -d "$fallback" ]; } || continue
+            if [ -n "$(find "$fallback" -mindepth 1 -maxdepth 1 -newer "$stamp" -print -quit 2>/dev/null)" ]; then
+                echo "::error::enve stored into $fallback, not the host cache's $ENVE_STORE_DIR, which it doesn't trust (an owner other than $(id -un) or root, or writable by others)"
+                exit 1
+            fi
+        done
+        echo "enve stores into the host cache: $ENVE_STORE_DIR"
+    - name: Install Project Dependencies
+      if: ${{ (hashFiles('package.json') != '') && steps.stage_plan.outputs.stage_has_work == 'true' }}
+      run: |-
+        RUN_PREFIX=""
+        if command -v enve >/dev/null 2>&1 && [ -f "enve.lock" ]; then
+          RUN_PREFIX="enve run --locked -- "
+        fi
+        echo "📦 Installing project dependencies..."
+        ENACT_INSTALL_INPUTS=$(mktemp "$RUNNER_TEMP/enact-install-inputs.XXXXXX")
+        sha256sum pnpm-lock.yaml > "$ENACT_INSTALL_INPUTS"
+        for input in package.json pnpm-workspace.yaml enve.lock; do
+          if [ -f "$input" ]; then sha256sum "$input" >> "$ENACT_INSTALL_INPUTS"; fi
+        done
+        $RUN_PREFIX pnpm install "$@" --frozen-lockfile --store-dir "${ENACT_PNPM_STORE:-$PWD/.enact/state/pnpm-store}" --offline --config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16 ||
+          $RUN_PREFIX pnpm install "$@" --frozen-lockfile --store-dir "${ENACT_PNPM_STORE:-$PWD/.enact/state/pnpm-store}" --prefer-offline --config.audit=false --config.minimum-release-age=0 --config.package-import-method=hardlink --config.fetch-retries=2 --config.fetch-retry-maxtimeout=10000 --network-concurrency=16 || exit $?
+        sha256sum --check "$ENACT_INSTALL_INPUTS"
+        rm "$ENACT_INSTALL_INPUTS"
+        echo "ENACT_PREPARED=${ENACT_PREPARED:+$ENACT_PREPARED,}node" >> "$GITHUB_ENV"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Verify Pipeline Contracts & Sparse Cones (enact ci-verify)
+      run: |-
+        ENACT_BIN=""
+        if command -v enact >/dev/null 2>&1; then
+          ENACT_BIN="enact"
+        elif [ -x "bin/enact" ]; then
+          ENACT_BIN="bin/enact"
+        fi
+        if [ -n "$ENACT_BIN" ]; then
+          echo "🔬 Running enact ci-verify..."
+          $ENACT_BIN ci-verify --pipeline .enact --workflow ci
+        fi
+    - name: Execute Stage [Check And Lint]
+      if: ${{ steps.stage_plan.outputs.stage_has_work == 'true' }}
+      run: |-
+        # Resolves the diff base, and leaves the planning flags of the `enact` command after this
+        # script in "$@": --base, --all or --updated and --files, --no-cache.
+        # Fetches carry commits and trees only, and name their refs: a bare `origin` fetches (or
+        # deepens) every branch of the remote.
+        FETCH="git fetch --no-tags --filter=blob:none origin"
+        # Whether the clone has the revision, never fetching it: `rev-parse --verify` accepts any
+        # full hash, and a partial clone's object lookups (`merge-base` too) fetch a missing commit
+        # with its whole history.
+        has_commit() {
+          [ -n "$(git rev-list -n1 --no-walk --ignore-missing --missing=allow-any "$1" -- 2>/dev/null)" ]
+        }
+        BASE_REV=""
+        BASE_REF="${ENACT_BASE_REF:-}"
+        if [ -n "${ENACT_BASE_SHA:-}" ]; then
+          has_commit "$ENACT_BASE_SHA" || $FETCH --depth=1 "$ENACT_BASE_SHA" 2>/dev/null || true
+          if has_commit "$ENACT_BASE_SHA"; then
+            BASE_REV="$ENACT_BASE_SHA"
+          fi
+        fi
+        if [ -z "$BASE_REV" ] && [ -z "$BASE_REF" ]; then
+          if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            if [ -n "${ENACT_EVENT_BEFORE:-}" ] && [ "${ENACT_EVENT_BEFORE:-}" != "0000000000000000000000000000000000000000" ]; then
+              BASE_REF="${ENACT_EVENT_BEFORE:-}"
+            else
+              BASE_REF="HEAD~1"
+            fi
+          else
+            INTEGRATION_BRANCH="${ENACT_INTEGRATION_BRANCH:-}"
+            if [ -n "$INTEGRATION_BRANCH" ] && [ "$GITHUB_REF_NAME" != "$INTEGRATION_BRANCH" ] && [ "$GITHUB_REF_NAME" != "${ENACT_DEFAULT_BRANCH:-master}" ]; then
+              has_commit "origin/$INTEGRATION_BRANCH" || $FETCH --depth=1 "+refs/heads/$INTEGRATION_BRANCH:refs/remotes/origin/$INTEGRATION_BRANCH" 2>/dev/null || true
+              if has_commit "origin/$INTEGRATION_BRANCH"; then
+                BASE_REF="$INTEGRATION_BRANCH"
+              fi
+            fi
+            if [ -z "$BASE_REF" ]; then
+              BASE_REF="${ENACT_DEFAULT_BRANCH:-master}"
+            fi
+          fi
+        fi
+        if [ -z "$BASE_REV" ] && [ -n "$BASE_REF" ]; then
+          # The base fetches as a commit (a full hash) or a branch (into its remote-tracking ref),
+          # one deep; a revision of HEAD's own (HEAD~1) is in HEAD's history.
+          BASE_SPEC="+refs/heads/$BASE_REF:refs/remotes/origin/$BASE_REF"
+          case "$BASE_REF" in
+            HEAD | HEAD[~^]*) BASE_SPEC="" ;;
+            *[!0-9a-f]*) ;;
+            *) if [ ${#BASE_REF} -ge 40 ]; then BASE_SPEC="$BASE_REF"; fi ;;
+          esac
+          if [ -n "$BASE_SPEC" ] && ! has_commit "$BASE_REF" && ! has_commit "origin/$BASE_REF"; then
+            $FETCH --depth=1 "$BASE_SPEC" 2>/dev/null || true
+          fi
+          # The base as this clone names it, if it has it.
+          base_at() {
+            if has_commit "$BASE_REF"; then
+              echo "$BASE_REF"
+            elif has_commit "origin/$BASE_REF"; then
+              echo "origin/$BASE_REF"
+            fi
+          }
+          merge_base() {
+            BASE_AT=$(base_at)
+            if [ -n "$BASE_AT" ]; then
+              git merge-base HEAD "$BASE_AT" 2>/dev/null || true
+            fi
+          }
+          # A shallow clone deepens HEAD and the base alone, in growing steps, until they meet;
+          # unshallowing them is the last resort. They are named by commit: fetch skips a ref
+          # that is already up to date, and so leaves it as shallow as it was.
+          DEEPEN=$(git rev-parse HEAD)
+          BASE_AT=$(base_at)
+          if [ -n "$BASE_SPEC" ] && [ -n "$BASE_AT" ]; then
+            DEEPEN="$DEEPEN $(git rev-parse "$BASE_AT")"
+          fi
+          MERGE_BASE=$(merge_base)
+          for STEP in --deepen=50 --deepen=200 --deepen=1000 --unshallow; do
+            if [ -n "$MERGE_BASE" ] || [ "$(git rev-parse --is-shallow-repository 2>/dev/null)" != "true" ]; then
+              break
+            fi
+            # shellcheck disable=SC2086 # one word per commit
+            $FETCH "$STEP" $DEEPEN 2>/dev/null || true
+            MERGE_BASE=$(merge_base)
+          done
+          BASE_REV="${MERGE_BASE:-$(base_at)}"
+        fi
+        if [ -z "$BASE_REV" ] && [ "$GITHUB_EVENT_NAME" = "push" ]; then
+          if has_commit HEAD~1; then
+            BASE_REV="HEAD~1"
+          fi
+        fi
+        # The reach map planning reads is the reach store's newest at an ancestor of HEAD: a
+        # shallow clone sees too little history to find it, so the pull deepens it (commits only)
+        # back to the stored maps' commits, and downloads from the remote tier when there is one.
+        # A job handed detect's map (ENACT_REACH_FILE) plans with that one.
+        if [ -z "${ENACT_REACH_FILE:-}" ]; then
+          enact trace store pull || true
+        fi
+        # The reach map's footprints are aged by what changed since the revisions they were
+        # traced at: fetch those the shallow clone lacks, else each ages whole. Their
+        # trees only: aging diffs trees, and reads the few blobs it compares by function lazily.
+        MAP_REVISIONS=$(enact trace revisions --missing 2>/dev/null || true)
+        if [ -n "$MAP_REVISIONS" ]; then
+          MAP_FETCH="$FETCH --depth=1"
+          # shellcheck disable=SC2086 # one word per revision
+          $MAP_FETCH $MAP_REVISIONS 2>/dev/null || for rev in $MAP_REVISIONS; do
+            $MAP_FETCH "$rev" 2>/dev/null || true
+          done
+        fi
+        # Pushes to the default branch record the footprints of the tests they run untraced or
+        # stale (`enact run`'s recording, off elsewhere on CI).
+        if [ -z "${ENACT_RECORD:-}" ] && [ "$GITHUB_EVENT_NAME" = "push" ] && [ "${GITHUB_REF_NAME:-}" = "${ENACT_DEFAULT_BRANCH:-master}" ]; then
+          export ENACT_RECORD=auto
+        fi
+        # A warm-up (dispatched with warm_reach on the default branch) runs every suite and records
+        # every test without a fresh footprint.
+        WARM_REACH=""
+        if [ "${ENACT_INPUT_WARM_REACH:-}" = "true" ] && [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ] && [ "${GITHUB_REF_NAME:-}" = "${ENACT_DEFAULT_BRANCH:-master}" ]; then
+          export ENACT_RECORD=every
+          WARM_REACH=1
+        fi
+        set --
+        if [ -n "$BASE_REV" ]; then
+          set -- "$@" --base "$BASE_REV"
+        fi
+        if [ "${ENACT_INPUT_ALL:-}" = "true" ] || [ -n "$WARM_REACH" ]; then
+          set -- "$@" --all
+        else
+          if [ -n "${ENACT_INPUT_UPDATED:-}" ]; then
+            set -- "$@" --updated "$ENACT_INPUT_UPDATED"
+          fi
+          # A dispatch's files plan as the change. Each must be a file of HEAD's tree (read from
+          # its trees, so a sparse or blobless checkout answers too), or a typo plans nothing and
+          # the run passes.
+          if [ -n "${ENACT_INPUT_FILES:-}" ]; then
+            OLD_IFS=$IFS
+            IFS=,
+            set -f
+            for path in $ENACT_INPUT_FILES; do
+              case "$(git ls-tree HEAD -- "$path" 2>/dev/null)" in
+                *" blob "*) ;;
+                *)
+                  echo "::error::files input: '$path' is no file at HEAD (comma-separated paths from the repository root)"
+                  exit 1
+                  ;;
+              esac
+            done
+            set +f
+            IFS=$OLD_IFS
+            set -- "$@" --files "$ENACT_INPUT_FILES"
+          fi
+        fi
+        if [ "${ENACT_FORCE_NO_CACHE:-}" = "true" ]; then
+          set -- "$@" --no-cache
+        fi
+        enact run --pipeline .enact --workflow ci "$@" --stage check-and-lint
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID || env.R2_ACCESS_KEY_ID }}
         AWS_REGION: auto
@@ -697,7 +879,7 @@ jobs:
         ENACT_R2_BUCKET: ${{ secrets.R2_BUCKET || env.R2_BUCKET }}
     - name: Check Package Caches for New Entries
       id: cache_delta
-      if: ${{ !cancelled() && steps.runner_caches.outputs.host == '' && (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') }}
+      if: ${{ (!cancelled() && steps.runner_caches.outputs.host == '' && (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch')) && steps.stage_plan.outputs.stage_has_work == 'true' }}
       continue-on-error: true
       run: |
         # ENACT_CACHE_DELTA: one `<cache id> <path>` line per cached path.
@@ -745,7 +927,7 @@ jobs:
           node_l1_cache node_modules/.cache
     - parallel:
       - name: Save Cache [python_cache]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true'
+        if: ${{ ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_python_cache.outputs.cache-hit != 'true') && steps.stage_plan.outputs.stage_has_work == 'true' }}
         continue-on-error: true
         uses: actions/cache/save@v6
         with:
@@ -754,14 +936,14 @@ jobs:
             machine-learning/.pytest_cache
             machine-learning/.ruff_cache
       - name: Save Cache [uv_python]
-        if: (github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_uv_python.outputs.cache-hit != 'true'
+        if: ${{ ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_uv_python.outputs.cache-hit != 'true') && steps.stage_plan.outputs.stage_has_work == 'true' }}
         continue-on-error: true
         uses: actions/cache/save@v6
         with:
           key: ${{ steps.cache_uv_python.outputs.cache-primary-key }}
           path: .enact/state/cache/uv-python
       - name: Save Node dependency cache
-        if: ((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_delta.outputs.node_l1_cache == 'true' && steps.runner_caches.outputs.host == '') && steps.node_l1_cache.outputs.cache-hit != 'true'
+        if: ${{ (((github.event_name == 'push' || github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && steps.cache_delta.outputs.node_l1_cache == 'true' && steps.runner_caches.outputs.host == '') && steps.node_l1_cache.outputs.cache-hit != 'true') && steps.stage_plan.outputs.stage_has_work == 'true' }}
         continue-on-error: true
         uses: actions/cache/save@v6
         with:
