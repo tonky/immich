@@ -627,6 +627,7 @@ pipeline: schema.#Pipeline & {
 			// Upstream's `e2e-tests-web`: the Playwright web, ui and maintenance suites.
 			jobs: web: {
 				name: "Web E2E"
+				recorder: "trace"
 				target_scope: {
 					fallback: "all"
 					tests: [
