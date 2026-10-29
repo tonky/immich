@@ -2,8 +2,8 @@
   "platforms": {
     "aarch64-darwin": {
       "binding": {
-        "environment_sha256": "c2c14aa1e32d486a578e21539f1e8887300ad83f9f1d30b57c71afcbd85905f2",
-        "inventory_sha256": "5eaa524860958215e1308207e83ea49ca7921cd13e06e48a6141ddde8d6d4677",
+        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
+        "inventory_sha256": "767e70fe913d8bb740374c6ff08e3571191ec9f4df2d135baa44738d49745808",
         "profile": null,
         "version": 2
       },
@@ -2569,7 +2569,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "e4927d1df35e5c66717227edc9bab245c1bd9a7f73f338ca034645abe5a36a4d"
+        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
       },
       "environment": {
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
@@ -3248,8 +3248,8 @@
     },
     "aarch64-linux": {
       "binding": {
-        "environment_sha256": "c2c14aa1e32d486a578e21539f1e8887300ad83f9f1d30b57c71afcbd85905f2",
-        "inventory_sha256": "dd5bfd1d3725d5b5e44921c8f18d2d282be32d2e7f7d30492fe82f15c1922f0d",
+        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
+        "inventory_sha256": "61d1298e1095b6b76bf1476b001d696bcb377f99266ded0d33b299b4c5eda738",
         "profile": null,
         "version": 2
       },
@@ -4407,6 +4407,14 @@
             "xrhg1bl0nlhvz4aipvack0r4ch3q85k1-tcl-8.6.16",
             "ys816dzpv5y33m6x0ln84kxmx46l1lpg-lz4-1.10.0-dev",
             "zm75q602pac1pp3yv2za4zf9wj36dd76-bash-5.3p9"
+          ]
+        },
+        {
+          "hash_name": "dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61",
+          "nar_hash": "sha256:16c37hbiw1bwvbmz9knl7ickhrjbzinwyi3k344285r87f8dh65r",
+          "nar_size": 233224472,
+          "references": [
+            "dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61"
           ]
         },
         {
@@ -5686,6 +5694,9 @@
           ]
         },
         {
+          "hash_name": "wzx5q6cikwh34s691lg4d3hanbjg0wrm-immich-postgres-locales-1.0.0"
+        },
+        {
           "hash_name": "x2p1gbn8pfdsnkl6i82vf1n5zqlgm7s5-libxcomposite-0.4.7",
           "nar_hash": "sha256:1xa0rlgq1j0q61rmq74my1m3j1f4bgfa0qsh49bg3h0fx6lw7vww",
           "nar_size": 79960,
@@ -6038,6 +6049,40 @@
             204
           ],
           "extism-js": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "immich-postgres-locales": [
             197,
             248,
             168,
@@ -6807,6 +6852,34 @@
             },
             {
               "constraint": {
+                "attr": "glibcLocales",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": "2.42"
+              },
+              "package": {
+                "attr_path": "glibcLocales",
+                "name": "glibc-locales",
+                "origin": {
+                  "Channel": {
+                    "build": 329281160,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61"
+                ],
+                "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "liberation_ttf",
                 "context": "profiles.dev",
                 "output": null,
@@ -7409,7 +7482,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "e4927d1df35e5c66717227edc9bab245c1bd9a7f73f338ca034645abe5a36a4d"
+        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
       },
       "environment": {
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
@@ -7447,6 +7520,7 @@
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich",
+        "LOCALE_ARCHIVE": "$ENVE_STORE_DIR/wzx5q6cikwh34s691lg4d3hanbjg0wrm-immich-postgres-locales-1.0.0/lib/locale/locale-archive",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "${ENVE_SERVICE_IMMICH_SERVER_URL}",
         "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/qv7ampm3kv7cg6disnx42gg04qr0hbvf-playwright-browsers-1.64.1",
@@ -7641,6 +7715,50 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "2.54.0"
+        },
+        "immich-postgres-locales": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "1ry8ms2dz2ggmind11cwcxba1bsiih8p-bash-interactive-5.3p9-dev",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61",
+            "rprpkkhvvf36qgpxhdjb7nmq26ayhf3f-bash-interactive-5.3p9"
+          ],
+          "closure": "wzx5q6cikwh34s691lg4d3hanbjg0wrm-immich-postgres-locales-1.0.0",
+          "version": "1.0.0"
         },
         "jellyfin-ffmpeg": {
           "buildIdentity": [
@@ -8115,8 +8233,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "c2c14aa1e32d486a578e21539f1e8887300ad83f9f1d30b57c71afcbd85905f2",
-        "inventory_sha256": "d6fa3c8189877be719646862b018b90cc2f7fef086da3981bc0bc6eac067568d",
+        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
+        "inventory_sha256": "1f03fb6842b8e10978e13b048d8c7241c16d3b3714026809d571c85533356015",
         "profile": null,
         "version": 2
       },
@@ -8482,6 +8600,9 @@
           ]
         },
         {
+          "hash_name": "50x3220124z5ac9rw4miskls4cy15f8f-immich-postgres-locales-1.0.0"
+        },
+        {
           "hash_name": "56nmfisvhchafp5xsidvqij97ikb5zn1-libgcrypt-1.11.2-lib",
           "nar_hash": "sha256:0v3vkhg21azq42300wwskj513aw7n3wbfrczcgxd8vhjbx8w1q6x",
           "nar_size": 1849752,
@@ -8738,6 +8859,14 @@
             "7830mkmrlim6br3ndl9ldxf48xhycc0p-jemalloc-5.3.1",
             "chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib",
             "gik3rh1vz2jlgnifb9dh6vc6sxwwz9jj-bash-5.3p9"
+          ]
+        },
+        {
+          "hash_name": "78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61",
+          "nar_hash": "sha256:0ng1hz6kna2ilh1wmw199105bx9icn693a8fhv67p950ii6fanj8",
+          "nar_size": 233224472,
+          "references": [
+            "78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61"
           ]
         },
         {
@@ -10949,6 +11078,40 @@
             84,
             204
           ],
+          "immich-postgres-locales": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
           "jellyfin-ffmpeg": [
             197,
             248,
@@ -11685,6 +11848,34 @@
             },
             {
               "constraint": {
+                "attr": "glibcLocales",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": "2.42"
+              },
+              "package": {
+                "attr_path": "glibcLocales",
+                "name": "glibc-locales",
+                "origin": {
+                  "Channel": {
+                    "build": 329281161,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61"
+                ],
+                "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "liberation_ttf",
                 "context": "profiles.dev",
                 "output": null,
@@ -12287,7 +12478,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "e4927d1df35e5c66717227edc9bab245c1bd9a7f73f338ca034645abe5a36a4d"
+        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
       },
       "environment": {
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
@@ -12325,6 +12516,7 @@
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich",
+        "LOCALE_ARCHIVE": "$ENVE_STORE_DIR/50x3220124z5ac9rw4miskls4cy15f8f-immich-postgres-locales-1.0.0/lib/locale/locale-archive",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "${ENVE_SERVICE_IMMICH_SERVER_URL}",
         "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/2vzna46qwcbig9i9wxnab23f71a8ibhc-playwright-browsers-1.64.1",
@@ -12519,6 +12711,50 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "2.54.0"
+        },
+        "immich-postgres-locales": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "bvsy09r85z0q1m30p87s1bf4ikb0s84i-bash-interactive-5.3p9-dev",
+            "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9"
+          ],
+          "closure": "50x3220124z5ac9rw4miskls4cy15f8f-immich-postgres-locales-1.0.0",
+          "version": "1.0.0"
         },
         "jellyfin-ffmpeg": {
           "buildIdentity": [
@@ -12997,6 +13233,6 @@
     "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
     "revision": "89570f24e97e614aa34aa9ab1c927b6578a43775"
   },
-  "target": "enve.cue",
+  "target": "usecases/immich/overlay/enve.cue",
   "version": 3
 }

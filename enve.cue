@@ -174,6 +174,30 @@ let vchordLinux = schema.#ArchiveBuildSpec & {
 		"""
 }
 
+// initdb's en_US collation needs locale data from the same locked libc snapshot.
+let postgresLocales = schema.#PackageSpec & {
+	pname: "immich-postgres-locales"
+	version: "1.0.0"
+	platforms: ["linux"]
+	buildInputs: [{pname: "glibc-locales", attr: "glibcLocales", version: "2.42"}]
+	buildScript: """
+		set -eu
+		locale_archive=
+		IFS=:
+		for locale_lib in ${LIBRARY_PATH:-}; do
+			if [ -f "$locale_lib/locale/locale-archive" ]; then
+				locale_archive="$locale_lib/locale/locale-archive"
+				break
+			fi
+		done
+		unset IFS
+		[ -n "$locale_archive" ] || { echo "locked glibc locale archive missing" >&2; exit 1; }
+		mkdir -p "$out/lib/locale"
+		ln -s "$locale_archive" "$out/lib/locale/locale-archive"
+		"""
+	exports: LOCALE_ARCHIVE: "$out/lib/locale/locale-archive"
+}
+
 // The server they build against: nixpkgs' postgresql drops pg_config and keeps what it
 // printed in its dev output (which holds PGXS too). `sysroot` is the SDK the compiler
 // wrapper builds with: the server's own build recorded one this machine may not have.
@@ -332,6 +356,7 @@ profiles: dev: schema.#Profile & {
 		// and readiness probe (psql, helpers/immich-server-ready.sh) run on the profile's PATH,
 		// not postgres's: declared, the postgres service's join below is the profile's server.
 		pkgs.postgresql_14,
+		postgresLocales,
 		// Playwright's headless Chromium shell from the store (PLAYWRIGHT_BROWSERS_PATH,
 		// PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS, FONTCONFIG_FILE), matching
 		// pnpm-lock.yaml's @playwright/test 1.64.1.

@@ -27,7 +27,7 @@ beforeAll(async () => {
 
 describe(VersionService.name, () => {
   describe('onBootstrap', () => {
-    it('records the current version on startup', async () => {
+    it('record the current version on startup', async () => {
       const { sut, ctx } = setup();
       const versionHistoryRepo = ctx.get(VersionHistoryRepository);
 
