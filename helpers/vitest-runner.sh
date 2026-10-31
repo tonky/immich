@@ -75,10 +75,14 @@ if [ -n "${ENACT_SHARD_WORKERS:-}" ] && [ "$PWD" != "$REPO_ROOT/e2e" ]; then
 fi
 
 # Traced by `enact trace run --attribution` (helpers/trace/trace-files.sh): one forked worker
-# per spec, and the reporter saying which modules each spec loaded.
+# per spec, and the reporter saying which modules each spec loaded. Single-target `trace run`
+# (e2e specs: $ENACT_SKIPS_FILE) adds the reporter alone so e2e keeps its maxWorkers: 1 pool.
 ATTRIBUTION_ARGS=()
 if [ -n "${ENACT_ATTRIBUTION_FILE:-}" ]; then
-  ATTRIBUTION_ARGS=(--pool=forks --isolate --reporter=default
+  ATTRIBUTION_ARGS=(--no-cache --pool=forks --isolate --reporter=default
+    "--reporter=$REPO_ROOT/helpers/trace/vitest-attribution.mjs")
+elif [ -n "${ENACT_SKIPS_FILE:-}" ]; then
+  ATTRIBUTION_ARGS=(--reporter=default
     "--reporter=$REPO_ROOT/helpers/trace/vitest-attribution.mjs")
 fi
 
@@ -86,7 +90,8 @@ vitest_run() {
   "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "${POOL_ARGS[@]}" "${ATTRIBUTION_ARGS[@]}" "$@"
 }
 
-# The server keeps unit and medium (database) specs under separate configs.
+# The server keeps unit and medium (database) specs under separate configs; e2e keeps
+# server maintenance specs under vitest.maintenance.config.ts.
 if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; then
   if [ ${#TARGETS[@]} -eq 0 ]; then
     vitest_run --config test/vitest.config.mjs
@@ -108,6 +113,29 @@ if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; th
   if [ ${#medium_targets[@]} -gt 0 ]; then
     "$REPO_ROOT/helpers/build-core-plugin.sh"
     vitest_run --config test/enact/vitest.config.medium.mjs "${medium_targets[@]}"
+  fi
+elif [ -f "vitest.config.ts" ] && [ -f "vitest.maintenance.config.ts" ]; then
+  if [ ${#TARGETS[@]} -eq 0 ]; then
+    vitest_run --config vitest.config.ts
+    exit 0
+  fi
+  server_targets=()
+  maintenance_targets=()
+  for t in "${TARGETS[@]}"; do
+    case "$t" in
+      src/specs/maintenance/server | src/specs/maintenance/server/* | ./src/specs/maintenance/server | ./src/specs/maintenance/server/*)
+        maintenance_targets+=("$t")
+        ;;
+      *)
+        server_targets+=("$t")
+        ;;
+    esac
+  done
+  if [ ${#server_targets[@]} -gt 0 ]; then
+    vitest_run --config vitest.config.ts "${server_targets[@]}"
+  fi
+  if [ ${#maintenance_targets[@]} -gt 0 ]; then
+    vitest_run --config vitest.maintenance.config.ts "${maintenance_targets[@]}"
   fi
 else
   vitest_run "${TARGETS[@]}"

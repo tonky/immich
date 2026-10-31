@@ -16,7 +16,7 @@
 # read, not a build.
 #
 # Not recorded here: the e2e specs, which enact traces itself one by one (their job's
-# `recorder: "trace"`), and anything off Linux: `enact trace run` traces with seccomp, and
+# `recorder: "trace"`), and anything off Linux: `enact trace run` traces with eBPF, and
 # off Linux it fails (there is no file tracer), so the specs run untraced.
 # A run the tracer couldn't start (no map written) runs untraced.
 #
@@ -74,6 +74,12 @@ done
 if [ "$MEDIUM" = 1 ]; then
   "$ROOT/helpers/build-core-plugin.sh" || exit
 fi
+TRACE_LOCK=()
+if [ "$PKG" = web/ ] && [ -x ./node_modules/.bin/svelte-kit ]; then
+  mkdir -p "$ROOT/node_modules"
+  flock -o "$ROOT/node_modules/.enact-svelte-sync.lock" bash -c './node_modules/.bin/svelte-kit sync >&2 && mkdir -p .svelte-kit && printf "*\n" > .svelte-kit/.gitignore' || exit
+  TRACE_LOCK=(flock -o "$ROOT/node_modules/.enact-svelte-sync.lock")
+fi
 export IMMICH_WORKSPACE_DEPS_BUILT=1
 
 WORK=$(mktemp -d "${TMPDIR:-/tmp}/enact-footprints.XXXXXX")
@@ -83,7 +89,7 @@ echo "🎙️  [footprints] tracing the shard's specs for enact's reach map, wit
 status=0
 # The medium specs clone the shared `mich` template database: their footprints hold it.
 SERVICE_DEPS=$([ "$MEDIUM" = 1 ] && echo postgres) \
-  "$ROOT/helpers/trace/trace-files.sh" "$WORK/shard.json" "$@" || status=$?
+  "${TRACE_LOCK[@]}" "$ROOT/helpers/trace/trace-files.sh" "$WORK/shard.json" "$@" || status=$?
 if [ ! -s "$WORK/shard.json" ]; then
   echo "⚠️  [footprints] the shard wasn't traced: it runs untraced" >&2
   exec "$RUNNER" "$@"

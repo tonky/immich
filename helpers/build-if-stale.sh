@@ -68,7 +68,16 @@ else
   output=$2
   shift 2
   stamp_file="$root/$output/.build-stamp"
-  mapfile -t packages < <(cd "$root" && pnpm --filter "$filter" list --depth -1 --parseable)
+  # Store CLI options arrive after pnpm's default-store hardlink probe. Its native env
+  # setting is consumed early enough to keep this read-only query out of the source root.
+  store="$(node "$(dirname "${BASH_SOURCE[0]}")/installed-store.cjs" "$root" 2>/dev/null)" || store=""
+  if [ -n "$store" ] && [ -d "$store" ]; then
+    listed="$(cd "$root" && PNPM_CONFIG_STORE_DIR="$store" pnpm --store-dir "$store" --filter "$filter" list --depth -1 --parseable)"
+  else
+    listed="$(cd "$root" && pnpm --filter "$filter" list --depth -1 --parseable)"
+  fi
+  [ -n "$listed" ] || { echo "[build-if-stale] no packages for $filter" >&2; exit 1; }
+  mapfile -t packages <<<"$listed"
 fi
 cd "$root"
 

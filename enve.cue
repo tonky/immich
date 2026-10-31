@@ -7,12 +7,9 @@ import (
 	"immich.app/helpers/vchord"
 )
 
-// Upstream's pins that nixpkgs never shipped, as their release archives; where upstream
-// publishes none for darwin (the postgres extensions), built from source there.
-// tests/conformance.rs checks the versions against upstream's.
+// Upstream's pins (.nvmrc, mise.toml, packageManager, test images), from nixpkgs or
+// release archives (darwin postgres extensions built from source). Checked by tests/conformance.rs.
 
-// The medium specs assert ffprobe's packet counts and timings: jellyfin's build, as
-// upstream's server image ships it.
 let ffmpeg = schema.#ArchiveBuildSpec & {
 	pname:   "jellyfin-ffmpeg"
 	version: "7.1.3-6"
@@ -31,7 +28,6 @@ let ffmpeg = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out/bin\" && cp ffmpeg ffprobe \"$out/bin/\""
 }
 
-// .nvmrc's node (upstream's base images run it too): nixpkgs has no 24.22.1 yet.
 let nodejs = schema.#ArchiveBuildSpec & {
 	pname:   "nodejs"
 	version: "24.22.1"
@@ -50,11 +46,6 @@ let nodejs = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out\" && cp -R bin include lib share \"$out/\""
 }
 
-// package.json's `packageManager` pnpm, exactly (nixpkgs has 12.9): its native build
-// (@pnpm/exe.*), which npm's `pnpm` package downloads on first run. At another version
-// pnpm switches itself to that one, and doing so wrote the switch into pnpm-lock.yaml
-// (`packageManagerDependencies`: `@pnpm/exe`): any `pnpm` run edited a tracked file, and
-// the traced services digested it (pnpm 11 dropped `manage-package-manager-versions`).
 let pnpm = schema.#ArchiveBuildSpec & {
 	pname:   "pnpm"
 	version: "12.14.0"
@@ -73,7 +64,6 @@ let pnpm = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out/bin\" && cp pnpm \"$out/bin/\" && chmod +x \"$out/bin/pnpm\""
 }
 
-// machine-learning/mise.toml's uv.
 let uv = schema.#ArchiveBuildSpec & {
 	pname:   "uv"
 	version: "0.8.15"
@@ -92,8 +82,6 @@ let uv = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out/bin\" && cp uv uvx \"$out/bin/\""
 }
 
-// The core plugin's build (mise.toml): extism-js compiles it, running binaryen's
-// wasm-merge and wasm-opt.
 let extismJs = schema.#ArchiveBuildSpec & {
 	pname:   "extism-js"
 	version: "1.7.0"
@@ -112,7 +100,6 @@ let extismJs = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out/bin\" && cp extism-js \"$out/bin/\""
 }
 
-// Upstream's `version_124`; its darwin binaries load lib/libbinaryen.dylib beside them.
 let binaryen = schema.#ArchiveBuildSpec & {
 	pname:   "binaryen"
 	version: "124"
@@ -131,10 +118,7 @@ let binaryen = schema.#ArchiveBuildSpec & {
 	installPhase: "mkdir -p \"$out\" && cp -R bin lib \"$out/\""
 }
 
-// The extensions of upstream's test image (`ghcr.io/immich-app/postgres:14-vectorchord0.4.3`,
-// PostgreSQL 14 from PGDG on Debian), laid out as nixpkgs' are (`lib/<module>`,
-// `share/postgresql/extension/`) for the postgres service to join. On Linux the image's
-// own builds: pgvector's PGDG package and VectorChord's release.
+// Extensions for `ghcr.io/immich-app/postgres:14-vectorchord0.4.3` (PostgreSQL 14).
 let pgvector = schema.#ArchiveBuildSpec & {
 	pname:   "pgvector"
 	version: "0.8.1"
@@ -147,7 +131,6 @@ let pgvector = schema.#ArchiveBuildSpec & {
 		"x86_64-linux":  "918c3ba72f83d778aa6cc01f1f4235271ea18abd397395d59f35d47f21770d6d"
 		"aarch64-linux": "61505921f94a75aa6ef5042770c46856c962135479babfa6e36dad7bb7f48668"
 	}
-	// The package's usr/ tree.
 	installPhase: """
 		mkdir -p "$out/lib" "$out/share/postgresql"
 		cp lib/postgresql/14/lib/vector.so "$out/lib/"
@@ -174,9 +157,8 @@ let vchordLinux = schema.#ArchiveBuildSpec & {
 		"""
 }
 
-// initdb's en_US collation needs locale data from the same locked libc snapshot.
 let postgresLocales = schema.#PackageSpec & {
-	pname: "immich-postgres-locales"
+	pname:   "immich-postgres-locales"
 	version: "1.0.0"
 	platforms: ["linux"]
 	buildInputs: [{pname: "glibc-locales", attr: "glibcLocales", version: "2.42"}]
@@ -198,9 +180,6 @@ let postgresLocales = schema.#PackageSpec & {
 	exports: LOCALE_ARCHIVE: "$out/lib/locale/locale-archive"
 }
 
-// The server they build against: nixpkgs' postgresql drops pg_config and keeps what it
-// printed in its dev output (which holds PGXS too). `sysroot` is the SDK the compiler
-// wrapper builds with: the server's own build recorded one this machine may not have.
 let pgBuildInputs = [
 	pkgs.postgresql_14,
 	{pname: "postgresql", attr: "postgresql_14.dev", version: "14"},
@@ -244,8 +223,6 @@ let pgvectorDarwin = schema.#GenericBuildSpec & {
 	src:    "https://github.com/pgvector/pgvector/archive/refs/tags/v\(version).tar.gz"
 	sha256: "a9094dfb85ccdde3cbb295f1086d4c71a20db1d26bf1d6c39f07a7d164033eb4"
 	buildInputs: list.Concat([pgBuildInputs, [{pname: "gnumake"}]])
-	// PGXS with the variables the server's build recorded for its own machine overridden:
-	// no -march=native (OPTFLAGS), no JIT bitcode, this SDK.
 	buildScript: #"""
 		set -eu
 		\#(pgConfig)
@@ -258,9 +235,7 @@ let pgvectorDarwin = schema.#GenericBuildSpec & {
 		"""#
 }
 
-// VectorChord publishes no darwin build: built as its CI's psql_macos job does (pgrx,
-// cargo build --features pg14), offline from the crates its Cargo.lock names
-// (helpers/vchord/crates.cue).
+// VectorChord darwin build from source (helpers/vchord/crates.cue).
 let vchordDarwin = schema.#GenericBuildSpec & {
 	pname:   "vchord"
 	version: vchord.version
@@ -269,14 +244,8 @@ let vchordDarwin = schema.#GenericBuildSpec & {
 	sha256: "d3045b018ddf22fecbe65e56079e2254869b75f14ed3aa9f7bd0cce81ea727ce"
 	fetch:  vchord.crates
 	buildInputs: list.Concat([pgBuildInputs, [
-		{pname: "rustc"},
-		{pname: "cargo"},
-		// bindgen's libclang.
-		{pname: "libclang", attr: "libclang.lib"},
-		{pname: "gnutar"},
-		{pname: "gzip"},
-		// Rust's std links libiconv, which nixpkgs' SDK leaves out and propagates instead.
-		{pname: "apple-sdk"},
+		{pname: "rustc"}, {pname: "cargo"}, {pname: "libclang", attr: "libclang.lib"},
+		{pname: "gnutar"}, {pname: "gzip"}, {pname: "apple-sdk"},
 	]])
 	buildScript: #"""
 		set -eu
@@ -323,72 +292,28 @@ let vchordDarwin = schema.#GenericBuildSpec & {
 
 profiles: dev: schema.#Profile & {
 	name: "immich-dev"
-	// Upstream's pins (.nvmrc, mise.toml, packageManager, test images), from nixpkgs or, at
-	// versions it never shipped, the archives above. tests/conformance.rs checks them
-	// against upstream.
 	tools: [
-		pnpm,
-		nodejs,
-		pkgs.python & {version: "3.12"},
-		ffmpeg,
-		uv,
-		extismJs,
-		binaryen,
+		pnpm, nodejs, pkgs.python & {version: "3.12"}, ffmpeg, uv, extismJs, binaryen,
 		pkgs.valkey & {version: "9"},
-		// exiftool-vendored runs perl, which upstream's server image ships and runner
-		// images need not.
-		{pname: "perl"},
-		// download.e2e-spec.ts unzips the archives the server serves.
-		{pname: "unzip"},
-		{pname: "shellcheck"},
-		// The helpers' `#!/usr/bin/env bash` and their locks: macOS ships bash 3.2 (no
-		// mapfile; empty arrays fail under `set -u`) and no flock(1).
-		{pname: "bash"},
-		{pname: "flock"},
-		// What the helpers run besides, found by resolving each inside `enve run` (the host's
-		// otherwise): build-if-stale.sh's `git` and `sha256sum`, the readiness probes' `curl`,
-		// the trace helpers' `awk`.
-		{pname: "git"},
-		{pname: "curl"},
-		{pname: "coreutils"},
-		{pname: "gawk"},
-		// The immich-server service's start (dropdb/createdb, helpers/start-immich-server.sh)
-		// and readiness probe (psql, helpers/immich-server-ready.sh) run on the profile's PATH,
-		// not postgres's: declared, the postgres service's join below is the profile's server.
-		pkgs.postgresql_14,
-		postgresLocales,
-		// Playwright's headless Chromium shell from the store (PLAYWRIGHT_BROWSERS_PATH,
-		// PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS, FONTCONFIG_FILE), matching
-		// pnpm-lock.yaml's @playwright/test 1.64.1.
+		{pname: "perl"}, {pname: "unzip"}, {pname: "shellcheck"},
+		{pname: "bash"}, {pname: "flock"}, {pname: "git"}, {pname: "curl"}, {pname: "coreutils"}, {pname: "gawk"},
+		pkgs.postgresql_14, postgresLocales,
+		// exports PLAYWRIGHT_BROWSERS_PATH
 		pkgs.#PlaywrightBrowsers & {version: "1.64.1", features: ["chromium-headless-shell"]},
 	]
 	services: {
-		// As upstream's test image: PostgreSQL 14 with pgvector and VectorChord, which enve
-		// joins into the server the profile runs.
 		postgres: {
 			name:    "postgres"
 			package: pkgs.postgresql_14
 			extensions: [pgvector, pgvectorDarwin, vchordLinux, vchordDarwin]
 			command: "sh -c helpers/start-postgres.sh"
-			// As upstream's e2e compose publishes it (`5435:5432`); a named instance's port
-			// reaches e2e/src/utils.ts as ENVE_SERVICE_POSTGRES_PORT (patches/).
-			port: 5435
-			// A cold start runs initdb before the postmaster listens.
+			port:    5435
 			timeout: "60s"
-			environment: {
-				TZ:   "UTC"
-				PGTZ: "UTC"
-			}
-			lifecycle: {
-				postStart: "createdb -h 127.0.0.1 -p $PORT -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p $PORT -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p $PORT -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p $PORT -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
-			}
+			environment: {TZ: "UTC", PGTZ: "UTC"}
+			lifecycle: postStart: "createdb -h 127.0.0.1 -p $PORT -U postgres immich 2>/dev/null || true; createdb -h 127.0.0.1 -p $PORT -U postgres mich 2>/dev/null || true; psql -h 127.0.0.1 -p $PORT -U postgres -d immich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true; psql -h 127.0.0.1 -p $PORT -U postgres -d mich -c \"CREATE EXTENSION IF NOT EXISTS vector;\" -c \"CREATE EXTENSION IF NOT EXISTS cube;\" || true"
 		}
-		// As upstream's compose (`valkey/valkey:9`). The compose never publishes it, so not
-		// 6379: enve adopts whatever already listens on a service's port ("already active:
-		// skipping local spawn"), and a host's or another project's redis there became the
-		// server's queue.
 		valkey: {
-			name:    "valkey"
+			name: "valkey"
 			package: pkgs.valkey & {version: "9"}
 			command: "valkey-server --dir \"$DATA_DIR\" --bind 127.0.0.1 --port $PORT --save \"\""
 			port:    6385
@@ -396,16 +321,10 @@ profiles: dev: schema.#Profile & {
 		"immich-server": {
 			name:    "immich-server"
 			command: "sh -c helpers/start-immich-server.sh"
-			// As upstream's e2e docker-compose; the specs reach a named instance's at
-			// PLAYWRIGHT_BASE_URL (patches/).
-			port: 2285
-			// The metrics listeners IMMICH_TELEMETRY_INCLUDE=all opens (upstream's defaults):
-			// slots, so two instances' servers don't race for one port.
+			port:    2285
+			// Metrics ports allocated per instance.
 			ports: {api_metrics: 8081, microservices_metrics: 8082}
 			dependsOn: [{service: "postgres"}, {service: "valkey"}]
-			// As upstream's e2e docker-compose (testing mode, no machine learning, all
-			// telemetry) and its server image (production node, build metadata from the
-			// compose build args).
 			environment: {
 				IMMICH_ENV:                        "testing"
 				IMMICH_MACHINE_LEARNING_ENABLED:   "false"
@@ -435,16 +354,11 @@ profiles: dev: schema.#Profile & {
 				IMMICH_IGNORE_MOUNT_CHECK_ERRORS:  "true"
 			}
 			readinessProbe: {
-				// The API answers and the worker has imported geodata (the script says why).
 				command: "sh -c helpers/immich-server-ready.sh"
 				port:    2285
-				// Headroom for building server/dist and web/build, fetching or building
-				// helpers/server-image (node, vips, sharp) and running migrations on a cold runner.
 				timeout: "300s"
 			}
 		}
-		// As upstream's e2e compose: the oauth specs' provider, built from
-		// packages/e2e-auth-server/Dockerfile (`pnpm run start` in the package).
 		"e2e-auth-server": {
 			name:    "e2e-auth-server"
 			command: "sh -c 'cd packages/e2e-auth-server && exec pnpm run start'"
@@ -459,10 +373,7 @@ profiles: dev: schema.#Profile & {
 			name:    "immich-ml"
 			command: "sh -c helpers/start-immich-ml.sh"
 			port:    3003
-			environment: {
-				IMMICH_MACHINE_LEARNING_PORT: "$PORT"
-				IMMICH_MACHINE_LEARNING_HOST: "127.0.0.1"
-			}
+			environment: {IMMICH_MACHINE_LEARNING_PORT: "$PORT", IMMICH_MACHINE_LEARNING_HOST: "127.0.0.1"}
 			readinessProbe: {
 				command: "curl -s -f --connect-timeout 1 --max-time 3 http://127.0.0.1:$PORT/ping || exit 1"
 				port:    3003
@@ -471,31 +382,19 @@ profiles: dev: schema.#Profile & {
 		}
 	}
 	environment: {
-		// `pnpm run` otherwise re-verifies the whole workspace and reinstalls every
-		// package a filtered CI install left out (~17s per task on a cold store).
-		pnpm_config_verify_deps_before_run: "false"
-		TZ:                          "UTC"
-		PGTZ:                        "UTC"
-		// No container runtime: a docker client (testcontainers, compose) fails here
-		// instead of silently starting upstream's images where a runner has docker.
-		DOCKER_HOST: "unix:///nonexistent/enact-runs-no-containers.sock"
-		// The run's service instance's ports (enact runs each run's services on their own).
-		DB_HOSTNAME:              "127.0.0.1"
-		DB_PORT:                  "${ENVE_SERVICE_POSTGRES_PORT}"
-		DB_DATABASE_NAME:         "immich"
-		DB_USERNAME:              "postgres"
-		DB_PASSWORD:              ""
-		PLAYWRIGHT_BASE_URL:      "${ENVE_SERVICE_IMMICH_SERVER_URL}"
-		IMMICH_TEST_POSTGRES_URL: "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich"
-		// e2e's vitest and Playwright configs otherwise run `docker compose up`
-		// (src/docker-compose.ts, playwright.config.ts) when nothing answers on
-		// 127.0.0.1:2285: enve runs the services, on any port.
-		VITEST_DISABLE_DOCKER_SETUP:  "true"
-		PLAYWRIGHT_DISABLE_WEBSERVER: "true"
-		// @swc/core 1.16 unpacks its addon into a cache whose every ancestor must be owned
-		// by root or the user. In `enve run`'s Linux user namespace root is unmapped, so `/`
-		// shows as nobody's and every cache root fails ("a parent writable by another user"):
-		// vitest's swc plugin, and every server spec, failed to load.
+		pnpm_config_verify_deps_before_run:           "false"
+		TZ:                                           "UTC"
+		PGTZ:                                         "UTC"
+		DOCKER_HOST:                                  "unix:///nonexistent/enact-runs-no-containers.sock"
+		DB_HOSTNAME:                                  "127.0.0.1"
+		DB_PORT:                                      "${ENVE_SERVICE_POSTGRES_PORT}"
+		DB_DATABASE_NAME:                             "immich"
+		DB_USERNAME:                                  "postgres"
+		DB_PASSWORD:                                  ""
+		PLAYWRIGHT_BASE_URL:                          "${ENVE_SERVICE_IMMICH_SERVER_URL}"
+		IMMICH_TEST_POSTGRES_URL:                     "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich"
+		VITEST_DISABLE_DOCKER_SETUP:                  "true"
+		PLAYWRIGHT_DISABLE_WEBSERVER:                 "true"
 		SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK: "1"
 	}
 }

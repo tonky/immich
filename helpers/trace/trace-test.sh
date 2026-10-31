@@ -43,6 +43,11 @@ case "$SPEC" in
     ;;
 esac
 
+ENVE_FLAGS=()
+case "${ENACT_NO_ISOLATE:-}" in
+  1 | true) ENVE_FLAGS+=(--isolation host) ;;
+esac
+
 cd "$ROOT/$DIR"
-exec "$ENACT" trace run --no-fingerprint --node-functions --reach-file "$MAP" -t "$SPEC" "${FLAGS[@]}" -- \
-  enve run --locked -q -f "$ROOT/enve.cue" -- "$RUNNER" "${SPEC#"$DIR"/}"
+exec "$ENACT" trace run --no-fingerprint --node-functions --reach-file "$MAP" -t "$SPEC" ${FLAGS[@]+"${FLAGS[@]}"} -- \
+  enve run --locked -q ${ENVE_FLAGS[@]+"${ENVE_FLAGS[@]}"} -f "$ROOT/enve.cue" -- "$RUNNER" "${SPEC#"$DIR"/}"

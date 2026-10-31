@@ -25,6 +25,9 @@ fetch() {
 mkdir -p "$CACHE" "$TARGET"
 CACHE="$(cd "$CACHE" && pwd)" # the links below must not be relative
 fetch "$GEONAMES/admin1CodesASCII.txt" "$CACHE/admin1CodesASCII.txt"
+if grep -q 'St\.-Petersburg' "$CACHE/admin1CodesASCII.txt"; then
+  sed -i.bak 's/St\.-Petersburg/St. Petersburg/g' "$CACHE/admin1CodesASCII.txt" && rm -f "$CACHE/admin1CodesASCII.txt.bak"
+fi
 fetch "$GEONAMES/admin2Codes.txt" "$CACHE/admin2Codes.txt"
 fetch "$GEONAMES/countryInfo.txt" "$CACHE/countryInfo.txt"
 fetch "$NATURAL_EARTH" "$CACHE/ne_10m_admin_0_countries.geojson"

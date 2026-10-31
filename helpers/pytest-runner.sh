@@ -5,4 +5,5 @@
 set -euo pipefail
 
 # As upstream's machine-learning `ci-unit`: the CPU extra provides onnxruntime.
-exec "$(dirname "${BASH_SOURCE[0]}")/uv" run --extra cpu pytest "$@"
+export PYTHONDONTWRITEBYTECODE=1
+exec "$(dirname "${BASH_SOURCE[0]}")/uv" run --extra cpu pytest -p no:cacheprovider "$@"

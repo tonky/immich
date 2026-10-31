@@ -564,6 +564,7 @@ export const utils = {
   resetTempFolder: () => {
     rmSync(`${testAssetDir}/temp`, { recursive: true, force: true });
     mkdirSync(`${testAssetDir}/temp`, { recursive: true });
+    writeFileSync(`${testAssetDir}/temp/.gitignore`, '*\n');
   },
 
   putFile(source: string, dest: string) {
