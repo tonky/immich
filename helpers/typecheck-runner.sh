@@ -16,6 +16,10 @@ if [ -f "svelte.config.js" ] && [ ! -d ".svelte-kit" ]; then
   ./node_modules/.bin/svelte-kit sync 2>/dev/null || pnpm exec svelte-kit sync 2>/dev/null || true
 fi
 
+if [ -f "manifest.json" ] && [ -x "./node_modules/.bin/plugin-sdk" ]; then
+  ./node_modules/.bin/plugin-sdk prepareBuild
+fi
+
 TSC_BIN=""
 if [ -x "./node_modules/.bin/tsc" ]; then
   TSC_BIN="./node_modules/.bin/tsc"

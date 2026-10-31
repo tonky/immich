@@ -147,8 +147,8 @@ pipeline: schema.#Pipeline & {
 			test: command:      "../helpers/pytest-runner.sh {relative_targets}"
 		}
 
-		plugin_sdk:      _tsComponent & {name: "@immich/plugin-sdk", title: "Immich Plugin SDK", root: "packages/plugin-sdk", depends_on: [components.js_root, components.sdk]}
-		plugin_core:     _tsComponent & {name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", root: "packages/plugin-core", depends_on: [components.js_root, components.sdk, components.plugin_sdk]}
+		plugin_sdk:      _tsComponent & {name: "@immich/plugin-sdk", title: "Immich Plugin SDK", root: "packages/plugin-sdk", depends_on: [components.js_root, components.sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		plugin_core:     _tsComponent & {name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", root: "packages/plugin-core", depends_on: [components.js_root, components.sdk, components.plugin_sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
 		e2e_auth_server: _tsComponent & {name: "@immich/e2e-auth-server", title: "Immich e2e OAuth Provider", root: "packages/e2e-auth-server", depends_on: [components.js_root]}
 		sdk:             _tsComponent & {name: "@immich/sdk", title: "Immich OpenAPI Generated TypeScript SDK", root: "packages/sdk", depends_on: [components.js_root], typecheck: command: "../../helpers/typecheck-runner.sh"}
 
@@ -163,8 +163,9 @@ pipeline: schema.#Pipeline & {
 
 		scripts: _vitestComponent & {
 			name: "@immich/scripts", title: "Immich Release Scripts", root: "packages/scripts"
-			depends_on:   [components.js_root]
-			target_scope: {fallback: "all", tests: ["packages/scripts/src/**/*.spec.ts"], rules: [{match: ["packages/scripts/**/*.ts"], engine: "typescript"}]}
+			depends_on:    [components.js_root]
+			target_scope:  {fallback: "all", tests: ["packages/scripts/src/**/*.spec.ts"], rules: [{match: ["packages/scripts/**/*.ts"], engine: "typescript"}]}
+			lint:          {command: "../../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
 			test: command: "../../helpers/vitest-runner.sh {relative_targets}"
 		}
 

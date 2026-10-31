@@ -862,6 +862,8 @@ jobs:
           server/src/enum.ts
           server/src/utils/misc.ts
           packages/plugin-sdk
+          packages/plugin-core
+          packages/scripts
           web
           i18n
           helpers/schema-check-runner.sh
@@ -876,7 +878,6 @@ jobs:
           helpers/server-image
           helpers/container
           e2e/test-assets
-          packages/plugin-core
           e2e
           helpers/playwright-runner.sh
           helpers/prepare-e2e-builds.sh
@@ -921,6 +922,8 @@ jobs:
           server/src/enum.ts
           server/src/utils/misc.ts
           packages/plugin-sdk
+          packages/plugin-core
+          packages/scripts
           web
           i18n
           helpers/schema-check-runner.sh
@@ -935,7 +938,6 @@ jobs:
           helpers/server-image
           helpers/container
           e2e/test-assets
-          packages/plugin-core
           e2e
           helpers/playwright-runner.sh
           helpers/prepare-e2e-builds.sh
