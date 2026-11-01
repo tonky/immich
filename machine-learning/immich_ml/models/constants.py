@@ -100,7 +100,8 @@ SUPPORTED_PROVIDERS = [
     "CPUExecutionProvider",
 ]
 
-RKNN_NPU_CORES = {"rk3566": 1, "rk3568": 1, "rk3576": 2, "rk3588": 3}
+RKNN_SUPPORTED_SOCS = ["rk3566", "rk3568", "rk3576", "rk3588"]
+RKNN_COREMASK_SUPPORTED_SOCS = ["rk3576", "rk3588"]
 
 
 WEBLATE_TO_FLORES200 = {
