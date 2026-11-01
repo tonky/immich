@@ -51,5 +51,5 @@ if [ -f "$project/uv.lock" ] && [[ "$(< "$project/uv.lock")" == *'name = "opencv
   shopt -u nullglob
   [ ${#gui[@]} -eq 0 ] || sync+=(--reinstall-package opencv-python-headless)
 fi
-"$uv" "${sync[@]}"
+flock "${TMPDIR:-/tmp}/immich-uv-sync.lock" "$uv" "${sync[@]}"
 exec "$uv" run --no-sync ${opts[@]+"${opts[@]}"} "$@"
