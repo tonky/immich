@@ -60,7 +60,7 @@ pipeline: schema.#Pipeline & {
 			name: "root", title: "Immich Environment & Pipeline", root: "."
 			watch_paths: [
 				"enve.cue", "enve.lock", "helpers/vchord/**", ".enact/**", "cue.mod/**",
-				"helpers/trace/**", ".github/workflows/ci.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**",
+				"helpers/trace/**", ".github/workflows/ci.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
 			]
 			depends_on:      []
 			workspace_scope: include_dependencies: true
@@ -85,6 +85,12 @@ pipeline: schema.#Pipeline & {
 
 		base: _vitestComponent & {
 			name: "base", title: "Immich Server Core: API, Schema & Base Models (@immich/server)", root: "server"
+			kind: "service", domain: "backend"
+			uses: [
+				{protocol: schema.#Protocol.Sql, target: "postgres", title: "Stores photo metadata & vector embeddings"},
+				{protocol: schema.#Protocol.Redis, target: "valkey", title: "BullMQ job queues & session cache"},
+				{protocol: schema.#Protocol.Http, target: "machine-learning", title: "Requests CLIP & facial recognition inference"},
+			]
 			watch_paths: [
 				"server/**", "helpers/schema-check-runner.sh", "helpers/build-core-plugin.sh",
 				"helpers/build-if-stale.sh", "helpers/start-postgres.sh", "helpers/start-immich-server.sh",
@@ -120,6 +126,8 @@ pipeline: schema.#Pipeline & {
 
 		web: _vitestComponent & {
 			name: "@immich/web", title: "Immich SvelteKit Web Frontend", root: "web"
+			kind: "app", domain: "clients"
+			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Calls REST API via @immich/sdk"}]
 			depends_on:        [components.js_root, components.sdk, components.i18n]
 			resources:         {cpus: 2, memory_mb: 3072}
 			shards:            2
@@ -131,6 +139,7 @@ pipeline: schema.#Pipeline & {
 
 		machine_learning: _tsComponent & {
 			name: "machine-learning", title: "Immich Python CLIP & Facial Recognition Service", root: "machine-learning"
+			kind: "service", domain: "ml"
 			watch_paths:  ["machine-learning/**", "helpers/pytest-runner.sh", "helpers/start-immich-ml.sh", "helpers/uv"]
 			depends_on:   [components.root]
 			service:      immich.services["immich-ml"]
@@ -147,13 +156,15 @@ pipeline: schema.#Pipeline & {
 			test: command:      "../helpers/pytest-runner.sh {relative_targets}"
 		}
 
-		plugin_sdk:      _tsComponent & {name: "@immich/plugin-sdk", title: "Immich Plugin SDK", root: "packages/plugin-sdk", depends_on: [components.js_root, components.sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
-		plugin_core:     _tsComponent & {name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", root: "packages/plugin-core", depends_on: [components.js_root, components.sdk, components.plugin_sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
-		e2e_auth_server: _tsComponent & {name: "@immich/e2e-auth-server", title: "Immich e2e OAuth Provider", root: "packages/e2e-auth-server", depends_on: [components.js_root]}
-		sdk:             _tsComponent & {name: "@immich/sdk", title: "Immich OpenAPI Generated TypeScript SDK", root: "packages/sdk", depends_on: [components.js_root], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		plugin_sdk:      _tsComponent & {name: "@immich/plugin-sdk", title: "Immich Plugin SDK", kind: "library", domain: "sdk", root: "packages/plugin-sdk", depends_on: [components.js_root, components.sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		plugin_core:     _tsComponent & {name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", kind: "library", domain: "sdk", root: "packages/plugin-core", depends_on: [components.js_root, components.sdk, components.plugin_sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		e2e_auth_server: _tsComponent & {name: "@immich/e2e-auth-server", title: "Immich e2e OAuth Provider", kind: "service", domain: "verification", root: "packages/e2e-auth-server", depends_on: [components.js_root]}
+		sdk:             _tsComponent & {name: "@immich/sdk", title: "Immich OpenAPI Generated TypeScript SDK", kind: "library", domain: "sdk", root: "packages/sdk", depends_on: [components.js_root], typecheck: command: "../../helpers/typecheck-runner.sh"}
 
 		cli: _vitestComponent & {
 			name: "@immich/cli", title: "Immich TypeScript Command Line Interface", root: "packages/cli"
+			kind: "app", domain: "clients"
+			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Uploads assets & manages albums via REST API"}]
 			depends_on:        [components.js_root, components.sdk]
 			target_scope:      {fallback: "all", tests: ["packages/cli/src/**/*.spec.ts"], rules: [{match: ["packages/cli/**/*.ts"], engine: "typescript"}]}
 			lint:              {command: "../../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
@@ -181,11 +192,15 @@ pipeline: schema.#Pipeline & {
 			lint: command:   "../helpers/openapi-drift-runner.sh"
 		}
 
-		native: {name: "native", title: "Immich Native Core (Rust)", root: "native", watch_paths: ["native/**"], depends_on: [components.root]}
-		mobile: _tsComponent & {name: "@immich/mobile", title: "Immich Mobile Application", root: "mobile", depends_on: [components.root, components.openapi, components.native]}
+		native: {name: "native", title: "Immich Native Core (Rust)", kind: "library", domain: "clients", root: "native", watch_paths: ["native/**"], depends_on: [components.root]}
+		mobile: _tsComponent & {
+			name: "@immich/mobile", title: "Immich Mobile Application", kind: "app", domain: "clients", root: "mobile"
+			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Syncs media & albums via REST API"}]
+			depends_on: [components.root, components.openapi, components.native]
+		}
 
 		e2e: _tsComponent & {
-			name: "e2e", title: "Immich End-to-End Full Stack Integration", root: "e2e"
+			name: "e2e", title: "Immich End-to-End Full Stack Integration", kind: "verification", domain: "verification", root: "e2e"
 			watch_paths:        ["e2e/**", "helpers/playwright-runner.sh", "helpers/prepare-e2e-builds.sh"]
 			depends_on:         [components.base, components.cli, components.plugin_core, components.web, components.e2e_auth_server, components.test_assets]
 			services:           [immich.services.postgres, immich.services.valkey, immich.services["immich-server"], immich.services["e2e-auth-server"]]
