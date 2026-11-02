@@ -30,6 +30,17 @@ export PATH
 # per service instance (view.sh), so runs side by side each have their own /data.
 NAME=immich-e2e-server
 STATE=".enve/containers/$NAME${ENVE_INSTANCE:+.$ENVE_INSTANCE}"
+
+# Ensure postgres client utilities are available at upstream's expected path (/usr/lib/postgresql/14/bin)
+if [ ! -x /usr/lib/postgresql/14/bin/pg_dump ] && command -v pg_dump >/dev/null 2>&1; then
+  pg_bin="$(dirname "$(command -v pg_dump)")"
+  (sudo -n mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || true)
+  for tool in pg_dump pg_dumpall psql; do
+    if [ -x "$pg_bin/$tool" ]; then
+      (sudo -n ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || true)
+    fi
+  done
+fi
 # `compose up --force-recreate --renew-anon-volumes`: every start gets an empty /data and
 # database together (the server records its /data folder checks in the database). Emptied
 # in place, not removed: on CI the directory is bind-mounted at /data (view.sh).

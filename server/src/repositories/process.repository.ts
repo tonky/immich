@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SpawnOptionsWithoutStdio, fork, spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
+import { basename } from 'node:path';
 import { Duplex } from 'node:stream';
 
 @Injectable()
@@ -10,7 +12,9 @@ export class ProcessRepository {
     let isStdinClosed = false;
     let drainCallback: undefined | (() => void);
 
-    const process = this.spawn(command, args, options);
+    const targetCommand =
+      existsSync(command) ? command : (command.startsWith('/usr/lib/postgresql/') ? basename(command) : command);
+    const process = this.spawn(targetCommand, args, options);
     const duplex = new Duplex({
       // duplex -> stdin
       write(chunk, encoding, callback) {
