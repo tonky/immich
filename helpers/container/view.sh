@@ -46,6 +46,18 @@ done < <(entries "$MOUNTS")
 hosts=()
 [ ! -f "$HOSTS" ] || mapfile -t hosts < <(entries "$HOSTS")
 
+if ! command -v bwrap >/dev/null 2>&1; then
+  for ((i = 0; i < ${#mounts[@]}; i += 2)); do
+    mountpoint -q "${mounts[i + 1]}" 2>/dev/null && continue
+    mkdir -p "${mounts[i + 1]}" 2>/dev/null || sudo -n mkdir -p "${mounts[i + 1]}"
+    sudo -n mount --bind "${mounts[i]}" "${mounts[i + 1]}"
+  done
+  for entry in "${hosts[@]}"; do
+    grep -qxF "$entry" /etc/hosts 2>/dev/null || echo "$entry" | sudo -n tee -a /etc/hosts >/dev/null || true
+  done
+  exec "$@"
+fi
+
 args=(--tmpfs /)
 for dir in /*; do
   case "$dir" in /proc | /dev | /tmp) continue ;; esac
