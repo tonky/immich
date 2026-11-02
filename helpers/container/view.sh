@@ -71,6 +71,9 @@ args+=(--dev-bind /dev /dev --proc /proc --bind /tmp /tmp)
 for ((i = 0; i < ${#mounts[@]}; i += 2)); do
   args+=(--bind "${mounts[i]}" "${mounts[i + 1]}")
 done
+if [ -d "$STATE/pg_bin" ]; then
+  args+=(--bind "$STATE/pg_bin" /usr/lib/postgresql/14/bin)
+fi
 if [ ${#hosts[@]} -gt 0 ]; then
   { cat /etc/hosts; printf '%s\n' "${hosts[@]}"; } > "$STATE/hosts"
   args+=(--ro-bind "$STATE/hosts" /etc/hosts)

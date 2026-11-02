@@ -32,12 +32,16 @@ NAME=immich-e2e-server
 STATE=".enve/containers/$NAME${ENVE_INSTANCE:+.$ENVE_INSTANCE}"
 
 # Ensure postgres client utilities are available at upstream's expected path (/usr/lib/postgresql/14/bin)
-if [ ! -x /usr/lib/postgresql/14/bin/pg_dump ] && command -v pg_dump >/dev/null 2>&1; then
+mkdir -p "$STATE/pg_bin"
+if command -v pg_dump >/dev/null 2>&1; then
   pg_bin="$(dirname "$(command -v pg_dump)")"
-  (sudo -n mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || true)
   for tool in pg_dump pg_dumpall psql; do
     if [ -x "$pg_bin/$tool" ]; then
-      (sudo -n ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || true)
+      ln -sf "$pg_bin/$tool" "$STATE/pg_bin/$tool"
+      if [ ! -x "/usr/lib/postgresql/14/bin/$tool" ]; then
+        (sudo -n mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || mkdir -p /usr/lib/postgresql/14/bin 2>/dev/null || true)
+        (sudo -n ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || ln -sf "$pg_bin/$tool" "/usr/lib/postgresql/14/bin/$tool" 2>/dev/null || true)
+      fi
     fi
   done
 fi
