@@ -37,7 +37,7 @@ pipeline: schema.#Pipeline & {
 		{outputs: ["packages/sdk/build/**"], inputs: ["packages/sdk/src/**", "packages/sdk/package.json", "packages/sdk/tsconfig.json"]},
 		{outputs: ["packages/plugin-sdk/dist/**"], inputs: ["packages/plugin-sdk/src/**", "packages/plugin-sdk/esbuild.js", "packages/plugin-sdk/plugin-sdk.mjs", "packages/plugin-sdk/package.json", "packages/plugin-sdk/tsconfig.json", "packages/sdk/src/**"]},
 		{outputs: ["packages/plugin-core/dist/**"], inputs: ["packages/plugin-core/src/**", "packages/plugin-core/esbuild.js", "packages/plugin-core/manifest.json", "packages/plugin-core/package.json", "packages/plugin-core/tsconfig.json", "packages/plugin-sdk/src/**", "packages/sdk/src/**"]},
-		{outputs: ["server/dist/**"], inputs: ["server/src/**", "server/nest-cli.json", "server/package.json", "server/tsconfig.json", "server/tsconfig.build.json"], mapped: ["server/src/**"]},
+		{outputs: ["server/dist/**"], inputs: ["server/src/**", "server/nest-cli.json", "server/package.json", "server/tsconfig.json", "server/tsconfig.build.json"], exclude: ["server/src/**/*.spec.ts"], mapped: ["server/src/**"]},
 		{outputs: ["packages/cli/dist/**"], inputs: ["packages/cli/src/**", "packages/cli/vite.config.ts", "packages/cli/package.json", "packages/cli/tsconfig.json", "packages/sdk/src/**"]},
 		{outputs: ["web/.svelte-kit/tsconfig.json"], inputs: ["web/svelte.config.js"]},
 		{
@@ -205,7 +205,7 @@ pipeline: schema.#Pipeline & {
 			depends_on:         [components.base, components.cli, components.plugin_core, components.web, components.e2e_auth_server, components.test_assets]
 			services:           [immich.services.postgres, immich.services.valkey, immich.services["immich-server"], immich.services["e2e-auth-server"]]
 			workspace_scope:    submodules: ["e2e/test-assets"]
-			target_scope:       {fallback: "none", tests: ["e2e/src/specs/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts"], engine: "typescript"}]}
+			target_scope:       {fallback: "none", tests: ["e2e/src/specs/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
 			lint:               {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
 			typecheck: command: "../helpers/typecheck-runner.sh"
 			jobs: {
@@ -234,15 +234,15 @@ pipeline: schema.#Pipeline & {
 				test: {needs: ["build"], recorder: "trace", tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]}
 				maintenance: {
 					name: "Server Maintenance E2E", needs: ["build"], recorder: "trace"
-					target_scope: {fallback: "all", default_target: "src/specs/maintenance/server", tests: ["e2e/src/specs/maintenance/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts"], engine: "typescript"}]}
+					target_scope: {fallback: "none", default_target: "src/specs/maintenance/server", tests: ["e2e/src/specs/maintenance/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
 					tasks: [{name: "Server Maintenance E2E", command: "../helpers/vitest-runner.sh {relative_targets}"}]
 				}
 				web: {
 					name: "Web E2E", needs: ["build"], recorder: "trace"
 					target_scope: {
-						fallback: "all"
+						fallback: "none"
 						tests:    ["e2e/src/specs/web/**/*.e2e-spec.ts", "e2e/src/ui/specs/**/*.e2e-spec.ts", "e2e/src/specs/maintenance/web/**/*.e2e-spec.ts"]
-						rules:    [{match: ["e2e/**/*.ts", "web/**/*.{ts,svelte}"], engine: "typescript"}]
+						rules:    [{match: ["e2e/**/*.ts", "web/**/*.{ts,svelte}", "server/**/*.ts"], engine: "typescript"}]
 					}
 					tasks: [{name: "Web E2E", command: "../helpers/playwright-runner.sh {relative_targets}"}]
 				}

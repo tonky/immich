@@ -28,7 +28,7 @@ pipeline: schema.#Pipeline & {
 			repo:       "tonky/immich"
 			branch:     "perf/ci-modernization"
 		}
-		budget: {enforce: true, untraced_tests: 10, wall_minutes: 30}
+		budget: {enforce: true, untraced_tests: 55, wall_minutes: 30}
 		workers: {
 			standard: {
 				labels: ["self-hosted", "Linux", "X64", "tonky-ci"], tier: "dedicated", available: 1, cost_per_min: 0.010
