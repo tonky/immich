@@ -210,7 +210,7 @@ pipeline: schema.#Pipeline & {
 			typecheck: command: "../helpers/typecheck-runner.sh"
 			jobs: {
 				build: {
-					name: "Build E2E dependencies", services: false, resources: {cpus: 4, memory_mb: 4096}
+					name: "Build E2E dependencies", services: false, resources: {cpus: 4, memory_mb: 8192}
 					outputs: {
 						paths: [
 							"server/dist", "server/dist/main.js", "web/build", "web/build/index.html",
