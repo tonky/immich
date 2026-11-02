@@ -349,7 +349,7 @@ profiles: dev: schema.#Profile & {
 				IMMICH_PORT:                       "$PORT"
 				IMMICH_API_METRICS_PORT:           "$PORT_API_METRICS"
 				IMMICH_MICROSERVICES_METRICS_PORT: "$PORT_MICROSERVICES_METRICS"
-				IMMICH_HOST:                       "127.0.0.1"
+				IMMICH_HOST:                       "::"
 				IMMICH_GEODATA_CACHE:              ".enact/cache/immich-geodata"
 				IMMICH_IGNORE_MOUNT_CHECK_ERRORS:  "true"
 			}

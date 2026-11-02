@@ -205,6 +205,7 @@ pipeline: schema.#Pipeline & {
 			depends_on:         [components.base, components.cli, components.plugin_core, components.web, components.e2e_auth_server, components.test_assets]
 			services:           [immich.services.postgres, immich.services.valkey, immich.services["immich-server"], immich.services["e2e-auth-server"]]
 			workspace_scope:    submodules: ["e2e/test-assets"]
+			resources:          {cpus: 4, memory_mb: 8192}
 			target_scope:       {fallback: "none", tests: ["e2e/src/specs/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
 			lint:               {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
 			typecheck: command: "../helpers/typecheck-runner.sh"
@@ -231,14 +232,14 @@ pipeline: schema.#Pipeline & {
 					}
 					tasks: [{command: "../helpers/prepare-e2e-builds.sh"}]
 				}
-				test: {needs: ["build"], recorder: "trace", tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]}
+				test: {needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}, tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]}
 				maintenance: {
-					name: "Server Maintenance E2E", needs: ["build"], recorder: "trace"
+					name: "Server Maintenance E2E", needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
 					target_scope: {fallback: "none", default_target: "src/specs/maintenance/server", tests: ["e2e/src/specs/maintenance/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
 					tasks: [{name: "Server Maintenance E2E", command: "../helpers/vitest-runner.sh {relative_targets}"}]
 				}
 				web: {
-					name: "Web E2E", needs: ["build"], recorder: "trace"
+					name: "Web E2E", needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
 					target_scope: {
 						fallback: "none"
 						tests:    ["e2e/src/specs/web/**/*.e2e-spec.ts", "e2e/src/ui/specs/**/*.e2e-spec.ts", "e2e/src/specs/maintenance/web/**/*.e2e-spec.ts"]
