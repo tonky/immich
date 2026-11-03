@@ -60,7 +60,7 @@ pipeline: schema.#Pipeline & {
 			name: "root", title: "Immich Environment & Pipeline", root: "."
 			watch_paths: [
 				"enve.cue", "enve.lock", "helpers/vchord/**", ".enact/**", "cue.mod/**",
-				"helpers/trace/**", ".github/workflows/ci.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
+				"helpers/trace/**", ".github/workflows/ci.yml", ".github/workflows/nightly.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
 			]
 			depends_on:      []
 			workspace_scope: include_dependencies: true
@@ -113,9 +113,12 @@ pipeline: schema.#Pipeline & {
 					]
 				}
 				typecheck: {direct: true, services: false, resources: {cpus: 2, memory_mb: 3072}, tasks: [{command: "../helpers/typecheck-runner.sh"}]}
+				test: {
+					needs: ["@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"]
+					tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]
+				}
 			}
-			migrate:      {command: "../helpers/schema-check-runner.sh", filter: {include: ["server/src/schema/**", "server/src/queries/**"], on_empty: "skip"}}
-			test: command: "../helpers/vitest-runner.sh {relative_targets}"
+			migrate: {command: "../helpers/schema-check-runner.sh", filter: {include: ["server/src/schema/**", "server/src/queries/**"], on_empty: "skip"}}
 		}
 
 		i18n: _tsComponent & {
@@ -134,7 +137,10 @@ pipeline: schema.#Pipeline & {
 			target_scope:      {fallback: "all", tests: ["web/src/**/*.spec.ts"], rules: [{match: ["web/**/*.{ts,js,svelte}"], engine: "typescript"}]}
 			lint:              {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,svelte,json,yaml,yml,md}"], on_empty: "skip"}}
 			typecheck: command: "../helpers/typecheck-runner.sh"
-			test: command:      "../helpers/vitest-runner.sh {relative_targets}"
+			jobs: test: {
+				needs: ["@immich/sdk:build"]
+				tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]
+			}
 		}
 
 		machine_learning: _tsComponent & {
@@ -156,10 +162,61 @@ pipeline: schema.#Pipeline & {
 			test: command:      "../helpers/pytest-runner.sh {relative_targets}"
 		}
 
-		plugin_sdk:      _tsComponent & {name: "@immich/plugin-sdk", title: "Immich Plugin SDK", kind: "library", domain: "sdk", root: "packages/plugin-sdk", depends_on: [components.js_root, components.sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
-		plugin_core:     _tsComponent & {name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", kind: "library", domain: "sdk", root: "packages/plugin-core", depends_on: [components.js_root, components.sdk, components.plugin_sdk], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		plugin_sdk: _tsComponent & {
+			name: "@immich/plugin-sdk", title: "Immich Plugin SDK", kind: "library", domain: "sdk", root: "packages/plugin-sdk"
+			depends_on:        [components.js_root, components.sdk]
+			typecheck: command: "../../helpers/typecheck-runner.sh"
+			jobs: build: {
+				name: "Build @immich/plugin-sdk", services: false
+				needs: ["@immich/sdk:build"]
+				outputs: {
+					paths: ["packages/plugin-sdk/dist", "packages/plugin-sdk/dist/index.js"]
+					key: [
+						"packages/plugin-sdk/**", "packages/sdk/**", "helpers/build-workspace-deps.sh",
+						"helpers/build-if-stale.sh", "helpers/installed-store.cjs", "package.json",
+						"pnpm-lock.yaml", "pnpm-workspace.yaml", ".pnpmfile.cjs", "tsconfig.json", "turbo.json",
+					]
+				}
+				tasks: [{command: "../../helpers/build-workspace-deps.sh --package ./dist/index.js"}]
+			}
+		}
+		plugin_core: _tsComponent & {
+			name: "@immich/plugin-core", title: "Immich Core Plugin (wasm)", kind: "library", domain: "sdk", root: "packages/plugin-core"
+			depends_on:        [components.js_root, components.sdk, components.plugin_sdk]
+			typecheck: command: "../../helpers/typecheck-runner.sh"
+			jobs: build: {
+				name: "Build @immich/plugin-core", services: false
+				needs: ["@immich/sdk:build", "@immich/plugin-sdk:build"]
+				outputs: {
+					paths: ["packages/plugin-core/dist", "packages/plugin-core/dist/plugin.wasm"]
+					key: [
+						"packages/plugin-core/**", "packages/plugin-sdk/**", "packages/sdk/**",
+						"helpers/build-core-plugin.sh", "helpers/build-if-stale.sh", "helpers/installed-store.cjs",
+						"package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", ".pnpmfile.cjs",
+						"tsconfig.json", "turbo.json",
+					]
+				}
+				tasks: [{command: "../../helpers/build-core-plugin.sh --producer"}]
+			}
+		}
 		e2e_auth_server: _tsComponent & {name: "@immich/e2e-auth-server", title: "Immich e2e OAuth Provider", kind: "service", domain: "verification", root: "packages/e2e-auth-server", depends_on: [components.js_root]}
-		sdk:             _tsComponent & {name: "@immich/sdk", title: "Immich OpenAPI Generated TypeScript SDK", kind: "library", domain: "sdk", root: "packages/sdk", depends_on: [components.js_root], typecheck: command: "../../helpers/typecheck-runner.sh"}
+		sdk: _tsComponent & {
+			name: "@immich/sdk", title: "Immich OpenAPI Generated TypeScript SDK", kind: "library", domain: "sdk", root: "packages/sdk"
+			depends_on:        [components.js_root]
+			typecheck: command: "../../helpers/typecheck-runner.sh"
+			jobs: build: {
+				name: "Build @immich/sdk", services: false
+				outputs: {
+					paths: ["packages/sdk/build", "packages/sdk/build/index.js"]
+					key: [
+						"packages/sdk/**", "helpers/build-workspace-deps.sh", "helpers/build-if-stale.sh",
+						"helpers/installed-store.cjs", "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml",
+						".pnpmfile.cjs", "tsconfig.json", "turbo.json",
+					]
+				}
+				tasks: [{command: "../../helpers/build-workspace-deps.sh --package ./build/index.js"}]
+			}
+		}
 
 		cli: _vitestComponent & {
 			name: "@immich/cli", title: "Immich TypeScript Command Line Interface", root: "packages/cli"
@@ -169,7 +226,10 @@ pipeline: schema.#Pipeline & {
 			target_scope:      {fallback: "all", tests: ["packages/cli/src/**/*.spec.ts"], rules: [{match: ["packages/cli/**/*.ts"], engine: "typescript"}]}
 			lint:              {command: "../../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
 			typecheck: command: "../../helpers/typecheck-runner.sh"
-			test: command:      "../../helpers/vitest-runner.sh {relative_targets}"
+			jobs: test: {
+				needs: ["@immich/sdk:build"]
+				tasks: [{command: "../../helpers/vitest-runner.sh {relative_targets}"}]
+			}
 		}
 
 		scripts: _vitestComponent & {
@@ -212,12 +272,10 @@ pipeline: schema.#Pipeline & {
 			jobs: {
 				build: {
 					name: "Build E2E dependencies", services: false, resources: {cpus: 4, memory_mb: 8192}
+					needs: ["@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"]
 					outputs: {
 						paths: [
 							"server/dist", "server/dist/main.js", "web/build", "web/build/index.html",
-							"packages/sdk/build", "packages/sdk/build/index.js",
-							"packages/plugin-sdk/dist", "packages/plugin-sdk/dist/index.js",
-							"packages/plugin-core/dist", "packages/plugin-core/dist/plugin.wasm",
 							"packages/cli/dist", "packages/cli/dist/index.js", "e2e/node_modules/.enact-deps-stamp",
 						]
 						key: [
@@ -232,14 +290,14 @@ pipeline: schema.#Pipeline & {
 					}
 					tasks: [{command: "../helpers/prepare-e2e-builds.sh"}]
 				}
-				test: {needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}, tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]}
+				test: {needs: ["build", "@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}, tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]}
 				maintenance: {
-					name: "Server Maintenance E2E", needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
+					name: "Server Maintenance E2E", needs: ["build", "@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
 					target_scope: {fallback: "none", default_target: "src/specs/maintenance/server", tests: ["e2e/src/specs/maintenance/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
 					tasks: [{name: "Server Maintenance E2E", command: "../helpers/vitest-runner.sh {relative_targets}"}]
 				}
 				web: {
-					name: "Web E2E", needs: ["build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
+					name: "Web E2E", needs: ["build", "@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"], recorder: "trace", resources: {cpus: 4, memory_mb: 8192}
 					target_scope: {
 						fallback: "none"
 						tests:    ["e2e/src/specs/web/**/*.e2e-spec.ts", "e2e/src/ui/specs/**/*.e2e-spec.ts", "e2e/src/specs/maintenance/web/**/*.e2e-spec.ts"]

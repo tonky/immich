@@ -17,7 +17,6 @@
 # IMMICH_WORKSPACE_DEPS_BUILT=1 skips it: generate-reach-map.sh builds once up front, so
 # the per-spec traces record what the spec reads, not a build.
 set -euo pipefail
-[ "${IMMICH_WORKSPACE_DEPS_BUILT:-}" = 1 ] && exit 0
 
 REPO_ROOT="$PWD"
 while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
@@ -25,5 +24,17 @@ while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
 done
 
 mkdir -p "$REPO_ROOT/node_modules"
+if [ "${1:-}" = --package ]; then
+  unset IMMICH_WORKSPACE_DEPS_BUILT
+  entry="${2#./}"
+  rel_dir="${PWD#"$REPO_ROOT"/}"
+  out_dir="$rel_dir/$(dirname "$entry")"
+  pkg_name="$(node -p "require('./package.json').name")"
+  [ -e "$REPO_ROOT/$rel_dir/$entry" ] || rm -f "$REPO_ROOT/$out_dir/.build-stamp"
+  exec flock -o "$REPO_ROOT/node_modules/.enact-build-deps.lock" \
+    "$REPO_ROOT/helpers/build-if-stale.sh" "${pkg_name}..." "$out_dir" >&2
+fi
+
+[ "${IMMICH_WORKSPACE_DEPS_BUILT:-}" = 1 ] && exit 0
 exec flock -o "$REPO_ROOT/node_modules/.enact-build-deps.lock" \
   "$REPO_ROOT/helpers/build-if-stale.sh" --deps-of "$PWD" >&2

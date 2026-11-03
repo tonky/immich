@@ -44,11 +44,10 @@ pipeline: schema.#Pipeline & {
 			arm64: {
 				labels: ["self-hosted", "Linux", "ARM64", "tonky-ci"], tier: "dedicated", available: 1, cost_per_min: 0.008
 				pool: {
-					cpus: 12, memory_mb: 24576
+					cpus: 4, memory_mb: 8192
 					sizes: {
 						"tonky-ci-s": {cpus: 2, memory_mb: 4096}
 						"tonky-ci-m": {cpus: 4, memory_mb: 8192}
-						"tonky-ci-l": {cpus: 6, memory_mb: 13312}
 					}
 				}
 			}
@@ -64,6 +63,18 @@ pipeline: schema.#Pipeline & {
 			}
 			stages: [
 				{name: "check-and-lint", select: [J.lint, J.typecheck, J.migrate], fail_fast: true, services: "on_demand"},
+				{name: "test", matrix: true, select: [J.test, J.maintenance, J.web], fail_fast: false, services: "on_demand"},
+			]
+		}
+		nightly: {
+			layout: "staged", scope: "all", services: "on_demand"
+			concurrency: {scope: "workflow", cancel_in_progress: true}
+			triggers: {
+				schedule: ["0 3 * * *"]
+				workflow_dispatch: true
+			}
+			stages: [
+				{name: "check-and-lint", select: [J.lint, J.typecheck, J.migrate], fail_fast: false, services: "on_demand"},
 				{name: "test", matrix: true, select: [J.test, J.maintenance, J.web], fail_fast: false, services: "on_demand"},
 			]
 		}

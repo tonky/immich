@@ -52,7 +52,7 @@ if [ -f "$project/uv.lock" ] && [[ "$(< "$project/uv.lock")" == *'name = "opencv
   [ ${#gui[@]} -eq 0 ] || sync+=(--reinstall-package opencv-python-headless)
 fi
 if command -v flock >/dev/null 2>&1; then
-  flock "${TMPDIR:-/tmp}/immich-uv-sync-$(printf '%s' "$project" | cksum | cut -d' ' -f1).lock" "$uv" "${sync[@]}"
+  flock "${TMPDIR:-/tmp}/immich-uv-sync-$(id -u)-$(printf '%s' "$project" | cksum | cut -d' ' -f1).lock" "$uv" "${sync[@]}"
 else
   "$uv" "${sync[@]}"
 fi

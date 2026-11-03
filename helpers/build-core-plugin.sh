@@ -9,11 +9,15 @@
 # IMMICH_WORKSPACE_DEPS_BUILT=1 skips it, as build-workspace-deps.sh: the reach-map
 # generator builds it once up front.
 set -euo pipefail
+if [ "${1:-}" = --producer ]; then
+  unset IMMICH_WORKSPACE_DEPS_BUILT
+fi
 [ "${IMMICH_WORKSPACE_DEPS_BUILT:-}" = 1 ] && exit 0
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 mkdir -p "$REPO_ROOT/node_modules"
 cd "$REPO_ROOT"
+[ -e packages/plugin-core/dist/plugin.wasm ] || rm -f packages/plugin-core/dist/.build-stamp
 # Its build runs `plugin-sdk prepareBuild`: plugin-sdk first. Jobs sharing a checkout take
 # turns, as build-workspace-deps.sh. Only when its sources or pinned tools changed:
 # extism-js never builds the same wasm twice, and every rebuild changed the footprint of
