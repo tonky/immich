@@ -32,7 +32,7 @@ fetch "$GEONAMES/admin2Codes.txt" "$CACHE/admin2Codes.txt"
 fetch "$GEONAMES/countryInfo.txt" "$CACHE/countryInfo.txt"
 fetch "$NATURAL_EARTH" "$CACHE/ne_10m_admin_0_countries.geojson"
 # The archive goes outside the checkout: a server traced on a cold cache read it there, and
-# its footprint named a file gone once the import finished (`trace stale`: changed).
+# its footprint named a file gone once the import finished (`reach stale`: changed).
 if [ ! -s "$CACHE/cities500.txt" ]; then
   zip_dir="$(mktemp -d)"
   fetch "$GEONAMES/cities500.zip" "$zip_dir/cities500.zip"

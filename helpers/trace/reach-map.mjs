@@ -1,5 +1,5 @@
 // Reach map assembly for generate-reach-map.sh (run from the repository root), after
-// `enact trace pack` merged the per-spec maps:
+// `enact reach pack` merged the per-spec maps:
 //
 //   coverage <map.json> <windows>    adds to each e2e spec the server sources it ran
 //
@@ -147,7 +147,7 @@ const coverage = (mapFile, windowsDir) => {
     const into = (targets[target] ??= { files: new Set(), dirs: new Set() });
     [...files, ...unattributed].forEach((f) => into.files.add(f));
     // The trace's digest covers what its process read, not the server's sources: the final
-    // `enact trace pack --fingerprint` gives it one over both.
+    // `enact reach pack --fingerprint` gives it one over both.
     delete into.digest;
     console.log(`  ${target}: ${files.size} server sources`);
   }

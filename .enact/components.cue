@@ -60,9 +60,17 @@ pipeline: schema.#Pipeline & {
 			name: "root", title: "Immich Environment & Pipeline", root: "."
 			watch_paths: [
 				"enve.cue", "enve.lock", "helpers/vchord/**", ".enact/**", "cue.mod/**",
-				"helpers/trace/**", ".github/workflows/ci.yml", ".github/workflows/nightly.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
+				"helpers/trace/**",
+				".github/workflows/ci.yml", ".github/workflows/nightly.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
 			]
 			depends_on:      []
+			workspace_scope: include_dependencies: true
+		}
+
+		py_root: {
+			name: "py-root", title: "Immich Python Toolchain & Helpers", technology: "python", root: "."
+			watch_paths:     ["helpers/pytest-runner.sh", "helpers/start-immich-ml.sh", "helpers/uv"]
+			depends_on:      [components.root]
 			workspace_scope: include_dependencies: true
 		}
 
@@ -71,6 +79,10 @@ pipeline: schema.#Pipeline & {
 			watch_paths: [
 				"package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "tsconfig.json", "turbo.json",
 				".pnpmfile.cjs", "helpers/build-workspace-deps.sh", "helpers/installed-store.cjs",
+				"helpers/build-core-plugin.sh", "helpers/build-if-stale.sh",
+				"helpers/start-postgres.sh", "helpers/start-immich-server.sh",
+				"helpers/immich-server-ready.sh", "helpers/provision-geodata.sh",
+				"helpers/server-image.cjs", "helpers/server-image.sh", "helpers/server-image/**", "helpers/container/**",
 				"helpers/lint-runner.sh", "helpers/typecheck-runner.sh", "helpers/vitest-runner.sh",
 			]
 			depends_on:      [components.root]
@@ -91,12 +103,7 @@ pipeline: schema.#Pipeline & {
 				{protocol: schema.#Protocol.Redis, target: "valkey", title: "BullMQ job queues & session cache"},
 				{protocol: schema.#Protocol.Http, target: "machine-learning", title: "Requests CLIP & facial recognition inference"},
 			]
-			watch_paths: [
-				"server/**", "helpers/schema-check-runner.sh", "helpers/build-core-plugin.sh",
-				"helpers/build-if-stale.sh", "helpers/start-postgres.sh", "helpers/start-immich-server.sh",
-				"helpers/immich-server-ready.sh", "helpers/provision-geodata.sh",
-				"helpers/server-image.cjs", "helpers/server-image.sh", "helpers/server-image/**", "helpers/container/**",
-			]
+			watch_paths:     ["server/**", "helpers/schema-check-runner.sh"]
 			depends_on:      [components.js_root, components.plugin_core, components.test_assets]
 			workspace_scope: submodules: ["e2e/test-assets"]
 			services:        [immich.services.postgres, immich.services.valkey]
@@ -108,7 +115,9 @@ pipeline: schema.#Pipeline & {
 				lint: {
 					direct: true, services: false, resources: {cpus: 2, memory_mb: 1280}
 					tasks: [
-						{command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md,sh}"], on_empty: "skip"}},
+						{name: "ESLint", command: "../helpers/lint-runner.sh --only eslint {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs}"], on_empty: "skip"}},
+						{name: "Prettier", command: "../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}},
+						{name: "ShellCheck", command: "shellcheck -x {relative_changed_files}", filter: {include: ["**/*.sh"], on_empty: "skip"}},
 						{command: "../helpers/schema-check-runner.sh --order-only", filter: {include: ["server/src/schema/migrations/**"], on_empty: "skip"}},
 					]
 				}
@@ -124,30 +133,38 @@ pipeline: schema.#Pipeline & {
 		i18n: _tsComponent & {
 			name: "i18n", title: "Immich Translations", root: "i18n"
 			depends_on: [components.js_root]
-			lint:       {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.json"], on_empty: "skip"}}
+			lint:       {command: "../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.json"], on_empty: "skip"}}
 		}
 
 		web: _vitestComponent & {
 			name: "@immich/web", title: "Immich SvelteKit Web Frontend", root: "web"
 			kind: "app", domain: "clients"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Calls REST API via @immich/sdk"}]
-			depends_on:        [components.js_root, components.sdk, components.i18n]
-			resources:         {cpus: 2, memory_mb: 3072}
-			shards:            2
-			target_scope:      {fallback: "all", tests: ["web/src/**/*.spec.ts"], rules: [{match: ["web/**/*.{ts,js,svelte}"], engine: "typescript"}]}
-			lint:              {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,svelte,json,yaml,yml,md}"], on_empty: "skip"}}
-			typecheck: command: "../helpers/typecheck-runner.sh"
-			jobs: test: {
-				needs: ["@immich/sdk:build"]
-				tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]
+			depends_on:   [components.js_root, components.sdk, components.i18n]
+			resources:    {cpus: 2, memory_mb: 3072}
+			shards:       2
+			target_scope: {fallback: "all", tests: ["web/src/**/*.spec.ts"], rules: [{match: ["web/**/*.{ts,js,svelte}"], engine: "typescript"}]}
+			jobs: {
+				lint: {
+					direct: true, services: false
+					tasks: [
+						{name: "ESLint", command: "../helpers/lint-runner.sh --only eslint {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,svelte}"], on_empty: "skip"}},
+						{name: "Prettier", command: "../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,svelte,json,yaml,yml,md}"], on_empty: "skip"}},
+					]
+				}
+				test: {
+					needs: ["@immich/sdk:build"]
+					tasks: [{command: "../helpers/vitest-runner.sh {relative_targets}"}]
+				}
 			}
+			typecheck: command: "../helpers/typecheck-runner.sh"
 		}
 
 		machine_learning: _tsComponent & {
 			name: "machine-learning", title: "Immich Python CLIP & Facial Recognition Service", root: "machine-learning"
 			kind: "service", domain: "ml"
-			watch_paths:  ["machine-learning/**", "helpers/pytest-runner.sh", "helpers/start-immich-ml.sh", "helpers/uv"]
-			depends_on:   [components.root]
+			watch_paths:  ["machine-learning/**"]
+			depends_on:   [components.py_root]
 			service:      immich.services["immich-ml"]
 			target_scope: {fallback: "all", tests: ["machine-learning/test_*.py"], rules: [{match: ["machine-learning/**/*.py"], engine: "python"}]}
 			jobs: lint: {
@@ -222,21 +239,35 @@ pipeline: schema.#Pipeline & {
 			name: "@immich/cli", title: "Immich TypeScript Command Line Interface", root: "packages/cli"
 			kind: "app", domain: "clients"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Uploads assets & manages albums via REST API"}]
-			depends_on:        [components.js_root, components.sdk]
-			target_scope:      {fallback: "all", tests: ["packages/cli/src/**/*.spec.ts"], rules: [{match: ["packages/cli/**/*.ts"], engine: "typescript"}]}
-			lint:              {command: "../../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
-			typecheck: command: "../../helpers/typecheck-runner.sh"
-			jobs: test: {
-				needs: ["@immich/sdk:build"]
-				tasks: [{command: "../../helpers/vitest-runner.sh {relative_targets}"}]
+			depends_on:   [components.js_root, components.sdk]
+			target_scope: {fallback: "all", tests: ["packages/cli/src/**/*.spec.ts"], rules: [{match: ["packages/cli/**/*.ts"], engine: "typescript"}]}
+			jobs: {
+				lint: {
+					direct: true, services: false
+					tasks: [
+						{name: "ESLint", command: "../../helpers/lint-runner.sh --only eslint {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs}"], on_empty: "skip"}},
+						{name: "Prettier", command: "../../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}},
+					]
+				}
+				test: {
+					needs: ["@immich/sdk:build"]
+					tasks: [{command: "../../helpers/vitest-runner.sh {relative_targets}"}]
+				}
 			}
+			typecheck: command: "../../helpers/typecheck-runner.sh"
 		}
 
 		scripts: _vitestComponent & {
 			name: "@immich/scripts", title: "Immich Release Scripts", root: "packages/scripts"
-			depends_on:    [components.js_root]
-			target_scope:  {fallback: "all", tests: ["packages/scripts/src/**/*.spec.ts"], rules: [{match: ["packages/scripts/**/*.ts"], engine: "typescript"}]}
-			lint:          {command: "../../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
+			depends_on:   [components.js_root]
+			target_scope: {fallback: "all", tests: ["packages/scripts/src/**/*.spec.ts"], rules: [{match: ["packages/scripts/**/*.ts"], engine: "typescript"}]}
+			jobs: lint: {
+				direct: true, services: false
+				tasks: [
+					{name: "ESLint", command: "../../helpers/lint-runner.sh --only eslint {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs}"], on_empty: "skip"}},
+					{name: "Prettier", command: "../../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}},
+				]
+			}
 			test: command: "../../helpers/vitest-runner.sh {relative_targets}"
 		}
 
@@ -252,9 +283,13 @@ pipeline: schema.#Pipeline & {
 			lint: command:   "../helpers/openapi-drift-runner.sh"
 		}
 
-		native: {name: "native", title: "Immich Native Core (Rust)", kind: "library", domain: "clients", root: "native", watch_paths: ["native/**"], depends_on: [components.root]}
+		native: {
+			name: "native", title: "Immich Native Core (Rust)", kind: "library", domain: "clients", root: "native", watch_paths: ["native/**"], depends_on: [components.root]
+			description: "Upstream native/ Rust workspace (not_run in CI: requires Rust 1.99.1 while nixpkgs snapshot ships Rust 1.98)"
+		}
 		mobile: _tsComponent & {
 			name: "@immich/mobile", title: "Immich Mobile Application", kind: "app", domain: "clients", root: "mobile"
+			description: "Flutter/Dart mobile client (not_run in CI: unit tests and dart-analyze require Flutter 3.47.2 / Dart SDK not in nixpkgs snapshot)"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Syncs media & albums via REST API"}]
 			depends_on: [components.root, components.openapi, components.native]
 		}
@@ -267,9 +302,15 @@ pipeline: schema.#Pipeline & {
 			workspace_scope:    submodules: ["e2e/test-assets"]
 			resources:          {cpus: 4, memory_mb: 8192}
 			target_scope:       {fallback: "none", tests: ["e2e/src/specs/server/**/*.e2e-spec.ts"], rules: [{match: ["e2e/**/*.ts", "server/**/*.ts"], engine: "typescript"}]}
-			lint:               {command: "../helpers/lint-runner.sh {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}}
 			typecheck: command: "../helpers/typecheck-runner.sh"
 			jobs: {
+				lint: {
+					direct: true, services: false
+					tasks: [
+						{name: "ESLint", command: "../helpers/lint-runner.sh --only eslint {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs}"], on_empty: "skip"}},
+						{name: "Prettier", command: "../helpers/lint-runner.sh --only prettier {relative_changed_files}", filter: {include: ["**/*.{ts,mts,cts,js,mjs,cjs,json,yaml,yml,md}"], on_empty: "skip"}},
+					]
+				}
 				build: {
 					name: "Build E2E dependencies", services: false, resources: {cpus: 4, memory_mb: 8192}
 					needs: ["@immich/sdk:build", "@immich/plugin-sdk:build", "@immich/plugin-core:build"]

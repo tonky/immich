@@ -13,7 +13,7 @@ done
 TARGETS=("$@")
 
 # Footprints enact asks for (ENACT_FOOTPRINT_DIR: `enact run` recording while it runs,
-# `enact trace record`): the wanted specs are traced one by one, the others run as here.
+# `enact reach record`): the wanted specs are traced one by one, the others run as here.
 if [ -n "${ENACT_FOOTPRINT_DIR:-}" ]; then
   exec "$REPO_ROOT/helpers/trace/footprints.sh" "$REPO_ROOT/helpers/vitest-runner.sh" "${TARGETS[@]}"
 fi

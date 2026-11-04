@@ -13,6 +13,12 @@ if [ ! -d node_modules ]; then
   exit 1
 fi
 
+enact="${ENACT_EXE:-${ENACT_BIN:-$(command -v enact || true)}}"
+if [ -n "$enact" ] && [ -d .enact ] && [ "${IMMICH_WORKSPACE_DEPS_BUILT:-}" != 1 ]; then
+  "$enact" helper ensure-outputs e2e:build
+  export IMMICH_WORKSPACE_DEPS_BUILT=1
+fi
+
 # Rebuilt whenever their sources changed, not only when missing (helpers/build-if-stale.sh).
 # `immich...` builds the server's workspace deps first (sdk, plugin-sdk), like its Dockerfile.
 helpers/build-if-stale.sh 'immich...' server/dist

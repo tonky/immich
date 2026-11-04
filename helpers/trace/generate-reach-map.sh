@@ -14,7 +14,7 @@
 # they read at start-up and outside the coverage windows (their launchers, the environment),
 # and each spec records them as its services, so a change to those reaches it.
 #
-# Incremental: over the stored map at HEAD (or an ancestor), only the specs `enact trace stale`
+# Incremental: over the stored map at HEAD (or an ancestor), only the specs `enact reach stale`
 # lists are traced (untraced, failed, or a file, directory or service they used changed
 # since), and their traces replace theirs in it; a phase with none starts nothing.
 # A phase's traces are fingerprinted once all of them finished: parallel web specs each
@@ -25,7 +25,7 @@
 # Env:   JOBS (parallel unit specs, default 4) · ENACT_EXE (set in enact tasks), else ENACT_BIN (default: enact on PATH) · SETTLE (seconds
 #        the server gets to finish a spec's queued jobs, default 2) · ONLY (regex: trace
 #        only the matching specs, for a quick check) · FULL=1 (trace every spec, from
-#        scratch: a map of only what this run traced)
+#        scratch: a map of only what this run traced) · BUILD=0 (the packages are built)
 set -euo pipefail
 
 ROOT=$(git rev-parse --show-toplevel)
@@ -38,15 +38,13 @@ ENACT=${ENACT_EXE:-${ENACT_BIN:-$(command -v enact || true)}}
 JOBS=${JOBS:-4}
 SETTLE=${SETTLE:-2}
 WORK=$ROOT/.enact/state/cache/trace-work
-# The map is recorded into the reach store (`enact trace store where`), over the stored
+# The map is recorded into the reach store (`enact reach store where`), over the stored
 # map selected at HEAD unless FULL.
 BASE=
-[ -n "${FULL:-}" ] || BASE=$("$ENACT" trace store where --path)
+[ -n "${FULL:-}" ] || BASE=$("$ENACT" reach store where --path)
 read -r -a PHASES <<<"${*:-unit medium e2e}"
 ENACT_BIN=$ENACT
 export ROOT ENACT ENACT_BIN WORK TRACE
-# shellcheck source=own-pids.sh
-. "$TRACE/own-pids.sh"
 
 # Suites: directory · spec glob (as `target_scope.tests` names them).
 SERVER_UNIT=(server 'server/src/**/*.spec.ts')
@@ -70,15 +68,15 @@ lines() { if [ -n "$1" ]; then wc -l <<<"$1" | tr -d ' '; else echo 0; fi; }
 
 # to_trace <glob>: the specs to trace (every one, or the stale ones over BASE), counted
 # on stderr. Run after the builds the specs read: their outputs are in the footprints.
-# Fails when `enact trace stale` does (its reasons go to the log): an error must not read
+# Fails when `enact reach stale` does (its reasons go to the log): an error must not read
 # as nothing to trace.
 to_trace() {
   local all stale
   all=$(specs "$1")
   stale=$all
   if [ -n "$BASE" ] && [ -n "$all" ]; then
-    if ! stale=$(xargs "$ENACT" trace stale --reach-file "$BASE" <<<"$all" 2>>"$WORK/logs/stale.log"); then
-      echo "❌ enact trace stale failed for $1: $WORK/logs/stale.log" >&2
+    if ! stale=$(xargs "$ENACT" reach stale --reach-file "$BASE" <<<"$all" 2>>"$WORK/logs/stale.log"); then
+      echo "❌ enact reach stale failed for $1: $WORK/logs/stale.log" >&2
       return 1
     fi
   fi
@@ -160,7 +158,7 @@ phase_medium() {
 # This run's server processes: the main one and its forked api worker, by the
 # process.title they set (never bubblewrap's pid, whose command line names the server
 # too), under this run's services only: another checkout's server would die of SIGUSR2.
-server_pids() { own_pids "${SERVICES:?}" immich immich-api; }
+server_pids() { "$ENACT" helper signal-descendants --root-pid "${SERVICES:?}" --names immich,immich-api; }
 
 # coverage_files <dir>: how many coverage files it holds.
 coverage_files() {
@@ -195,9 +193,7 @@ phase_e2e() {
   # records what the server reads to run. The coverage windows map what it ran to sources.
   echo "🔨 building the server, web, sdk and cli (the server's coverage maps to their sources)"
   {
-    env -u IMMICH_WORKSPACE_DEPS_BUILT enve run --locked -q -- helpers/build-if-stale.sh 'immich...' server/dist
-    env -u IMMICH_WORKSPACE_DEPS_BUILT enve run --locked -q -- helpers/build-if-stale.sh 'immich-web...' web/build i18n
-    enve run --locked -q -- pnpm --filter @immich/cli run build
+    env -u IMMICH_WORKSPACE_DEPS_BUILT enve run --locked -q -- "$ENACT" helper ensure-outputs e2e:build
   } >"$WORK/logs/build.log" 2>&1
   local stale
   stale=$(to_trace "${E2E[1]}") || exit 1
@@ -234,11 +230,17 @@ phase_e2e() {
 rm -rf "$WORK/maps" "$WORK/windows" "$WORK/logs"
 mkdir -p "$WORK/maps" "$WORK/logs"
 
-# The specs import the built workspace packages: build them once, not in every traced run.
-echo "🔨 building the workspace packages the suites import"
-enve run --locked -q -- pnpm --filter 'immich^...' --filter 'immich-web^...' --filter 'immich-e2e^...' \
-  --if-present run build >"$WORK/logs/build-deps.log" 2>&1
-enve run --locked -q -- helpers/build-core-plugin.sh >>"$WORK/logs/build-deps.log" 2>&1
+# The specs import the built workspace packages: build them once via build-workspace-deps.sh
+# (`enact helper build-once`) and `enact helper ensure-outputs`, not in every traced run.
+if [ "${BUILD:-1}" != 0 ]; then
+  echo "🔨 building the workspace packages the suites import"
+  {
+    for dir in server web e2e; do
+      enve run --locked -q -- bash -c "cd \"\$1\" && ../helpers/build-workspace-deps.sh" _ "$dir"
+    done
+    enve run --locked -q -- "$ENACT" helper ensure-outputs @immich/plugin-core:build
+  } >"$WORK/logs/build-deps.log" 2>&1
+fi
 export IMMICH_WORKSPACE_DEPS_BUILT=1
 
 for phase in "${PHASES[@]}"; do
@@ -247,7 +249,7 @@ for phase in "${PHASES[@]}"; do
   "phase_$phase"
   phase_maps=("$MAPS"/*.json)
   if [ -e "${phase_maps[0]}" ]; then
-    "$ENACT" trace pack --fingerprint "${phase_maps[@]}" -o "$WORK/maps/$phase.json" >/dev/null
+    "$ENACT" reach pack --fingerprint "${phase_maps[@]}" -o "$WORK/maps/$phase.json" >/dev/null
   fi
 done
 
@@ -257,11 +259,11 @@ if [ ! -e "${maps[0]}" ]; then
   exit 0
 fi
 MAP=$WORK/trace-reach.json
-"$ENACT" trace pack "${maps[@]}" -o "$MAP"
+"$ENACT" reach pack "${maps[@]}" -o "$MAP"
 if [ -d "$WORK/windows" ]; then
   enve run --locked -q -- node "$TRACE/reach-map.mjs" coverage "$MAP" "$WORK/windows"
 fi
 # The traces the coverage step extended (and the services two phases traced) get their
 # digest here, then they replace theirs in BASE.
-"$ENACT" trace pack --fingerprint ${BASE:+--base "$BASE"} "$MAP" -o "$WORK/reach.bin"
-"$ENACT" trace store put "$WORK/reach.bin"
+"$ENACT" reach pack --fingerprint ${BASE:+--base "$BASE"} "$MAP" -o "$WORK/reach.bin"
+"$ENACT" reach store put "$WORK/reach.bin"

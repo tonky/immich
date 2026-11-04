@@ -22,13 +22,9 @@ forget_if_missing web/build/.build-stamp web/build/index.html packages/sdk/build
 forget_if_missing packages/plugin-core/dist/.build-stamp packages/plugin-core/dist/plugin.wasm
 forget_if_missing e2e/node_modules/.enact-deps-stamp packages/cli/dist/index.js packages/sdk/build/index.js packages/plugin-sdk/dist/index.js
 
-mkdir -p node_modules
-flock -o node_modules/.enact-build-deps.lock bash -c '
-  set -e
-  helpers/build-if-stale.sh "immich..." server/dist
-  helpers/build-if-stale.sh "immich-web..." web/build i18n
-'
-helpers/build-core-plugin.sh
+helpers/build-if-stale.sh "immich..." server/dist
+helpers/build-if-stale.sh "immich-web..." web/build i18n
+helpers/build-core-plugin.sh --producer
 (cd e2e && ../helpers/build-workspace-deps.sh)
 # Materialize the separately locked image environment before service capture too.
 # The launcher still resolves it normally, including on a cold consumer machine.

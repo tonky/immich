@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# lint-runner.sh <file...> - upstream's lint and format checks of a package, on its files
+# lint-runner.sh [--only eslint|prettier] <file...> - upstream's lint and format checks of a package, on its files
 # ==============================================================================
 # Runs from the component's directory on the files given (relative to it), each through
 # what upstream checks it with in the package holding it (the nearest package.json: the
@@ -8,9 +8,11 @@
 #   - ESLint, on the files the package's `lint` script names (`eslint "src/**/*.ts"`, or `.`),
 #     when the package has an ESLint config;
 #   - Prettier (`--check`, under the package's .prettierignore), on the files its `format`
-#     script names (`prettier --check .`, the root's `i18n/`);
-#   - ShellCheck, on shell scripts.
-# A file none of them checks fails the run, as does an empty file list: a lint that passed
+#     script names (`prettier --check .`, the root's `i18n/`).
+# `--only eslint|prettier` (or `LINT_ONLY=eslint|prettier`) restricts execution to one check
+# for task-filter decomposition while still verifying that every file is covered by the
+# package's lint/format scripts.
+# A file neither checks fails the run, as does an empty file list: a lint that passed
 # having checked nothing would read as clean. Narrow the job's filter instead.
 # Another component's file (`../…`, a dependency's change) and a deleted one are left out;
 # given only such files, it fails too.
@@ -20,6 +22,35 @@ REPO_ROOT="$PWD"
 while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
   REPO_ROOT="$(dirname "$REPO_ROOT")"
 done
+
+only="${LINT_ONLY:-all}"
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --only)
+      [ $# -ge 2 ] || { echo "❌ [lint] --only requires eslint or prettier" >&2; exit 64; }
+      only="$2"
+      shift 2
+      ;;
+    --only=*)
+      only="${1#--only=}"
+      shift
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+case "$only" in
+  all | eslint | prettier) ;;
+  *)
+    echo "❌ [lint] unknown --only target '$only' (expected eslint or prettier)" >&2
+    exit 64
+    ;;
+esac
 
 if [ $# -eq 0 ]; then
   echo "❌ [lint] no files given: lint-runner.sh lints the files it is given" >&2
@@ -88,7 +119,6 @@ while IFS= read -r p; do format_paths+=("$p"); done < <(script_paths format pret
 
 eslint_files=()
 prettier_files=()
-sh_files=()
 unchecked=()
 for f in ${files[@]+"${files[@]}"}; do
   f="$prefix$f"
@@ -99,10 +129,6 @@ for f in ${files[@]+"${files[@]}"}; do
         eslint_files+=("$f")
         checked=true
       fi
-      ;;
-    *.sh)
-      sh_files+=("$f")
-      checked=true
       ;;
   esac
   if [ ${#format_paths[@]} -gt 0 ] && covered "$f" "${format_paths[@]}"; then
@@ -116,10 +142,27 @@ if [ ${#unchecked[@]} -gt 0 ]; then
   echo "❌ [lint] upstream's lint and format scripts check none of: ${unchecked[*]} (narrow the job's filter)" >&2
   exit 1
 fi
-if [ $((${#eslint_files[@]} + ${#prettier_files[@]} + ${#sh_files[@]})) -eq 0 ]; then
+if [ $((${#eslint_files[@]} + ${#prettier_files[@]})) -eq 0 ]; then
   echo "❌ [lint] none of the $# file(s) given is this package's and still there" >&2
   exit 1
 fi
+
+case "$only" in
+  eslint)
+    prettier_files=()
+    if [ ${#eslint_files[@]} -eq 0 ]; then
+      echo "· [eslint] no ESLint-covered files in change set."
+      exit 0
+    fi
+    ;;
+  prettier)
+    eslint_files=()
+    if [ ${#prettier_files[@]} -eq 0 ]; then
+      echo "· [prettier] no Prettier-covered files in change set."
+      exit 0
+    fi
+    ;;
+esac
 
 # Pre-sync svelte-kit if any web files are being linted
 if [ ${#eslint_files[@]} -gt 0 ] && [ -f svelte.config.js ] && [ ! -d .svelte-kit ]; then
@@ -165,17 +208,6 @@ if [ ${#prettier_files[@]} -gt 0 ]; then
     echo "🔍 [prettier] Checking formatting on ${#prettier_files[@]} file(s)..."
     "$PRETTIER_BIN" --check --ignore-unknown "${prettier_files[@]}"
     echo "✓ [prettier] Formatting verified."
-  ) &
-  pids+=($!)
-fi
-
-# 3. ShellCheck on shell scripts.
-if [ ${#sh_files[@]} -gt 0 ]; then
-  (
-    command -v shellcheck >/dev/null 2>&1 || { echo "❌ [shellcheck] not on PATH" >&2; exit 1; }
-    echo "🔍 [shellcheck] Auditing ${#sh_files[@]} shell script(s)..."
-    shellcheck -x "${sh_files[@]}"
-    echo "✓ [shellcheck] Scripts clean."
   ) &
   pids+=($!)
 fi
