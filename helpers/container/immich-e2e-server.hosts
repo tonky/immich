@@ -1,0 +1,7 @@
+# The compose network's names, as the server's container resolves them (upstream's e2e
+# docker-compose.yml services). Each one runs on the host here, so each is 127.0.0.1.
+# `<address> <name>`, as in /etc/hosts.
+127.0.0.1  e2e-auth-server
+127.0.0.1  immich-server
+127.0.0.1  redis
+127.0.0.1  database

@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# vitest-runner.sh - Hermetic Vitest Runner for Immich Tests
+# ==============================================================================
+set -euo pipefail
+
+REPO_ROOT="$PWD"
+while [ "$REPO_ROOT" != "/" ] && [ ! -f "$REPO_ROOT/pnpm-lock.yaml" ]; do
+  REPO_ROOT="$(dirname "$REPO_ROOT")"
+done
+
+
+TARGETS=("$@")
+
+# Footprints enact asks for (ENACT_FOOTPRINT_DIR: `enact run` recording while it runs,
+# `enact trace record`): the wanted specs are traced one by one, the others run as here.
+if [ -n "${ENACT_FOOTPRINT_DIR:-}" ]; then
+  exec "$REPO_ROOT/helpers/trace/footprints.sh" "$REPO_ROOT/helpers/vitest-runner.sh" "${TARGETS[@]}"
+fi
+
+# As `pnpm run` (upstream runs `pnpm test`): the package's and the workspace's bins first.
+# The cli e2e specs spawn `pnpm exec immich` in packages/cli, which finds `immich` only on
+# the PATH it inherits (e2e links the cli's bin, the cli does not link its own).
+PATH="$PWD/node_modules/.bin:$REPO_ROOT/node_modules/.bin:$PATH"
+export PATH
+# The e2e specs `docker exec`/`docker cp` into the server: helpers/container/path/docker.
+# Here, not in the job's command, so the reach map's recording runs the same specs.
+if [ "$PWD" = "$REPO_ROOT/e2e" ]; then
+  PATH="$REPO_ROOT/helpers/container/path:$PATH"
+  # The cli specs keep their login (auth.yml: which server) and upload files under
+  # tmpdir() (patches/): a directory per run, so runs side by side on one host, each on
+  # its own service instance, don't log each other's cli in elsewhere.
+  TMPDIR="$(mktemp -d "${TMPDIR:-/tmp}/immich-e2e.XXXXXX")"
+  export TMPDIR
+  trap 'rm -rf "$TMPDIR"' EXIT
+fi
+
+VITEST_CMD=()
+if [ -x "./node_modules/.bin/vitest" ]; then
+  VITEST_CMD=("./node_modules/.bin/vitest")
+elif [ -x "$REPO_ROOT/node_modules/.bin/vitest" ]; then
+  VITEST_CMD=("$REPO_ROOT/node_modules/.bin/vitest")
+elif [ -x "../../node_modules/.bin/vitest" ]; then
+  VITEST_CMD=("../../node_modules/.bin/vitest")
+elif command -v vitest >/dev/null 2>&1; then
+  VITEST_CMD=("vitest")
+elif [ -d "node_modules" ] || [ -d "$REPO_ROOT/node_modules" ]; then
+  VITEST_CMD=("pnpm" "exec" "vitest")
+fi
+
+if [ ${#VITEST_CMD[@]} -eq 0 ]; then
+  echo "❌ [vitest-runner] Fatal: Vitest test runner not found (node_modules or vitest missing)." >&2
+  exit 1
+fi
+
+# The specs import the built workspace dependencies (sdk, plugin-sdk, cli).
+"$REPO_ROOT/helpers/build-workspace-deps.sh"
+
+# With no targets every shard would run the whole suite: let vitest split it instead.
+# (With targets, enact already handed each shard its own slice.) A suite with no tests
+# fails, as vitest fails on no files; a shard past the first may draw none when there are
+# fewer files than shards, while the first draws one whenever the suite has any.
+SHARD_ARGS=()
+if [ ${#TARGETS[@]} -eq 0 ] && [ "${ENACT_SHARD_TOTAL:-1}" -gt 1 ]; then
+  SHARD_ARGS=("--shard=${ENACT_SHARD_INDEX:?}/${ENACT_SHARD_TOTAL}")
+  [ "$ENACT_SHARD_INDEX" -le 1 ] || SHARD_ARGS+=(--passWithNoTests)
+fi
+
+# One worker per CPU enact gave the shard: vitest otherwise sizes its pool to the host, and
+# each parallel shard takes it all (two server shards held 7 GB and tripped the host guard).
+# e2e's config pins its own pool (maxWorkers: 1): the specs share one server.
+POOL_ARGS=()
+if [ -n "${ENACT_SHARD_WORKERS:-}" ] && [ "$PWD" != "$REPO_ROOT/e2e" ]; then
+  POOL_ARGS=("--maxWorkers=${ENACT_SHARD_WORKERS}")
+fi
+
+# Traced by `enact trace run --attribution` (helpers/trace/trace-files.sh): one forked worker
+# per spec, and the reporter saying which modules each spec loaded. Single-target `trace run`
+# (e2e specs: $ENACT_SKIPS_FILE) adds the reporter alone so e2e keeps its maxWorkers: 1 pool.
+ATTRIBUTION_ARGS=()
+if [ -n "${ENACT_ATTRIBUTION_FILE:-}" ]; then
+  ATTRIBUTION_ARGS=(--no-cache --pool=forks --isolate --reporter=default
+    "--reporter=$REPO_ROOT/helpers/trace/vitest-attribution.mjs")
+elif [ -n "${ENACT_SKIPS_FILE:-}" ]; then
+  ATTRIBUTION_ARGS=(--reporter=default
+    "--reporter=$REPO_ROOT/helpers/trace/vitest-attribution.mjs")
+fi
+
+vitest_run() {
+  "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "${POOL_ARGS[@]}" "${ATTRIBUTION_ARGS[@]}" "$@"
+}
+
+# The server keeps unit and medium (database) specs under separate configs; e2e keeps
+# server maintenance specs under vitest.maintenance.config.ts.
+if [ -f "test/vitest.config.mjs" ] && [ -f "test/vitest.config.medium.mjs" ]; then
+  if [ ${#TARGETS[@]} -eq 0 ]; then
+    vitest_run --config test/vitest.config.mjs
+    "$REPO_ROOT/helpers/build-core-plugin.sh"
+    vitest_run --config test/enact/vitest.config.medium.mjs
+    exit 0
+  fi
+  unit_targets=()
+  medium_targets=()
+  for t in "${TARGETS[@]}"; do
+    case "$t" in
+      test/medium | test/medium/* | ./test/medium | ./test/medium/*) medium_targets+=("$t") ;;
+      *) unit_targets+=("$t") ;;
+    esac
+  done
+  if [ ${#unit_targets[@]} -gt 0 ]; then
+    vitest_run --config test/vitest.config.mjs "${unit_targets[@]}"
+  fi
+  if [ ${#medium_targets[@]} -gt 0 ]; then
+    "$REPO_ROOT/helpers/build-core-plugin.sh"
+    vitest_run --config test/enact/vitest.config.medium.mjs "${medium_targets[@]}"
+  fi
+elif [ -f "vitest.config.ts" ] && [ -f "vitest.maintenance.config.ts" ]; then
+  if [ ${#TARGETS[@]} -eq 0 ]; then
+    vitest_run --config vitest.config.ts
+    exit 0
+  fi
+  server_targets=()
+  maintenance_targets=()
+  for t in "${TARGETS[@]}"; do
+    case "$t" in
+      src/specs/maintenance/server | src/specs/maintenance/server/* | ./src/specs/maintenance/server | ./src/specs/maintenance/server/*)
+        maintenance_targets+=("$t")
+        ;;
+      *)
+        server_targets+=("$t")
+        ;;
+    esac
+  done
+  if [ ${#server_targets[@]} -gt 0 ]; then
+    vitest_run --config vitest.config.ts "${server_targets[@]}"
+  fi
+  if [ ${#maintenance_targets[@]} -gt 0 ]; then
+    vitest_run --config vitest.maintenance.config.ts "${maintenance_targets[@]}"
+  fi
+else
+  vitest_run "${TARGETS[@]}"
+fi

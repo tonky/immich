@@ -80,7 +80,7 @@ type WaitOptions = { event: EventType; id?: string; total?: number; timeout?: nu
 type AdminSetupOptions = { onboarding?: boolean };
 type FileData = { bytes?: Buffer; filename: string };
 
-const dbUrl = `postgres://postgres:postgres@${playwrightDbHost}:5435/immich`;
+const dbUrl = `postgres://postgres:postgres@${playwrightDbHost}:${process.env.ENVE_SERVICE_POSTGRES_PORT ?? 5435}/immich`;
 export const baseUrl = playwriteBaseUrl;
 export const shareUrl = `${baseUrl}/share`;
 export const app = `${baseUrl}/api`;
@@ -564,6 +564,7 @@ export const utils = {
   resetTempFolder: () => {
     rmSync(`${testAssetDir}/temp`, { recursive: true, force: true });
     mkdirSync(`${testAssetDir}/temp`, { recursive: true });
+    writeFileSync(`${testAssetDir}/temp/.gitignore`, '*\n');
   },
 
   putFile(source: string, dest: string) {

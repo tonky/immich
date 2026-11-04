@@ -1,0 +1,1 @@
+../../../../../crates/enact-runner/recorders/js/vitest-attribution.mjs
