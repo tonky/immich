@@ -283,15 +283,39 @@ pipeline: schema.#Pipeline & {
 			lint: command:   "../helpers/openapi-drift-runner.sh"
 		}
 
-		native: {
-			name: "native", title: "Immich Native Core (Rust)", kind: "library", domain: "clients", root: "native", watch_paths: ["native/**"], depends_on: [components.root]
-			description: "Upstream native/ Rust workspace (not_run in CI: requires Rust 1.99.1 while nixpkgs snapshot ships Rust 1.98)"
+		native: _tsComponent & {
+			name: "native", title: "Immich Native Core (Rust)", kind: "library", domain: "clients", root: "native"
+			depends_on: [components.root]
+			jobs: lint: {
+				direct: true, services: false
+				tasks: [{command: "cargo fmt --all --check && cargo clippy --workspace --all-targets --locked -- -D warnings"}]
+			}
+			test: command: "cargo test --workspace --locked"
 		}
 		mobile: _tsComponent & {
 			name: "@immich/mobile", title: "Immich Mobile Application", kind: "app", domain: "clients", root: "mobile"
-			description: "Flutter/Dart mobile client (not_run in CI: unit tests and dart-analyze require Flutter 3.47.2 / Dart SDK not in nixpkgs snapshot)"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Syncs media & albums via REST API"}]
-			depends_on: [components.root, components.openapi, components.native]
+			watch_paths:     ["mobile/**", "helpers/mobile-prepare.sh"]
+			depends_on:      [components.root, components.openapi, components.native]
+			workspace_scope: include: ["mobile", "open-api", "native", "i18n"]
+			jobs: {
+				lint: {
+					direct: true, services: false
+					tasks: [
+						{name: "Prepare Mobile Codegen", command: "../helpers/mobile-prepare.sh"},
+						{name: "Dart Analyze", command: "dart analyze --fatal-infos"},
+						{name: "DCM Analyze", command: "dcm analyze lib --fatal-style --fatal-warnings"},
+						{name: "Dart Format", command: "dart format --set-exit-if-changed $(find lib -name '*.dart' -not \\( -name '*.g.dart' -o -name '*.drift.dart' -o -name '*.gr.dart' \\))"},
+					]
+				}
+				test: {
+					services: false
+					tasks: [
+						{name: "Prepare Mobile Codegen", command: "../helpers/mobile-prepare.sh"},
+						{name: "Flutter Test", command: "flutter test"},
+					]
+				}
+			}
 		}
 
 		e2e: _tsComponent & {

@@ -290,10 +290,210 @@ let vchordDarwin = schema.#GenericBuildSpec & {
 		"""#
 }
 
+let _rust_1_99_1 = schema.#ArchiveBuildSpec & {
+	pname:   "rust"
+	version: "1.99.1"
+	src: {
+		"aarch64-darwin": "https://static.rust-lang.org/dist/rust-1.99.1-aarch64-apple-darwin.tar.xz"
+		"x86_64-darwin":  "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-apple-darwin.tar.xz"
+		"aarch64-linux":  "https://static.rust-lang.org/dist/rust-1.99.1-aarch64-unknown-linux-gnu.tar.xz"
+		"x86_64-linux":   "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-unknown-linux-gnu.tar.xz"
+	}
+	sha256: {
+		"aarch64-darwin": "30976378b6aaefd1861ba475905c6ba22a44c981418ce52285006af26337f98c"
+		"x86_64-darwin":  "13b237d0294bad3bb7b18d559517947ed8348ea25812fa3b468c904996f80e34"
+		"aarch64-linux":  "a48fb1e853be56ce9b8e2751f5464dbd5e16440cd81e237920f3a5e7e806333e"
+		"x86_64-linux":   "231fcae47ee950621374725b5fc3b5441d2fbda2955ac45dd7dc816d8876cfe7"
+	}
+	buildInputs: [
+		{pname: "findutils"},
+		{pname: "gnugrep"},
+		{pname: "gnused"},
+		{pname: "gawk"},
+		{pname: "coreutils"},
+		{pname: "auto-patchelf", platforms: ["linux"]},
+		{pname: "patchelf", platforms: ["linux"]},
+		{pname: "glibc", platforms: ["linux"]},
+		{pname: "gcc-unwrapped", attr: "gcc-unwrapped.lib", platforms: ["linux"]},
+		{pname: "zlib", platforms: ["linux"]},
+	]
+	installPhase: """
+		set -eu
+		installer=$(find "$src" -maxdepth 2 -name install.sh | head -n 1)
+		dir=${installer%/install.sh}
+		components=$(grep -E '^(rustc|cargo|rust-std-.*|clippy-preview|rustfmt-preview|rust-analyzer-preview)$' "$dir/components" | paste -sd, -)
+		bash "$installer" --prefix="$out" --components="$components" --disable-ldconfig --without=rust-docs
+		rm -rf "$out/share/doc" "$out/lib/rustlib/uninstall.sh" "$out/lib/rustlib/install.log"
+		if [ "$(uname -s)" = Linux ]; then
+			auto-patchelf --paths "$out" --libs $(printf '%s' "$LIBRARY_PATH" | tr ':' ' ')
+			root=$(cd /nix/store && pwd -P)
+			outreal=$(cd "$out" && pwd -P)
+			shopt -s globstar
+			for elf in "$out"/**; do
+				[ -f "$elf" ] && [ ! -L "$elf" ] || continue
+				interp=$(patchelf --print-interpreter "$elf" 2>/dev/null) || interp=
+				case "$interp" in "$root"/*) patchelf --set-interpreter "/nix/store/${interp#"$root"/}" "$elf" ;; esac
+				rpath=$(patchelf --print-rpath "$elf" 2>/dev/null) || continue
+				fixed=
+				for entry in ${rpath//:/ }; do
+					case "$entry" in
+					"$outreal"/lib | "$out"/lib)
+						rel=$(realpath --relative-to="$(dirname "$elf")" "$out/lib")
+						case "$rel" in .) entry='$ORIGIN' ;; *) entry='$ORIGIN'/$rel ;; esac
+						;;
+					"$root"/*) entry="/nix/store/${entry#"$root"/}" ;;
+					esac
+					case ":$fixed:" in *":$entry:"*) ;; *) fixed=${fixed:+$fixed:}$entry ;; esac
+				done
+				[ "$fixed" = "$rpath" ] || patchelf --set-rpath "$fixed" "$elf"
+			done
+		else
+			for llvm in "$out"/lib/libLLVM*.dylib; do
+				for bin in "$out"/lib/rustlib/*/bin; do
+					ln -s "../../../${llvm##*/}" "${bin%/bin}/lib/${llvm##*/}"
+				done
+			done
+		fi
+		"$out/bin/rustc" --version
+		"$out/bin/cargo" --version
+		"$out/bin/cargo-clippy" --version
+		"$out/bin/rustfmt" --version
+		"$out/bin/rust-analyzer" --version
+		for bin in "$out"/lib/rustlib/*/bin; do
+			"$bin/rust-objcopy" --version
+			"$bin/rust-lld" -flavor gnu --version
+		done
+		mkdir -p "$out/etc"
+		: > "$out/etc/clippy.toml"
+		"""
+	exports: CLIPPY_CONF_DIR: "$out/etc"
+}
+
+let _flutter_3_47_2 = schema.#ArchiveBuildSpec & {
+	pname:   "flutter"
+	version: "3.47.2"
+	src: {
+		"aarch64-darwin": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.2-stable.zip"
+		"x86_64-darwin":  "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.47.2-stable.zip"
+		"aarch64-linux":  "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.2-stable.tar.xz"
+		"x86_64-linux":   "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.2-stable.tar.xz"
+	}
+	sha256: {
+		"aarch64-darwin": "f456fd6733053d9301828a2e702d6cbec872923126809aa8c48eb0a696d6cc01"
+		"x86_64-darwin":  "b6fd6ba98c8503d5ee06a6670627b5b1c36167ece3427435ec83b66e9b28c6b5"
+		"aarch64-linux":  "447878859d01ca9bfdb99a85f245af07ed8a15fedcd9d189c4749e8e92d1f185"
+		"x86_64-linux":   "447878859d01ca9bfdb99a85f245af07ed8a15fedcd9d189c4749e8e92d1f185"
+	}
+	buildInputs: [
+		{pname: "findutils"},
+		{pname: "gnused"},
+		{pname: "coreutils"},
+		{pname: "auto-patchelf", platforms: ["linux"]},
+		{pname: "patchelf", platforms: ["linux"]},
+		{pname: "glibc", platforms: ["linux"]},
+	]
+	installPhase: #"""
+		set -eu
+		if [ -d "$src/flutter/bin" ]; then
+			sdk="$src/flutter"
+		else
+			sdk="$src"
+		fi
+		mkdir -p "$out"
+		cp -R "$sdk"/. "$out/"
+		rm -rf "$out/.pub-preload-cache"
+		printf '%s' "$version" > "$out/version"
+		mkdir -p "$out/packages/flutter_tools/.dart_tool"
+		printf '{"configVersion":2,"packages":[{"name":"flutter_tools","rootUri":"..","packageUri":"lib/","languageVersion":"3.11"}]}\n' > "$out/packages/flutter_tools/.dart_tool/package_config.json"
+		sed -i 's/^  upgrade_flutter 7< "\$SHARED_NAME"/  export FLUTTER_ALREADY_LOCKED=true/' "$out/bin/internal/shared.sh"
+		if [ "$(uname -s)" = Linux ] && [ "$(uname -m)" = x86_64 ]; then
+			find "$out/bin/cache" -name 'libflutter_linux_gtk.so' -delete
+			auto-patchelf --paths "$out/bin/cache" --libs $(printf '%s' "$LIBRARY_PATH" | tr ':' ' ')
+			root=$(cd /nix/store && pwd -P)
+			shopt -s globstar
+			for elf in "$out/bin/cache"/**; do
+				[ -f "$elf" ] && [ ! -L "$elf" ] || continue
+				interp=$(patchelf --print-interpreter "$elf" 2>/dev/null) || interp=
+				case "$interp" in "$root"/*) patchelf --set-interpreter "/nix/store/${interp#"$root"/}" "$elf" ;; esac
+				rpath=$(patchelf --print-rpath "$elf" 2>/dev/null) || continue
+				fixed=
+				for entry in ${rpath//:/ }; do
+					case "$entry" in "$root"/*) entry="/nix/store/${entry#"$root"/}" ;; esac
+					case ":$fixed:" in *":$entry:"*) ;; *) fixed=${fixed:+$fixed:}$entry ;; esac
+				done
+				[ "$fixed" = "$rpath" ] || patchelf --set-rpath "$fixed" "$elf"
+			done
+		elif [ "$(uname -s)" = Darwin ]; then
+			for dylib in "$out"/bin/cache/artifacts/*/*.dylib; do
+				[ -f "$dylib" ] && ln -s "${dylib#"$out/bin/cache/artifacts/"}" "$out/bin/cache/artifacts/${dylib##*/}"
+			done
+		fi
+		if [ "$(uname -s)" != Linux ] || [ "$(uname -m)" = x86_64 ]; then
+			"$out/bin/cache/dart-sdk/bin/dart" --version
+		fi
+		"""#
+}
+
+let _dcm_1_39_1 = schema.#ArchiveBuildSpec & {
+	pname:   "dcm"
+	version: "1.39.1"
+	src: {
+		"aarch64-darwin": "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-macos-arm-release.zip"
+		"x86_64-darwin":  "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-macos-x64-release.zip"
+		"aarch64-linux":  "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-linux-arm-release.zip"
+		"x86_64-linux":   "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-linux-x64-release.zip"
+	}
+	sha256: {
+		"aarch64-darwin": "38ad6085e741c0fb1646b9057c4c2e2b627442e063d3837924dd8ed4bb9e0133"
+		"x86_64-darwin":  "3153dd96c60f0f25662ba52acd88537c53ccee7c9f179911885aa79c21bb72c2"
+		"aarch64-linux":  "0cab9675ea5435817772176bf744b96358ec0f44f713853910f22538aec2e2c4"
+		"x86_64-linux":   "a7a3033f16e03694db866d627865d0baf4befb04993f2c1111757f9613f02c62"
+	}
+	buildInputs: [
+		{pname: "findutils"},
+		{pname: "coreutils"},
+		{pname: "auto-patchelf", platforms: ["linux"]},
+		{pname: "patchelf", platforms: ["linux"]},
+		{pname: "glibc", platforms: ["linux"]},
+	]
+	installPhase: #"""
+		set -eu
+		mkdir -p "$out/bin" "$out/libexec"
+		cp "$(find "$src" -type f -name dcm | head -n 1)" "$out/libexec/dcm"
+		chmod 0755 "$out/libexec/dcm"
+		if [ "$(uname -s)" = Linux ]; then
+			auto-patchelf --paths "$out/libexec" --libs $(printf '%s' "$LIBRARY_PATH" | tr ':' ' ')
+			root=$(cd /nix/store && pwd -P)
+			elf="$out/libexec/dcm"
+			interp=$(patchelf --print-interpreter "$elf" 2>/dev/null) || interp=
+			case "$interp" in "$root"/*) patchelf --set-interpreter "/nix/store/${interp#"$root"/}" "$elf" ;; esac
+			rpath=$(patchelf --print-rpath "$elf" 2>/dev/null) || rpath=
+			if [ -n "$rpath" ]; then
+				fixed=
+				for entry in ${rpath//:/ }; do
+					case "$entry" in "$root"/*) entry="/nix/store/${entry#"$root"/}" ;; esac
+					case ":$fixed:" in *":$entry:"*) ;; *) fixed=${fixed:+$fixed:}$entry ;; esac
+				done
+				[ "$fixed" = "$rpath" ] || patchelf --set-rpath "$fixed" "$elf"
+			fi
+		fi
+		cat > "$out/bin/dcm" << 'EOF'
+		#!/bin/sh
+		export PATH="$PATH:/usr/sbin"
+		exec "$(dirname "$0")/../libexec/dcm" "$@"
+		EOF
+		chmod 0755 "$out/bin/dcm"
+		"$out/bin/dcm" --version
+		"""#
+}
+
 profiles: dev: schema.#Profile & {
 	name: "immich-dev"
 	tools: [
 		pnpm, nodejs, pkgs.python & {version: "3.12"}, ffmpeg, uv, extismJs, binaryen,
+		_rust_1_99_1, _flutter_3_47_2, _dcm_1_39_1,
+		{pname: "jdk21_headless"}, {pname: "patch"}, {pname: "findutils"}, {pname: "gnused"},
+		{pname: "libclang", attr: "libclang.lib"},
 		pkgs.valkey & {version: "9"},
 		{pname: "perl"}, {pname: "unzip"}, {pname: "shellcheck"},
 		{pname: "bash"}, {pname: "flock"}, {pname: "git"}, {pname: "curl"}, {pname: "coreutils"}, {pname: "gawk"},

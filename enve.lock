@@ -2,8 +2,8 @@
   "platforms": {
     "aarch64-darwin": {
       "binding": {
-        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
-        "inventory_sha256": "767e70fe913d8bb740374c6ff08e3571191ec9f4df2d135baa44738d49745808",
+        "environment_sha256": "1a09a4f81f6e56e03d37ae3de50689d8d0e929acda9c8e2edb25d608dd72fae0",
+        "inventory_sha256": "14110bc1ef90d2ecc1a59aa89d6abd17b630c1b1218e75d2b225561b7eb96af1",
         "profile": null,
         "version": 2
       },
@@ -272,6 +272,14 @@
           ]
         },
         {
+          "hash_name": "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0",
+          "nar_hash": "sha256:0ddwz4h8jh6qisj9pcdsxavfnxbprqlwjrdb5acw4ymbg1g7z369",
+          "nar_size": 538664,
+          "references": [
+            "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
+          ]
+        },
+        {
           "hash_name": "3z3ksp4dkl7klq5dyz691vi3ykc7s438-nghttp3-1.15.0",
           "nar_hash": "sha256:0z8la2i73gp7972xns5gmggxr9aj5ig6y99iqhxx1kvic30y4sif",
           "nar_size": 203896,
@@ -454,12 +462,18 @@
           ]
         },
         {
+          "hash_name": "7dzc5mi0jf452sfx47iqm55dgvz9mzvc-playwright-browsers-1.64.1"
+        },
+        {
           "hash_name": "7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2",
           "nar_hash": "sha256:1czxv3976vzmiixm39yfcliwy5iy10b0as2sx0d445v5q97yibfp",
           "nar_size": 110256,
           "references": [
             "7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2"
           ]
+        },
+        {
+          "hash_name": "7fvkljs9jij7qvxhagl0mhh7fjfh7z4b-dcm-1.39.1"
         },
         {
           "hash_name": "7r160i3gca967vnnsx9qkazinqhsqrxp-ncurses-6.6",
@@ -692,6 +706,15 @@
           ]
         },
         {
+          "hash_name": "bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11",
+          "nar_hash": "sha256:05nfjgwf6zxkxmabfbrpil6aq32ic5pyjfvyh7sh53q3w07fzjzj",
+          "nar_size": 357881632,
+          "references": [
+            "bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11",
+            "cnsilmpfb6cj9lw6d3ys1afjfa8gh3g5-set-java-classpath-hook"
+          ]
+        },
+        {
           "hash_name": "c2sl2xgzjv2d6n2j0d2v7wadsnxf2s48-zlib-1.3.2-static",
           "nar_hash": "sha256:0gh4rdarxlq7qd1ff87h98flgpgch2051b3ww65hxfn2vir55lxd",
           "nar_size": 111400,
@@ -725,6 +748,14 @@
           ]
         },
         {
+          "hash_name": "clinbqq0dm364gzdglc78q7010lwmgzl-ed-1.22.5",
+          "nar_hash": "sha256:175bfdz5iailhkglfxry68sg31jpva5xy967pg0q5gj2ss3bba8v",
+          "nar_size": 170816,
+          "references": [
+            "55976waa157aqb1ncbwm6b8sa64b6m3h-bash-5.3p9"
+          ]
+        },
+        {
           "hash_name": "cm2757n02a6pdlw50hm9czf1nb3477h9-perl5.42.0-CGI-4.59",
           "nar_hash": "sha256:07sbx0pg04d5jpyylrganxi9hd05mw9p0yj9nnw2wdrvfwn89yjn",
           "nar_size": 324280,
@@ -732,6 +763,12 @@
             "9zyv4kyj2wkkf9mfrwdnmpfpdhxsjga0-perl5.42.0-HTML-Parser-3.81",
             "cm2757n02a6pdlw50hm9czf1nb3477h9-perl5.42.0-CGI-4.59"
           ]
+        },
+        {
+          "hash_name": "cnsilmpfb6cj9lw6d3ys1afjfa8gh3g5-set-java-classpath-hook",
+          "nar_hash": "sha256:150qy2q5j8a4fcn6j54lhcbpml0zammb6wfy0wfac673490i8033",
+          "nar_size": 792,
+          "references": []
         },
         {
           "hash_name": "d3kd49cpgaxrh5hrg9wwwkf86phqpfrj-postgresql-14.23-man",
@@ -763,9 +800,6 @@
           ]
         },
         {
-          "hash_name": "dsx1fz3sqd2ff3j5rj6k6m9x4dp0q5i5-playwright-browsers-1.64.1"
-        },
-        {
           "hash_name": "dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2",
           "nar_hash": "sha256:0q8dqn28s2zwlrzwjfxm2qg0zwknyyqsxwhps5arx1b4sykxd4q6",
           "nar_size": 6213920,
@@ -789,6 +823,9 @@
           "references": [
             "f3swqrfhf2afil8fyd56y9amckadkz7b-perl5.42.0-FCGI-ProcManager-0.28"
           ]
+        },
+        {
+          "hash_name": "fg3p36dxjwx841bd8aizq4wgsxpgybkw-flutter-3.47.2"
         },
         {
           "hash_name": "fgzqrjb8a6cwkdkck89n94rqvqzkx2va-perl5.42.0-CGI-Fast-2.16",
@@ -1339,6 +1376,9 @@
           ]
         },
         {
+          "hash_name": "vhwfx333xlnnyfv141sj288vpfhfnn51-rust-1.99.1"
+        },
+        {
           "hash_name": "vl3ks60vd1cz4qikf6lsisgxfw7vk944-gdbm-1.26-lib",
           "nar_hash": "sha256:0d3zi9v3zjj5hih2fkl323wzaf8ci8lyql8j33bzgxfiyx09b1qj",
           "nar_size": 148096,
@@ -1569,6 +1609,14 @@
           ]
         },
         {
+          "hash_name": "zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8",
+          "nar_hash": "sha256:0jrjmqzhpys3j0d7zg0vcw177mm9sldw6w1iz6qbc50clza0nrc5",
+          "nar_size": 221512,
+          "references": [
+            "clinbqq0dm364gzdglc78q7010lwmgzl-ed-1.22.5"
+          ]
+        },
+        {
           "hash_name": "zn8gmbxxf5398hxg6y6nk5jimj85qj69-git-2.54.0-doc",
           "nar_hash": "sha256:0pxrarl3xsds1qgv4w8m2ph0ac1c32zjpsc4zhmypr4l260jpn9h",
           "nar_size": 16134048,
@@ -1619,7 +1667,75 @@
             84,
             204
           ],
+          "dcm": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
           "extism-js": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "flutter": [
             197,
             248,
             168,
@@ -1824,6 +1940,40 @@
             204
           ],
           "postgresql-with-pgvector-vchord": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "rust": [
             197,
             248,
             168,
@@ -2107,6 +2257,36 @@
             },
             {
               "constraint": {
+                "attr": "findutils",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-darwin",
+                "version": null
+              },
+              "package": {
+                "attr_path": "findutils",
+                "name": "findutils",
+                "origin": {
+                  "Channel": {
+                    "build": 329276476,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/34l83gpv8481k0wzmmi9cxh9flbmhsg4-findutils-4.10.0-info",
+                  "locate": "/nix/store/mwx56wc51wvky0a78fizs90y7s7mg2ia-findutils-4.10.0-locate",
+                  "out": "/nix/store/3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0"
+                ],
+                "version": "4.10.0"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "flock",
                 "context": "profiles.dev",
                 "output": null,
@@ -2194,6 +2374,35 @@
             },
             {
               "constraint": {
+                "attr": "gnugrep",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-darwin",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnugrep",
+                "name": "gnugrep",
+                "origin": {
+                  "Channel": {
+                    "build": 329284357,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/1d26azrq3i7f25mhablfkcljjfwiaivi-gnugrep-3.12-info",
+                  "out": "/nix/store/209wkryzwczs2nlvwfzkwf4fm8mpr922-gnugrep-3.12"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/209wkryzwczs2nlvwfzkwf4fm8mpr922-gnugrep-3.12"
+                ],
+                "version": "3.12"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "gnumake",
                 "context": "profiles.dev",
                 "output": null,
@@ -2221,6 +2430,35 @@
                   "/nix/store/8wwiw8pwyhrkzyq28hqzxfl4z84lks81-gnumake-4.4.1"
                 ],
                 "version": "4.4.1"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gnused",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-darwin",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnused",
+                "name": "gnused",
+                "origin": {
+                  "Channel": {
+                    "build": 329284437,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/xd5478k8gm67ihnsl7k314f2nb6sjsq8-gnused-4.9-info",
+                  "out": "/nix/store/v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9"
+                ],
+                "version": "4.9"
               }
             },
             {
@@ -2284,6 +2522,34 @@
             },
             {
               "constraint": {
+                "attr": "jdk21_headless",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-darwin",
+                "version": null
+              },
+              "package": {
+                "attr_path": "jdk21_headless",
+                "name": "zulu-ca-jdk",
+                "origin": {
+                  "Channel": {
+                    "build": 329323537,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11"
+                ],
+                "version": "21.0.11"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "libclang",
                 "context": "profiles.dev",
                 "output": "lib",
@@ -2311,6 +2577,34 @@
                   "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8"
                 ],
                 "version": "21.1.8"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "patch",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-darwin",
+                "version": null
+              },
+              "package": {
+                "attr_path": "patch",
+                "name": "patch",
+                "origin": {
+                  "Channel": {
+                    "build": 329367730,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8"
+                ],
+                "version": "2.8"
               }
             },
             {
@@ -2569,9 +2863,10 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
+        "projectSha256": "68f3c2315d4e0e3eaa24ad3f2df8cd2bbc2f354c0e3b3d3afa89260dc756487e"
       },
       "environment": {
+        "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/vhwfx333xlnnyfv141sj288vpfhfnn51-rust-1.99.1/etc",
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "DB_DATABASE_NAME": "immich",
         "DB_HOSTNAME": "127.0.0.1",
@@ -2599,7 +2894,7 @@
         "ENVE_SERVICE_VALKEY_HOST": "127.0.0.1",
         "ENVE_SERVICE_VALKEY_PORT": "6385",
         "ENVE_SERVICE_VALKEY_URL": "redis://127.0.0.1:6385/0",
-        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/dsx1fz3sqd2ff3j5rj6k6m9x4dp0q5i5-playwright-browsers-1.64.1/fonts.conf",
+        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/7dzc5mi0jf452sfx47iqm55dgvz9mzvc-playwright-browsers-1.64.1/fonts.conf",
         "IMMICH_ML_HOST": "127.0.0.1",
         "IMMICH_ML_PORT": "3003",
         "IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -2609,7 +2904,7 @@
         "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "${ENVE_SERVICE_IMMICH_SERVER_URL}",
-        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/dsx1fz3sqd2ff3j5rj6k6m9x4dp0q5i5-playwright-browsers-1.64.1",
+        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/7dzc5mi0jf452sfx47iqm55dgvz9mzvc-playwright-browsers-1.64.1",
         "PLAYWRIGHT_DISABLE_WEBSERVER": "true",
         "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS": "1",
         "POSTGRES_HOST": "127.0.0.1",
@@ -2714,6 +3009,50 @@
           },
           "version": "8.20.0"
         },
+        "dcm": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0",
+            "jmww9gmmd1h1wjhlw4adcfnb2xkbab1w-bash-interactive-5.3p9",
+            "xmb14n7f9yh8dyvqchlcyjzwp62wdnnb-bash-interactive-5.3p9-dev",
+            "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
+          ],
+          "closure": "7fvkljs9jij7qvxhagl0mhh7fjfh7z4b-dcm-1.39.1",
+          "version": "1.39.1"
+        },
         "extism-js": {
           "buildIdentity": [
             197,
@@ -2757,6 +3096,21 @@
           "closure": "b40q7hjmm5g02lknx0a1mg9ynw0hzij3-extism-js-1.7.0",
           "version": "1.7.0"
         },
+        "findutils": {
+          "closure": "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0",
+          "outputs": [
+            "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0"
+          ],
+          "source": {
+            "attr": "findutils",
+            "build": 329276476,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.10.0"
+        },
         "flock": {
           "closure": "0f6pdgsdb7500wk8rgy8i5vcbsh7kayf-flock-0.4.0",
           "outputs": [
@@ -2771,6 +3125,51 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "0.4.0"
+        },
+        "flutter": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0",
+            "jmww9gmmd1h1wjhlw4adcfnb2xkbab1w-bash-interactive-5.3p9",
+            "v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9",
+            "xmb14n7f9yh8dyvqchlcyjzwp62wdnnb-bash-interactive-5.3p9-dev",
+            "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
+          ],
+          "closure": "fg3p36dxjwx841bd8aizq4wgsxpgybkw-flutter-3.47.2",
+          "version": "3.47.2"
         },
         "gawk": {
           "closure": "af7n5cc4bzd9c6mwsgh7sfmcbasjr5kd-gawk-5.4.0",
@@ -2801,6 +3200,36 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "2.54.0"
+        },
+        "gnused": {
+          "closure": "v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9",
+          "outputs": [
+            "v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9"
+          ],
+          "source": {
+            "attr": "gnused",
+            "build": 329284437,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.9"
+        },
+        "jdk21_headless": {
+          "closure": "bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11",
+          "outputs": [
+            "bp2gjhd8vfyv2hg0i90sba2wp47vvflg-zulu-ca-jdk-21.0.11"
+          ],
+          "source": {
+            "attr": "jdk21_headless",
+            "build": 329323537,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.0.11"
         },
         "jellyfin-ffmpeg": {
           "buildIdentity": [
@@ -2845,6 +3274,21 @@
           "closure": "mw1l6k4hq1y6py0hwlrv8sqfwnymij85-jellyfin-ffmpeg-7.1.3-6",
           "version": "7.1.3-6"
         },
+        "libclang": {
+          "closure": "9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib",
+          "outputs": [
+            "9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib"
+          ],
+          "source": {
+            "attr": "libclang",
+            "build": 329329293,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.1.8"
+        },
         "nodejs": {
           "buildIdentity": [
             197,
@@ -2887,6 +3331,21 @@
           ],
           "closure": "3px607dmnn7ig5l4bjdmwhwdrsxssvnk-nodejs-24.22.1",
           "version": "24.22.1"
+        },
+        "patch": {
+          "closure": "zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8",
+          "outputs": [
+            "zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8"
+          ],
+          "source": {
+            "attr": "patch",
+            "build": 329367730,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "2.8"
         },
         "perl": {
           "closure": "js13ri9fvm0ajk1fpd3acigys2a9whdv-perl-5.42.0",
@@ -2993,7 +3452,7 @@
             "xmb14n7f9yh8dyvqchlcyjzwp62wdnnb-bash-interactive-5.3p9-dev",
             "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
           ],
-          "closure": "dsx1fz3sqd2ff3j5rj6k6m9x4dp0q5i5-playwright-browsers-1.64.1",
+          "closure": "7dzc5mi0jf452sfx47iqm55dgvz9mzvc-playwright-browsers-1.64.1",
           "version": "1.64.1"
         },
         "pnpm": {
@@ -3101,6 +3560,53 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "3.12.13"
+        },
+        "rust": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "209wkryzwczs2nlvwfzkwf4fm8mpr922-gnugrep-3.12",
+            "3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0",
+            "af7n5cc4bzd9c6mwsgh7sfmcbasjr5kd-gawk-5.4.0",
+            "jmww9gmmd1h1wjhlw4adcfnb2xkbab1w-bash-interactive-5.3p9",
+            "v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9",
+            "xmb14n7f9yh8dyvqchlcyjzwp62wdnnb-bash-interactive-5.3p9-dev",
+            "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
+          ],
+          "closure": "vhwfx333xlnnyfv141sj288vpfhfnn51-rust-1.99.1",
+          "version": "1.99.1"
         },
         "shellcheck": {
           "closure": "xpjnkisx2dqf83l5pbwlfzk43hl4inbg-shellcheck-0.11.0-bin",
@@ -3248,8 +3754,8 @@
     },
     "aarch64-linux": {
       "binding": {
-        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
-        "inventory_sha256": "61d1298e1095b6b76bf1476b001d696bcb377f99266ded0d33b299b4c5eda738",
+        "environment_sha256": "1a09a4f81f6e56e03d37ae3de50689d8d0e929acda9c8e2edb25d608dd72fae0",
+        "inventory_sha256": "6b6b78dcd6734360f64e194e502f3d6d784b6e3b0034a84884d4014547aa4868",
         "profile": null,
         "version": 2
       },
@@ -3799,6 +4305,9 @@
             "5zzxv5qgs15x6292lsjbas4lnrwkjgk2-lvm2-2.03.39-lib",
             "kpacdj6njyglvf36hjsnhz6ycrjrv8al-systemd-minimal-libs-260.1"
           ]
+        },
+        {
+          "hash_name": "62kjw6cqqgdv78f2pajgkypy8642068n-rust-1.99.1"
         },
         {
           "hash_name": "6dirwx1szlga4qw70pm7fyk3nqs1xwpn-cracklib-2.10.3",
@@ -4596,6 +5105,16 @@
           ]
         },
         {
+          "hash_name": "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0",
+          "nar_hash": "sha256:19d6bixw4d83sg8vg68lzylapdqlnkcg277xykb9ifxbwg8001i2",
+          "nar_size": 1959064,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0"
+          ]
+        },
+        {
           "hash_name": "gg5s604bb4ghq5xqykzzvldnddbi6854-perl5.42.0-Try-Tiny-0.31",
           "nar_hash": "sha256:0nfxdsxahn35aywfl3f0ap79la9l0sx91jdkx6lbcrq13i818wr0",
           "nar_size": 24216,
@@ -4728,6 +5247,12 @@
             "anhl6igxcr0jiqsvz29xwc98l6q887yl-krb5-1.22.1-lib",
             "zm75q602pac1pp3yv2za4zf9wj36dd76-bash-5.3p9"
           ]
+        },
+        {
+          "hash_name": "i12f8fk134h1lq14hlhf44nk3m5y2vi0-set-java-classpath-hook",
+          "nar_hash": "sha256:150qy2q5j8a4fcn6j54lhcbpml0zammb6wfy0wfac673490i8033",
+          "nar_size": 792,
+          "references": []
         },
         {
           "hash_name": "i8ykl6jr2x9x3bqv2m8l6gn6i2246lyr-nghttp3-1.15.0",
@@ -4909,6 +5434,9 @@
           "references": []
         },
         {
+          "hash_name": "k7hqj9rh3k9zl8lrvfi5rq4amw7cpw9y-flutter-3.47.2"
+        },
+        {
           "hash_name": "kd1bv8qgp48vg4z87yyiiaxb2944r3iw-perl5.42.0-Net-HTTP-6.23",
           "nar_hash": "sha256:0akvpgmm5frs8ihclrajb50bbz81dgww283ffa6vm1lxhdhym8gn",
           "nar_size": 38696,
@@ -5006,6 +5534,14 @@
             "ldwcxiw9cilrb2in13baa5b1sqahid48-libxi-1.8.2",
             "pdm34gv8p6wqk6ys8gvqq8gwf4n5h32q-libxext-1.3.7",
             "r5ihhkkfp089bw3gaxsn4qhs6icly5vf-libx11-1.8.13"
+          ]
+        },
+        {
+          "hash_name": "lh41mak55d3zdl2zkxbis0zk50szx0zm-libjpeg-turbo-3.1.4",
+          "nar_hash": "sha256:0xl1i72c8dh3xfjj881m21ykgz2bzx1jd5xn0cqlvvzwkbffm66z",
+          "nar_size": 1874688,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61"
           ]
         },
         {
@@ -5118,6 +5654,15 @@
             "3x4plcsrj2r4mmzis46wrmyka8g4jhi8-systemd-260.1",
             "bl7rmhhsy7vjb9qm3jfwgqpv3cn7wfb1-openssl-3.6.2",
             "v84linnza4pwwil5sfhm3l75rdrn0y05-jemalloc-5.3.1"
+          ]
+        },
+        {
+          "hash_name": "mfzlssr5x3d78y2zv9g4xkqkgm358kqf-lcms2-2.18",
+          "nar_hash": "sha256:16jvhsvipqn26zgkjmz8qrxfxmg2vxr6f5qidnclgwb8146kfmn0",
+          "nar_size": 531440,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61",
+            "mfzlssr5x3d78y2zv9g4xkqkgm358kqf-lcms2-2.18"
           ]
         },
         {
@@ -5374,9 +5919,6 @@
           ]
         },
         {
-          "hash_name": "qv7ampm3kv7cg6disnx42gg04qr0hbvf-playwright-browsers-1.64.1"
-        },
-        {
           "hash_name": "qvafihysbs128am4l9kmzv65q2mmgis2-xz-5.8.3",
           "nar_hash": "sha256:0v6lqvyrdgcss3315qzyb4vk6a5rqwbhnxynywlgk8161b5cy743",
           "nar_size": 858592,
@@ -5588,6 +6130,9 @@
           ]
         },
         {
+          "hash_name": "v85vppi27dhaa50714hwwx7ps43vi0fr-playwright-browsers-1.64.1"
+        },
+        {
           "hash_name": "v9gv0qz262s24ispgn11wdcl06ycn4m3-gnum4-1.4.21",
           "nar_hash": "sha256:1h3r9sfa5nbj0f7g3v3mj0rc845rvzg2yyfv0qhbbm6wzbkvnk36",
           "nar_size": 1151312,
@@ -5691,6 +6236,21 @@
             "pdm34gv8p6wqk6ys8gvqq8gwf4n5h32q-libxext-1.3.7",
             "r5ihhkkfp089bw3gaxsn4qhs6icly5vf-libx11-1.8.13",
             "wqwkbsgdlicflg2pqkmg88zhb5xjj2n9-libxrandr-1.5.5"
+          ]
+        },
+        {
+          "hash_name": "wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2",
+          "nar_hash": "sha256:12icicif48j2lskns8l4vihk9ghh71gpfdy24wif4kjkljhpccq3",
+          "nar_size": 583480872,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61",
+            "7a3zsvzzm9ki2r3w2cl0mx12zjicinkj-gcc-15.2.0-lib",
+            "i12f8fk134h1lq14hlhf44nk3m5y2vi0-set-java-classpath-hook",
+            "l5ypyhyv1df633ldrdj8fyhnxaqqw6s7-gcc-15.2.0-libgcc",
+            "lh41mak55d3zdl2zkxbis0zk50szx0zm-libjpeg-turbo-3.1.4",
+            "mfzlssr5x3d78y2zv9g4xkqkgm358kqf-lcms2-2.18",
+            "wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2",
+            "zy2b11c58p52qi6ca6ashdl3qhfmipxg-zlib-1.3.2"
           ]
         },
         {
@@ -5804,6 +6364,9 @@
           ]
         },
         {
+          "hash_name": "xpj6py4x5wv59hb5imm3kd15j7nbvjxn-dcm-1.39.1"
+        },
+        {
           "hash_name": "xr385ra0jasmmmhx9halkgnh14733f59-gdbm-1.26-lib",
           "nar_hash": "sha256:07svi88q1qg2iyl50y9h19riy8mpcs2x3gw1rls264b6aq696xcs",
           "nar_size": 566352,
@@ -5897,6 +6460,15 @@
           "references": []
         },
         {
+          "hash_name": "yqnl28scvz6ngs6fs1rwkg8qd8ijgpn1-patch-2.8",
+          "nar_hash": "sha256:1r9mypmmmzvhfmrya0a3qv90i9lgsbxynk88rxwjvkq3r16w4p4r",
+          "nar_size": 240864,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61",
+            "z79alfz7p96rkiv1jq0ddk4ivsi8p97a-ed-1.22.5"
+          ]
+        },
+        {
           "hash_name": "ys816dzpv5y33m6x0ln84kxmx46l1lpg-lz4-1.10.0-dev",
           "nar_hash": "sha256:10sxxx6bviaxhgm7pn02hzg97paypb39afr9964k2mh5wp8b81cd",
           "nar_size": 118216,
@@ -5924,6 +6496,14 @@
             "qbh93gz0p96gv49x0wvl23qbdfgqpq9g-dbus-1.16.2-lib",
             "s0cizhcpkqcx2j7d1bfbc2cj3n7rhjkj-dbus-1.16.2",
             "z3nnmj7xw159xprqhzpxhgldfmp8s24r-dbus-1.16.2-dev"
+          ]
+        },
+        {
+          "hash_name": "z79alfz7p96rkiv1jq0ddk4ivsi8p97a-ed-1.22.5",
+          "nar_hash": "sha256:1ckv7lyzp9427v0sji6liyl6bhaajx1r9wppaqx554w47wm9ghld",
+          "nar_size": 157912,
+          "references": [
+            "1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61"
           ]
         },
         {
@@ -6048,7 +6628,75 @@
             84,
             204
           ],
+          "dcm": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
           "extism-js": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "flutter": [
             197,
             248,
             168,
@@ -6287,6 +6935,40 @@
             204
           ],
           "postgresql-with-pgvector-vchord": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "rust": [
             197,
             248,
             168,
@@ -6666,6 +7348,36 @@
             },
             {
               "constraint": {
+                "attr": "findutils",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "findutils",
+                "name": "findutils",
+                "origin": {
+                  "Channel": {
+                    "build": 329276477,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/168irs0ni0r9iynjv0q05s72ad276hjc-findutils-4.10.0-info",
+                  "locate": "/nix/store/1ycgnkm4c43vggyw76qc0jvrz4yvaddn-findutils-4.10.0-locate",
+                  "out": "/nix/store/gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0"
+                ],
+                "version": "4.10.0"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "flock",
                 "context": "profiles.dev",
                 "output": null,
@@ -6727,6 +7439,39 @@
                 "attr": "gcc-unwrapped",
                 "context": "profiles.dev",
                 "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gcc-unwrapped",
+                "name": "gcc",
+                "origin": {
+                  "Channel": {
+                    "build": 329278929,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "checksum": "/nix/store/69ajjqz4gcgwc5zhhbdjgx9hygn6p1gp-gcc-15.2.0-checksum",
+                  "info": "/nix/store/ms1cpdz5nl0l93p0r5m28nvrzwg4ivf0-gcc-15.2.0-info",
+                  "lib": "/nix/store/7a3zsvzzm9ki2r3w2cl0mx12zjicinkj-gcc-15.2.0-lib",
+                  "libgcc": "/nix/store/l5ypyhyv1df633ldrdj8fyhnxaqqw6s7-gcc-15.2.0-libgcc",
+                  "man": "/nix/store/w6hhfc64qc2n51kds1ki5nlylrypkrkd-gcc-15.2.0-man",
+                  "out": "/nix/store/hy0wk8hisvsiql18i7v8qrvzkcagz1nc-gcc-15.2.0"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/hy0wk8hisvsiql18i7v8qrvzkcagz1nc-gcc-15.2.0"
+                ],
+                "version": "15.2.0"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gcc-unwrapped",
+                "context": "profiles.dev",
+                "output": "lib",
                 "system": "aarch64-linux",
                 "version": null
               },
@@ -6876,6 +7621,125 @@
                   "/nix/store/dlq1phn9xxacdc7pqfi7n4yn6b2npz6g-glibc-locales-2.42-61"
                 ],
                 "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gnugrep",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnugrep",
+                "name": "gnugrep",
+                "origin": {
+                  "Channel": {
+                    "build": 329284358,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/fxb93q2gz2mcjdghwn11cln3s34xdcmg-gnugrep-3.12-info",
+                  "out": "/nix/store/czs0v39rx7i4szf3h0rgcsn5fbdiwdnk-gnugrep-3.12"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/czs0v39rx7i4szf3h0rgcsn5fbdiwdnk-gnugrep-3.12"
+                ],
+                "version": "3.12"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gnused",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnused",
+                "name": "gnused",
+                "origin": {
+                  "Channel": {
+                    "build": 329284454,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/6y6wk75gg9xld3243a57y0wfx963s8cc-gnused-4.9-info",
+                  "out": "/nix/store/likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9"
+                ],
+                "version": "4.9"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "jdk21_headless",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "jdk21_headless",
+                "name": "openjdk-headless",
+                "origin": {
+                  "Channel": {
+                    "build": 329323540,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "debug": "/nix/store/nb4dlwy7n9sy6qja737330vyyarimp3b-openjdk-headless-21.0.12+2-debug",
+                  "out": "/nix/store/wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2"
+                ],
+                "version": "21.0.12+2"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "libclang",
+                "context": "profiles.dev",
+                "output": "lib",
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "libclang",
+                "name": "clang",
+                "origin": {
+                  "Channel": {
+                    "build": 329329292,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "debug": "/nix/store/21zndwl8av4vf675zg1j5kr2i2lmsi94-clang-21.1.8-debug",
+                  "dev": "/nix/store/w8a9d1gdp6c8srpxbvrhdkdbwa9qa4bq-clang-21.1.8-dev",
+                  "lib": "/nix/store/w74ip9rm52dl4ahi3ly090cwqwjn35yg-clang-21.1.8-lib",
+                  "out": "/nix/store/zhf89z887shi5c32klz954rvlh9l25rp-clang-21.1.8",
+                  "python": "/nix/store/rvb9kd10s29j3zijh0bki9s2ghxfifqh-clang-21.1.8-python"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/zhf89z887shi5c32klz954rvlh9l25rp-clang-21.1.8"
+                ],
+                "version": "21.1.8"
               }
             },
             {
@@ -7234,6 +8098,34 @@
             },
             {
               "constraint": {
+                "attr": "patch",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "patch",
+                "name": "patch",
+                "origin": {
+                  "Channel": {
+                    "build": 329367733,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/yqnl28scvz6ngs6fs1rwkg8qd8ijgpn1-patch-2.8"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/yqnl28scvz6ngs6fs1rwkg8qd8ijgpn1-patch-2.8"
+                ],
+                "version": "2.8"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "patchelf",
                 "context": "profiles.dev",
                 "output": null,
@@ -7472,6 +8364,36 @@
                 ],
                 "version": "9.0.4"
               }
+            },
+            {
+              "constraint": {
+                "attr": "zlib",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "zlib",
+                "name": "zlib",
+                "origin": {
+                  "Channel": {
+                    "build": 329533840,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "dev": "/nix/store/7rg03mkfypjv3b067rj2r0xasm4lqr22-zlib-1.3.2-dev",
+                  "out": "/nix/store/zy2b11c58p52qi6ca6ashdl3qhfmipxg-zlib-1.3.2",
+                  "static": "/nix/store/4ksy2yms4sv6a6n70m4fmy90mz2wpfqn-zlib-1.3.2-static"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/zy2b11c58p52qi6ca6ashdl3qhfmipxg-zlib-1.3.2"
+                ],
+                "version": "1.3.2"
+              }
             }
           ],
           "selectionPolicy": 1,
@@ -7482,9 +8404,10 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
+        "projectSha256": "68f3c2315d4e0e3eaa24ad3f2df8cd2bbc2f354c0e3b3d3afa89260dc756487e"
       },
       "environment": {
+        "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/62kjw6cqqgdv78f2pajgkypy8642068n-rust-1.99.1/etc",
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "DB_DATABASE_NAME": "immich",
         "DB_HOSTNAME": "127.0.0.1",
@@ -7512,7 +8435,7 @@
         "ENVE_SERVICE_VALKEY_HOST": "127.0.0.1",
         "ENVE_SERVICE_VALKEY_PORT": "6385",
         "ENVE_SERVICE_VALKEY_URL": "redis://127.0.0.1:6385/0",
-        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/qv7ampm3kv7cg6disnx42gg04qr0hbvf-playwright-browsers-1.64.1/fonts.conf",
+        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/v85vppi27dhaa50714hwwx7ps43vi0fr-playwright-browsers-1.64.1/fonts.conf",
         "IMMICH_ML_HOST": "127.0.0.1",
         "IMMICH_ML_PORT": "3003",
         "IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -7520,10 +8443,11 @@
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich",
+        "LD_RUN_PATH": "$ENVE_STORE_DIR/w74ip9rm52dl4ahi3ly090cwqwjn35yg-clang-21.1.8-lib/lib",
         "LOCALE_ARCHIVE": "$ENVE_STORE_DIR/wzx5q6cikwh34s691lg4d3hanbjg0wrm-immich-postgres-locales-1.0.0/lib/locale/locale-archive",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "${ENVE_SERVICE_IMMICH_SERVER_URL}",
-        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/qv7ampm3kv7cg6disnx42gg04qr0hbvf-playwright-browsers-1.64.1",
+        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/v85vppi27dhaa50714hwwx7ps43vi0fr-playwright-browsers-1.64.1",
         "PLAYWRIGHT_DISABLE_WEBSERVER": "true",
         "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS": "1",
         "POSTGRES_HOST": "127.0.0.1",
@@ -7628,6 +8552,54 @@
           },
           "version": "8.20.0"
         },
+        "dcm": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "00da62aahy4vcdnxh4f3c8pbhwani21g-auto-patchelf-0-unstable-2024-08-14",
+            "11azz9spqc81walgg0mq9wjxrgbi4xqz-glibc-2.42-61-dev",
+            "1ry8ms2dz2ggmind11cwcxba1bsiih8p-bash-interactive-5.3p9-dev",
+            "4yp2n6439qwqa60hjyx4lx9550ckgvd9-patchelf-0.15.2",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0",
+            "rprpkkhvvf36qgpxhdjb7nmq26ayhf3f-bash-interactive-5.3p9",
+            "z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin"
+          ],
+          "closure": "xpj6py4x5wv59hb5imm3kd15j7nbvjxn-dcm-1.39.1",
+          "version": "1.39.1"
+        },
         "extism-js": {
           "buildIdentity": [
             197,
@@ -7671,6 +8643,21 @@
           "closure": "6qgccx64vvkac1xh7q06frykqy0r8lac-extism-js-1.7.0",
           "version": "1.7.0"
         },
+        "findutils": {
+          "closure": "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0",
+          "outputs": [
+            "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0"
+          ],
+          "source": {
+            "attr": "findutils",
+            "build": 329276477,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.10.0"
+        },
         "flock": {
           "closure": "ighm1ja803zka72828bw3wmcgv56pzcq-flock-0.4.0",
           "outputs": [
@@ -7685,6 +8672,55 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "0.4.0"
+        },
+        "flutter": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "00da62aahy4vcdnxh4f3c8pbhwani21g-auto-patchelf-0-unstable-2024-08-14",
+            "11azz9spqc81walgg0mq9wjxrgbi4xqz-glibc-2.42-61-dev",
+            "1ry8ms2dz2ggmind11cwcxba1bsiih8p-bash-interactive-5.3p9-dev",
+            "4yp2n6439qwqa60hjyx4lx9550ckgvd9-patchelf-0.15.2",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0",
+            "likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9",
+            "rprpkkhvvf36qgpxhdjb7nmq26ayhf3f-bash-interactive-5.3p9",
+            "z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin"
+          ],
+          "closure": "k7hqj9rh3k9zl8lrvfi5rq4amw7cpw9y-flutter-3.47.2",
+          "version": "3.47.2"
         },
         "gawk": {
           "closure": "kjh902w89m84x73yszd6pnvss8lcvcqw-gawk-5.4.0",
@@ -7715,6 +8751,21 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "2.54.0"
+        },
+        "gnused": {
+          "closure": "likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9",
+          "outputs": [
+            "likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9"
+          ],
+          "source": {
+            "attr": "gnused",
+            "build": 329284454,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.9"
         },
         "immich-postgres-locales": {
           "buildIdentity": [
@@ -7760,6 +8811,21 @@
           "closure": "wzx5q6cikwh34s691lg4d3hanbjg0wrm-immich-postgres-locales-1.0.0",
           "version": "1.0.0"
         },
+        "jdk21_headless": {
+          "closure": "wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2",
+          "outputs": [
+            "wwvi8dmaqcx64r3b155hjhdcj5vjmwnn-openjdk-headless-21.0.12+2"
+          ],
+          "source": {
+            "attr": "jdk21_headless",
+            "build": 329323540,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.0.12+2"
+        },
         "jellyfin-ffmpeg": {
           "buildIdentity": [
             197,
@@ -7803,6 +8869,21 @@
           "closure": "fa59zgrx1f1jwszdic0k58gj08hmsfxs-jellyfin-ffmpeg-7.1.3-6",
           "version": "7.1.3-6"
         },
+        "libclang": {
+          "closure": "w74ip9rm52dl4ahi3ly090cwqwjn35yg-clang-21.1.8-lib",
+          "outputs": [
+            "w74ip9rm52dl4ahi3ly090cwqwjn35yg-clang-21.1.8-lib"
+          ],
+          "source": {
+            "attr": "libclang",
+            "build": 329329292,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.1.8"
+        },
         "nodejs": {
           "buildIdentity": [
             197,
@@ -7845,6 +8926,21 @@
           ],
           "closure": "dcdlvm7gh46bckbjzqmr8q7f5j5zrsq7-nodejs-24.22.1",
           "version": "24.22.1"
+        },
+        "patch": {
+          "closure": "yqnl28scvz6ngs6fs1rwkg8qd8ijgpn1-patch-2.8",
+          "outputs": [
+            "yqnl28scvz6ngs6fs1rwkg8qd8ijgpn1-patch-2.8"
+          ],
+          "source": {
+            "attr": "patch",
+            "build": 329367733,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "2.8"
         },
         "perl": {
           "closure": "5wnly69vv1i3y97al4v3xrqymf9hlzgq-perl-5.42.0",
@@ -7988,7 +9084,7 @@
             "z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin",
             "z3nnmj7xw159xprqhzpxhgldfmp8s24r-dbus-1.16.2-dev"
           ],
-          "closure": "qv7ampm3kv7cg6disnx42gg04qr0hbvf-playwright-browsers-1.64.1",
+          "closure": "v85vppi27dhaa50714hwwx7ps43vi0fr-playwright-browsers-1.64.1",
           "version": "1.64.1"
         },
         "pnpm": {
@@ -8096,6 +9192,60 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "3.12.13"
+        },
+        "rust": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "00da62aahy4vcdnxh4f3c8pbhwani21g-auto-patchelf-0-unstable-2024-08-14",
+            "11azz9spqc81walgg0mq9wjxrgbi4xqz-glibc-2.42-61-dev",
+            "1ry8ms2dz2ggmind11cwcxba1bsiih8p-bash-interactive-5.3p9-dev",
+            "4yp2n6439qwqa60hjyx4lx9550ckgvd9-patchelf-0.15.2",
+            "7a3zsvzzm9ki2r3w2cl0mx12zjicinkj-gcc-15.2.0-lib",
+            "7rg03mkfypjv3b067rj2r0xasm4lqr22-zlib-1.3.2-dev",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "czs0v39rx7i4szf3h0rgcsn5fbdiwdnk-gnugrep-3.12",
+            "gbd7xfq2d1wbrwr2i045mvc8fkkw7i1g-findutils-4.10.0",
+            "kjh902w89m84x73yszd6pnvss8lcvcqw-gawk-5.4.0",
+            "likh0kijp1cg6ccfasr60xkqik8lhc9x-gnused-4.9",
+            "rprpkkhvvf36qgpxhdjb7nmq26ayhf3f-bash-interactive-5.3p9",
+            "z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin",
+            "zy2b11c58p52qi6ca6ashdl3qhfmipxg-zlib-1.3.2"
+          ],
+          "closure": "62kjw6cqqgdv78f2pajgkypy8642068n-rust-1.99.1",
+          "version": "1.99.1"
         },
         "shellcheck": {
           "closure": "hqajavk4av9v6l08h1xsfz19rwsir85y-shellcheck-0.11.0-bin",
@@ -8233,8 +9383,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "54cebc9f22d3c24efd30effe5108944ed8de342df07dbf1fe0ccea09050f22c8",
-        "inventory_sha256": "1f03fb6842b8e10978e13b048d8c7241c16d3b3714026809d571c85533356015",
+        "environment_sha256": "1a09a4f81f6e56e03d37ae3de50689d8d0e929acda9c8e2edb25d608dd72fae0",
+        "inventory_sha256": "bbd9b6baac9120ebf7043e6b61c86aee7d988716c9ee0e6ebc8e11ab5d0deb01",
         "profile": null,
         "version": 2
       },
@@ -8485,9 +9635,6 @@
           ]
         },
         {
-          "hash_name": "2vzna46qwcbig9i9wxnab23f71a8ibhc-playwright-browsers-1.64.1"
-        },
-        {
           "hash_name": "2xbrc0xl1f1lvxwnagq8sjxsha1bsa6a-pnpm-12.14.0"
         },
         {
@@ -8555,6 +9702,14 @@
             "41b8kcrrjd20gbs1v7bar29arr9wn151-alsa-ucm-conf-1.2.15.3",
             "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61",
             "m3rljmxkdbvg8sm43mnchsnk1j7l57yw-alsa-topology-conf-1.2.5.1"
+          ]
+        },
+        {
+          "hash_name": "3zsxawygch41cizjvhpacmgaq7y3vhjg-ed-1.22.5",
+          "nar_hash": "sha256:160q5rw8r0idzwx56j6j8z3adggaijkdhvr8ssbwbgay1viqvs4s",
+          "nar_size": 147608,
+          "references": [
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61"
           ]
         },
         {
@@ -8952,6 +10107,9 @@
           ]
         },
         {
+          "hash_name": "8aqca4svrs6sif3yjkwp5z8gj1678rqj-playwright-browsers-1.64.1"
+        },
+        {
           "hash_name": "8djyszx2irb53bg5n08ayw28r6w5fmv3-db-4.8.30",
           "nar_hash": "sha256:09a3yyka1l7znby63b3pm6j6pi9040n35nv6mk1z501n2jxr4wb8",
           "nar_size": 3702312,
@@ -8994,6 +10152,9 @@
           "nar_hash": "sha256:1xbjd7qddfb3r809w1dyp7bhbpa8xvll9n295q1x38fa05v68spz",
           "nar_size": 119360,
           "references": []
+        },
+        {
+          "hash_name": "91cv66nmk22ywpgcwsnny9hsrzib8jzk-rust-1.99.1"
         },
         {
           "hash_name": "95iz03in2wfhh6nmid90pc0nk1vgpmbv-cryptsetup-2.8.6",
@@ -9342,6 +10503,16 @@
           "nar_hash": "sha256:0n4rxs7cvanfgvg8bjnph7lb0p9kfllvq11hfbmaqwv08bq5bbsl",
           "nar_size": 762040,
           "references": []
+        },
+        {
+          "hash_name": "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0",
+          "nar_hash": "sha256:1k8fwl6q3qw8f38zavx5fi1ihk9ijb7pw8zv9z6bg0nlzac7y2x8",
+          "nar_size": 1834016,
+          "references": [
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0"
+          ]
         },
         {
           "hash_name": "cfjm0s2jnlaiz9y3byvfa0fc6fp2la20-systemd-minimal-260.1",
@@ -9795,6 +10966,14 @@
           ]
         },
         {
+          "hash_name": "j5pf7byjv0ahvxcnkd5jsw481i82d7ng-libjpeg-turbo-3.1.4",
+          "nar_hash": "sha256:0kyshkn2xwpj2np8cj8kn221gxnbra1947psawkc9yxskgw8mqcr",
+          "nar_size": 2057832,
+          "references": [
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61"
+          ]
+        },
+        {
           "hash_name": "jdgw7h0g0l8clmcasaspxnx6v62jz1il-clang-21.1.8-lib",
           "nar_hash": "sha256:1sjgf58cqiavwssg3hqilb3vdzws191jj6j5g3b74y9s8n1r0y4w",
           "nar_size": 852517312,
@@ -9951,6 +11130,21 @@
           ]
         },
         {
+          "hash_name": "kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2",
+          "nar_hash": "sha256:0708g7hbvy24lz9vb1987n0cbgxp7fnvq4pgkzn91g55dw3x88yj",
+          "nar_size": 591674176,
+          "references": [
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61",
+            "61a1nwx3w6rqyaisj5rn1sal1981apm7-zlib-1.3.2",
+            "chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib",
+            "j5pf7byjv0ahvxcnkd5jsw481i82d7ng-libjpeg-turbo-3.1.4",
+            "kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2",
+            "md7n8n5l55lpw8izhv4792cjn2isdi3y-lcms2-2.18",
+            "p7bz3z3fj7nl8qgbdmjyspq15rr73x4z-set-java-classpath-hook",
+            "xyikkpwkyxx6syba3kfrr0h67ig5hwmn-gcc-15.2.0-libgcc"
+          ]
+        },
+        {
           "hash_name": "l1im0bii1ld332kcgg0gr72k6xla2dq1-libxext-1.3.7",
           "nar_hash": "sha256:1y5yl9lahkd6chnnm9j93mq366jibnd99rm3c0mghx97w5n3zr2g",
           "nar_size": 95944,
@@ -9975,6 +11169,9 @@
             "gik3rh1vz2jlgnifb9dh6vc6sxwwz9jj-bash-5.3p9",
             "l958ajh8ym4dwj27f903fk12ky94bcqc-nspr-4.39-dev"
           ]
+        },
+        {
+          "hash_name": "lb5nzm2h940ibfywfddz6a1ljadg08pc-flutter-3.47.2"
         },
         {
           "hash_name": "ldcshpa3cspn8jfr4k1m05j4d4vz36wb-llvm-21.1.8-lib",
@@ -10097,6 +11294,15 @@
           ]
         },
         {
+          "hash_name": "md7n8n5l55lpw8izhv4792cjn2isdi3y-lcms2-2.18",
+          "nar_hash": "sha256:1ddwpihx4jvipajj58plniwm9xnvchb4hviil3l1w5jnpbzdirf6",
+          "nar_size": 495896,
+          "references": [
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61",
+            "md7n8n5l55lpw8izhv4792cjn2isdi3y-lcms2-2.18"
+          ]
+        },
+        {
           "hash_name": "mgylqh12fhg9959fqx0r93hwpbww7x8g-libxslt-1.1.45-bin",
           "nar_hash": "sha256:0fz98dc2k5qj90a05p69prcsqlvqk9l37945p5gqm8imra197qd1",
           "nar_size": 40864,
@@ -10203,6 +11409,12 @@
             "l1im0bii1ld332kcgg0gr72k6xla2dq1-libxext-1.3.7",
             "nzgfvz491qhgx0dwj0pm7ajy58pcnpml-libxext-1.3.7-dev"
           ]
+        },
+        {
+          "hash_name": "p7bz3z3fj7nl8qgbdmjyspq15rr73x4z-set-java-classpath-hook",
+          "nar_hash": "sha256:150qy2q5j8a4fcn6j54lhcbpml0zammb6wfy0wfac673490i8033",
+          "nar_size": 792,
+          "references": []
         },
         {
           "hash_name": "p7pb61xqh52agajvwrr6xqci2g2brr76-valkey-9.0.4",
@@ -10551,6 +11763,9 @@
           ]
         },
         {
+          "hash_name": "vk0xnpvf0xj6irjxbx2mrqb56lwhcwfb-dcm-1.39.1"
+        },
+        {
           "hash_name": "vkh1q0n1pnb83jhza0zwjwglp2946s90-perl5.42.0-HTML-Tagset-3.20",
           "nar_hash": "sha256:083ph9lhyapha2dwfvmszcbmambp5mi5rrr96q58djcr2x7sq1i6",
           "nar_size": 16048,
@@ -10640,6 +11855,15 @@
             "chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib",
             "ldcshpa3cspn8jfr4k1m05j4d4vz36wb-llvm-21.1.8-lib",
             "z2p6ak0r3g461r76b31qbs0md5xsafcj-libpfm-4.13.0"
+          ]
+        },
+        {
+          "hash_name": "wgvplwp0faqhqr92w0ma8bxaxk202ama-patch-2.8",
+          "nar_hash": "sha256:1nxj8rm7afgb88nz7d2yknyw58863nwg4516ma8zix1fxlm69h6x",
+          "nar_size": 213128,
+          "references": [
+            "3zsxawygch41cizjvhpacmgaq7y3vhjg-ed-1.22.5",
+            "57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61"
           ]
         },
         {
@@ -11044,7 +12268,75 @@
             84,
             204
           ],
+          "dcm": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
           "extism-js": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "flutter": [
             197,
             248,
             168,
@@ -11283,6 +12575,40 @@
             204
           ],
           "postgresql-with-pgvector-vchord": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "rust": [
             197,
             248,
             168,
@@ -11662,6 +12988,36 @@
             },
             {
               "constraint": {
+                "attr": "findutils",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "findutils",
+                "name": "findutils",
+                "origin": {
+                  "Channel": {
+                    "build": 329276478,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/mc65clwg5q361fa9614ryvmhl3yqradh-findutils-4.10.0-info",
+                  "locate": "/nix/store/fcid2ld7f37q6h1rknkrv80302is8c0y-findutils-4.10.0-locate",
+                  "out": "/nix/store/c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0"
+                ],
+                "version": "4.10.0"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "flock",
                 "context": "profiles.dev",
                 "output": null,
@@ -11723,6 +13079,39 @@
                 "attr": "gcc-unwrapped",
                 "context": "profiles.dev",
                 "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gcc-unwrapped",
+                "name": "gcc",
+                "origin": {
+                  "Channel": {
+                    "build": 329278931,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "checksum": "/nix/store/x37x98ygrwmp439bf5ilmrvgzz7lpjzl-gcc-15.2.0-checksum",
+                  "info": "/nix/store/ppv8h4xawrqpnqhrdimk8xg9wwlfxxp5-gcc-15.2.0-info",
+                  "lib": "/nix/store/chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib",
+                  "libgcc": "/nix/store/xyikkpwkyxx6syba3kfrr0h67ig5hwmn-gcc-15.2.0-libgcc",
+                  "man": "/nix/store/b1p9a901ds4wck8n1pd76vxnjm34sfap-gcc-15.2.0-man",
+                  "out": "/nix/store/qxaq7jz61a6zkr2mq49i0zvqip2m2jj8-gcc-15.2.0"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/qxaq7jz61a6zkr2mq49i0zvqip2m2jj8-gcc-15.2.0"
+                ],
+                "version": "15.2.0"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gcc-unwrapped",
+                "context": "profiles.dev",
+                "output": "lib",
                 "system": "x86_64-linux",
                 "version": null
               },
@@ -11872,6 +13261,125 @@
                   "/nix/store/78i8xfh6bdkcnzc1bs3fpj7dbgvxxa4h-glibc-locales-2.42-61"
                 ],
                 "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gnugrep",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnugrep",
+                "name": "gnugrep",
+                "origin": {
+                  "Channel": {
+                    "build": 329284360,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/sycfd661ry96dl1xw5k1qa3q93b9ms45-gnugrep-3.12-info",
+                  "out": "/nix/store/gn94gpcp5q08x4v6g8mvw8v4r65rcjzk-gnugrep-3.12"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/gn94gpcp5q08x4v6g8mvw8v4r65rcjzk-gnugrep-3.12"
+                ],
+                "version": "3.12"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "gnused",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "gnused",
+                "name": "gnused",
+                "origin": {
+                  "Channel": {
+                    "build": 329284456,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "info": "/nix/store/whi6yac9mj29mdvmaglrnn1z6v156j1z-gnused-4.9-info",
+                  "out": "/nix/store/kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9"
+                ],
+                "version": "4.9"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "jdk21_headless",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "jdk21_headless",
+                "name": "openjdk-headless",
+                "origin": {
+                  "Channel": {
+                    "build": 329323543,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "debug": "/nix/store/kw0p3m280lh6pckadyx99qgym3k38q88-openjdk-headless-21.0.12+2-debug",
+                  "out": "/nix/store/kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2"
+                ],
+                "version": "21.0.12+2"
+              }
+            },
+            {
+              "constraint": {
+                "attr": "libclang",
+                "context": "profiles.dev",
+                "output": "lib",
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "libclang",
+                "name": "clang",
+                "origin": {
+                  "Channel": {
+                    "build": 329329295,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "debug": "/nix/store/y10pmzk4gkiilrfi8w1ml1lfbs7s4pnb-clang-21.1.8-debug",
+                  "dev": "/nix/store/2m3991rh8xy94jpsij01nsha25b1i8ql-clang-21.1.8-dev",
+                  "lib": "/nix/store/jdgw7h0g0l8clmcasaspxnx6v62jz1il-clang-21.1.8-lib",
+                  "out": "/nix/store/wcwr4iq7c8f4ygn8bd1q0k3i51lmhz35-clang-21.1.8",
+                  "python": "/nix/store/c72lk5p6hfy5b3skbb1dzflhnkb8vlz0-clang-21.1.8-python"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/wcwr4iq7c8f4ygn8bd1q0k3i51lmhz35-clang-21.1.8"
+                ],
+                "version": "21.1.8"
               }
             },
             {
@@ -12230,6 +13738,34 @@
             },
             {
               "constraint": {
+                "attr": "patch",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "patch",
+                "name": "patch",
+                "origin": {
+                  "Channel": {
+                    "build": 329367734,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "out": "/nix/store/wgvplwp0faqhqr92w0ma8bxaxk202ama-patch-2.8"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/wgvplwp0faqhqr92w0ma8bxaxk202ama-patch-2.8"
+                ],
+                "version": "2.8"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "patchelf",
                 "context": "profiles.dev",
                 "output": null,
@@ -12468,6 +14004,36 @@
                 ],
                 "version": "9.0.4"
               }
+            },
+            {
+              "constraint": {
+                "attr": "zlib",
+                "context": "profiles.dev",
+                "output": null,
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "zlib",
+                "name": "zlib",
+                "origin": {
+                  "Channel": {
+                    "build": 329533841,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "dev": "/nix/store/h7ik0g1xxayy0z8h27zbvrgmac63irgs-zlib-1.3.2-dev",
+                  "out": "/nix/store/61a1nwx3w6rqyaisj5rn1sal1981apm7-zlib-1.3.2",
+                  "static": "/nix/store/xn70pn0qd5jhdvp5rikgn1yl9bbmyxiq-zlib-1.3.2-static"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/61a1nwx3w6rqyaisj5rn1sal1981apm7-zlib-1.3.2"
+                ],
+                "version": "1.3.2"
+              }
             }
           ],
           "selectionPolicy": 1,
@@ -12478,9 +14044,10 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "9ff84448437ba493a877086d1241d73181440c825bf5d05a356c0f9cfa479625"
+        "projectSha256": "68f3c2315d4e0e3eaa24ad3f2df8cd2bbc2f354c0e3b3d3afa89260dc756487e"
       },
       "environment": {
+        "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/91cv66nmk22ywpgcwsnny9hsrzib8jzk-rust-1.99.1/etc",
         "DATABASE_URL": "postgresql://postgres@127.0.0.1:5435/postgres",
         "DB_DATABASE_NAME": "immich",
         "DB_HOSTNAME": "127.0.0.1",
@@ -12508,7 +14075,7 @@
         "ENVE_SERVICE_VALKEY_HOST": "127.0.0.1",
         "ENVE_SERVICE_VALKEY_PORT": "6385",
         "ENVE_SERVICE_VALKEY_URL": "redis://127.0.0.1:6385/0",
-        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/2vzna46qwcbig9i9wxnab23f71a8ibhc-playwright-browsers-1.64.1/fonts.conf",
+        "FONTCONFIG_FILE": "$ENVE_STORE_DIR/8aqca4svrs6sif3yjkwp5z8gj1678rqj-playwright-browsers-1.64.1/fonts.conf",
         "IMMICH_ML_HOST": "127.0.0.1",
         "IMMICH_ML_PORT": "3003",
         "IMMICH_ML_URL": "http://127.0.0.1:3003",
@@ -12516,10 +14083,11 @@
         "IMMICH_SERVER_PORT": "2285",
         "IMMICH_SERVER_URL": "http://127.0.0.1:2285",
         "IMMICH_TEST_POSTGRES_URL": "postgres://postgres:postgres@127.0.0.1:${ENVE_SERVICE_POSTGRES_PORT}/mich",
+        "LD_RUN_PATH": "$ENVE_STORE_DIR/jdgw7h0g0l8clmcasaspxnx6v62jz1il-clang-21.1.8-lib/lib",
         "LOCALE_ARCHIVE": "$ENVE_STORE_DIR/50x3220124z5ac9rw4miskls4cy15f8f-immich-postgres-locales-1.0.0/lib/locale/locale-archive",
         "PGTZ": "UTC",
         "PLAYWRIGHT_BASE_URL": "${ENVE_SERVICE_IMMICH_SERVER_URL}",
-        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/2vzna46qwcbig9i9wxnab23f71a8ibhc-playwright-browsers-1.64.1",
+        "PLAYWRIGHT_BROWSERS_PATH": "$ENVE_STORE_DIR/8aqca4svrs6sif3yjkwp5z8gj1678rqj-playwright-browsers-1.64.1",
         "PLAYWRIGHT_DISABLE_WEBSERVER": "true",
         "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS": "1",
         "POSTGRES_HOST": "127.0.0.1",
@@ -12624,6 +14192,54 @@
           },
           "version": "8.20.0"
         },
+        "dcm": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "15h9askp4k1lx44d9871wid23j2a8ijp-glibc-2.42-61-dev",
+            "7jn2vfdmg6gacnwss0697rhfxbyrn2n5-auto-patchelf-0-unstable-2024-08-14",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "bsh7n2nx8ndmm1mmww6v2h4851nalj13-glibc-2.42-61-bin",
+            "bvsy09r85z0q1m30p87s1bf4ikb0s84i-bash-interactive-5.3p9-dev",
+            "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0",
+            "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9",
+            "ilblcn1dkvzghcr2yk3av6jxn5rk1iqw-patchelf-0.15.2"
+          ],
+          "closure": "vk0xnpvf0xj6irjxbx2mrqb56lwhcwfb-dcm-1.39.1",
+          "version": "1.39.1"
+        },
         "extism-js": {
           "buildIdentity": [
             197,
@@ -12667,6 +14283,21 @@
           "closure": "z96lm740cw6gav99qlarabzlvwaavs68-extism-js-1.7.0",
           "version": "1.7.0"
         },
+        "findutils": {
+          "closure": "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0",
+          "outputs": [
+            "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0"
+          ],
+          "source": {
+            "attr": "findutils",
+            "build": 329276478,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.10.0"
+        },
         "flock": {
           "closure": "831fqvyiy4b7yl36vdcaaf7ss5fc1qy2-flock-0.4.0",
           "outputs": [
@@ -12681,6 +14312,55 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "0.4.0"
+        },
+        "flutter": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "15h9askp4k1lx44d9871wid23j2a8ijp-glibc-2.42-61-dev",
+            "7jn2vfdmg6gacnwss0697rhfxbyrn2n5-auto-patchelf-0-unstable-2024-08-14",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "bsh7n2nx8ndmm1mmww6v2h4851nalj13-glibc-2.42-61-bin",
+            "bvsy09r85z0q1m30p87s1bf4ikb0s84i-bash-interactive-5.3p9-dev",
+            "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0",
+            "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9",
+            "ilblcn1dkvzghcr2yk3av6jxn5rk1iqw-patchelf-0.15.2",
+            "kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9"
+          ],
+          "closure": "lb5nzm2h940ibfywfddz6a1ljadg08pc-flutter-3.47.2",
+          "version": "3.47.2"
         },
         "gawk": {
           "closure": "wp1cshqv98i8abs8rcx91s54igqgll0f-gawk-5.4.0",
@@ -12711,6 +14391,21 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "2.54.0"
+        },
+        "gnused": {
+          "closure": "kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9",
+          "outputs": [
+            "kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9"
+          ],
+          "source": {
+            "attr": "gnused",
+            "build": 329284456,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "4.9"
         },
         "immich-postgres-locales": {
           "buildIdentity": [
@@ -12756,6 +14451,21 @@
           "closure": "50x3220124z5ac9rw4miskls4cy15f8f-immich-postgres-locales-1.0.0",
           "version": "1.0.0"
         },
+        "jdk21_headless": {
+          "closure": "kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2",
+          "outputs": [
+            "kvkz322724y8igmcdrnp5cwls6h0mylq-openjdk-headless-21.0.12+2"
+          ],
+          "source": {
+            "attr": "jdk21_headless",
+            "build": 329323543,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.0.12+2"
+        },
         "jellyfin-ffmpeg": {
           "buildIdentity": [
             197,
@@ -12799,6 +14509,21 @@
           "closure": "1ll1a11lz70sl8ydd6fjj42x63r6fd8y-jellyfin-ffmpeg-7.1.3-6",
           "version": "7.1.3-6"
         },
+        "libclang": {
+          "closure": "jdgw7h0g0l8clmcasaspxnx6v62jz1il-clang-21.1.8-lib",
+          "outputs": [
+            "jdgw7h0g0l8clmcasaspxnx6v62jz1il-clang-21.1.8-lib"
+          ],
+          "source": {
+            "attr": "libclang",
+            "build": 329329295,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "21.1.8"
+        },
         "nodejs": {
           "buildIdentity": [
             197,
@@ -12841,6 +14566,21 @@
           ],
           "closure": "cxim7zsmnzkcwxzkn1xqz9mrvi79d6i5-nodejs-24.22.1",
           "version": "24.22.1"
+        },
+        "patch": {
+          "closure": "wgvplwp0faqhqr92w0ma8bxaxk202ama-patch-2.8",
+          "outputs": [
+            "wgvplwp0faqhqr92w0ma8bxaxk202ama-patch-2.8"
+          ],
+          "source": {
+            "attr": "patch",
+            "build": 329367734,
+            "evaluation": 1826513,
+            "kind": "channel",
+            "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/",
+            "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
+          },
+          "version": "2.8"
         },
         "perl": {
           "closure": "6plwsm6pkq79yjv4xvy8csk2pd4hzr67-perl-5.42.0",
@@ -12984,7 +14724,7 @@
             "vqdj7h2d94f494in371j7jwz8akymryi-mesa-libgbm-26.0.3",
             "x0gx9xj0xdg5n9vixwn4p5awi2h613r6-libxkbcommon-1.13.1"
           ],
-          "closure": "2vzna46qwcbig9i9wxnab23f71a8ibhc-playwright-browsers-1.64.1",
+          "closure": "8aqca4svrs6sif3yjkwp5z8gj1678rqj-playwright-browsers-1.64.1",
           "version": "1.64.1"
         },
         "pnpm": {
@@ -13092,6 +14832,60 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "3.12.13"
+        },
+        "rust": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "15h9askp4k1lx44d9871wid23j2a8ijp-glibc-2.42-61-dev",
+            "61a1nwx3w6rqyaisj5rn1sal1981apm7-zlib-1.3.2",
+            "7jn2vfdmg6gacnwss0697rhfxbyrn2n5-auto-patchelf-0-unstable-2024-08-14",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "bsh7n2nx8ndmm1mmww6v2h4851nalj13-glibc-2.42-61-bin",
+            "bvsy09r85z0q1m30p87s1bf4ikb0s84i-bash-interactive-5.3p9-dev",
+            "c1cjgg6p8m8fssivzrc2p13mwwml3p3v-findutils-4.10.0",
+            "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9",
+            "chqq8mpmpyfi9kgsngya71akv5xicn03-gcc-15.2.0-lib",
+            "gn94gpcp5q08x4v6g8mvw8v4r65rcjzk-gnugrep-3.12",
+            "h7ik0g1xxayy0z8h27zbvrgmac63irgs-zlib-1.3.2-dev",
+            "ilblcn1dkvzghcr2yk3av6jxn5rk1iqw-patchelf-0.15.2",
+            "kgxafhycw2kybbqih759ykc2043qyi5j-gnused-4.9",
+            "wp1cshqv98i8abs8rcx91s54igqgll0f-gawk-5.4.0"
+          ],
+          "closure": "91cv66nmk22ywpgcwsnny9hsrzib8jzk-rust-1.99.1",
+          "version": "1.99.1"
         },
         "shellcheck": {
           "closure": "2lfacwyvxpllrq9jpbyz7z4v4lc3wnr9-shellcheck-0.11.0-bin",

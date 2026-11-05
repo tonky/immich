@@ -77,6 +77,12 @@ fi
 # Traced by `enact trace run --attribution` (helpers/trace/trace-files.sh): one forked worker
 # per spec, and the reporter saying which modules each spec loaded. Single-target `trace run`
 # (e2e specs: $ENACT_SKIPS_FILE) adds the reporter alone so e2e keeps its maxWorkers: 1 pool.
+# The recall harness reads each test's own outcome (`✓ <file> > Suite > test`).
+REPORT_ARGS=()
+if [ -n "${ENACT_TEST_VERBOSE:-}" ]; then
+  REPORT_ARGS=(--reporter=verbose)
+fi
+
 ATTRIBUTION_ARGS=()
 if [ -n "${ENACT_ATTRIBUTION_FILE:-}" ]; then
   ATTRIBUTION_ARGS=(--no-cache --pool=forks --isolate --reporter=default
@@ -87,7 +93,7 @@ elif [ -n "${ENACT_SKIPS_FILE:-}" ]; then
 fi
 
 vitest_run() {
-  "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "${POOL_ARGS[@]}" "${ATTRIBUTION_ARGS[@]}" "$@"
+  "${VITEST_CMD[@]}" run "${SHARD_ARGS[@]}" "${POOL_ARGS[@]}" "${ATTRIBUTION_ARGS[@]}" "${REPORT_ARGS[@]}" "$@"
 }
 
 # The server keeps unit and medium (database) specs under separate configs; e2e keeps
