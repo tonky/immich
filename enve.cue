@@ -372,16 +372,16 @@ let _rust_1_99_1 = schema.#ArchiveBuildSpec & {
 let _flutter_3_47_2 = schema.#ArchiveBuildSpec & {
 	pname:   "flutter"
 	version: "3.47.2"
+	// Linux builds only for x86_64 (no arm64 Linux SDK): @immich/mobile runs on X64 workers.
+	platforms: [schema.#Platform.X86_64Linux, schema.#Platform.Darwin]
 	src: {
 		"aarch64-darwin": "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_3.47.2-stable.zip"
 		"x86_64-darwin":  "https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_3.47.2-stable.zip"
-		"aarch64-linux":  "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.2-stable.tar.xz"
 		"x86_64-linux":   "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.47.2-stable.tar.xz"
 	}
 	sha256: {
 		"aarch64-darwin": "f456fd6733053d9301828a2e702d6cbec872923126809aa8c48eb0a696d6cc01"
 		"x86_64-darwin":  "b6fd6ba98c8503d5ee06a6670627b5b1c36167ece3427435ec83b66e9b28c6b5"
-		"aarch64-linux":  "447878859d01ca9bfdb99a85f245af07ed8a15fedcd9d189c4749e8e92d1f185"
 		"x86_64-linux":   "447878859d01ca9bfdb99a85f245af07ed8a15fedcd9d189c4749e8e92d1f185"
 	}
 	buildInputs: [
@@ -437,16 +437,16 @@ let _flutter_3_47_2 = schema.#ArchiveBuildSpec & {
 let _dcm_1_39_1 = schema.#ArchiveBuildSpec & {
 	pname:   "dcm"
 	version: "1.39.1"
+	// Only @immich/mobile runs it, on X64 workers with Flutter: none for arm64 Linux.
+	platforms: [schema.#Platform.X86_64Linux, schema.#Platform.Darwin]
 	src: {
 		"aarch64-darwin": "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-macos-arm-release.zip"
 		"x86_64-darwin":  "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-macos-x64-release.zip"
-		"aarch64-linux":  "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-linux-arm-release.zip"
 		"x86_64-linux":   "https://github.com/CQLabs/homebrew-dcm/releases/download/1.39.1/dcm-linux-x64-release.zip"
 	}
 	sha256: {
 		"aarch64-darwin": "38ad6085e741c0fb1646b9057c4c2e2b627442e063d3837924dd8ed4bb9e0133"
 		"x86_64-darwin":  "3153dd96c60f0f25662ba52acd88537c53ccee7c9f179911885aa79c21bb72c2"
-		"aarch64-linux":  "0cab9675ea5435817772176bf744b96358ec0f44f713853910f22538aec2e2c4"
 		"x86_64-linux":   "a7a3033f16e03694db866d627865d0baf4befb04993f2c1111757f9613f02c62"
 	}
 	buildInputs: [

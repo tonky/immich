@@ -202,6 +202,7 @@ jobs:
           native
           i18n
           helpers/mobile-prepare.sh
+          helpers/flutter-sdk.sh
           packages/plugin-sdk
           packages/sdk/src
           server
@@ -252,6 +253,7 @@ jobs:
           native
           i18n
           helpers/mobile-prepare.sh
+          helpers/flutter-sdk.sh
           packages/plugin-sdk
           packages/sdk/src
           server

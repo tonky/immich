@@ -33,6 +33,23 @@ cat > "$SHIM_DIR/openapi-generator-cli" << 'EOF'
 exec pnpm dlx @openapitools/openapi-generator-cli@2.41.0 "$@"
 EOF
 chmod +x "$SHIM_DIR/openapi-generator-cli"
+# ffigen finds libclang at the host's LLVM paths, else asks `clang -print-file-name`: the
+# env has libclang (enve.cue's libclang.lib) on its library path but no clang, so answer
+# that one question with it. macOS's Xcode libclang is found as before.
+if ! command -v clang >/dev/null 2>&1; then
+  libclang=
+  IFS=: read -r -a lib_dirs <<< "${LIBRARY_PATH:-}:${LD_LIBRARY_PATH:-}"
+  for dir in "${lib_dirs[@]}"; do
+    for name in libclang.so libclang.dylib; do
+      [ -n "$dir" ] && [ -e "$dir/$name" ] && { libclang="$dir/$name"; break 2; }
+    done
+  done
+  if [ -n "$libclang" ]; then
+    printf '#!/usr/bin/env bash\ncase "$1" in -print-file-name=libclang.*) echo %q ;; *) exit 1 ;; esac\n' \
+      "$libclang" > "$SHIM_DIR/clang"
+    chmod +x "$SHIM_DIR/clang"
+  fi
+fi
 export PATH="$SHIM_DIR:$PATH"
 
 (

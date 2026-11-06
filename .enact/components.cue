@@ -295,24 +295,26 @@ pipeline: schema.#Pipeline & {
 		mobile: _tsComponent & {
 			name: "@immich/mobile", title: "Immich Mobile Application", kind: "app", domain: "clients", root: "mobile"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Syncs media & albums via REST API"}]
-			watch_paths:     ["mobile/**", "helpers/mobile-prepare.sh"]
+			watch_paths:     ["mobile/**", "helpers/mobile-prepare.sh", "helpers/flutter-sdk.sh"]
 			depends_on:      [components.root, components.openapi, components.native]
 			workspace_scope: include: ["mobile", "open-api", "native", "i18n"]
+			// Flutter and dcm are X64-only on Linux (enve.cue).
+			worker: "standard"
 			jobs: {
 				lint: {
 					direct: true, services: false
 					tasks: [
-						{name: "Prepare Mobile Codegen", command: "../helpers/mobile-prepare.sh"},
-						{name: "Dart Analyze", command: "dart analyze --fatal-infos"},
-						{name: "DCM Analyze", command: "dcm analyze lib --fatal-style --fatal-warnings"},
-						{name: "Dart Format", command: "dart format --set-exit-if-changed $(find lib -name '*.dart' -not \\( -name '*.g.dart' -o -name '*.drift.dart' -o -name '*.gr.dart' \\))"},
+						{name: "Prepare Mobile Codegen", command: "../helpers/flutter-sdk.sh ../helpers/mobile-prepare.sh"},
+						{name: "Dart Analyze", command: "../helpers/flutter-sdk.sh dart analyze --fatal-infos"},
+						{name: "DCM Analyze", command: "../helpers/flutter-sdk.sh dcm analyze lib --fatal-style --fatal-warnings"},
+						{name: "Dart Format", command: "../helpers/flutter-sdk.sh dart format --set-exit-if-changed $(find lib -name '*.dart' -not \\( -name '*.g.dart' -o -name '*.drift.dart' -o -name '*.gr.dart' \\))"},
 					]
 				}
 				test: {
 					services: false
 					tasks: [
-						{name: "Prepare Mobile Codegen", command: "../helpers/mobile-prepare.sh"},
-						{name: "Flutter Test", command: "flutter test"},
+						{name: "Prepare Mobile Codegen", command: "../helpers/flutter-sdk.sh ../helpers/mobile-prepare.sh"},
+						{name: "Flutter Test", command: "../helpers/flutter-sdk.sh flutter test"},
 					]
 				}
 			}

@@ -71,7 +71,6 @@ pipeline: schema.#Pipeline & {
 			layout: "staged", scope: "all", services: "on_demand"
 			concurrency: {scope: "workflow", cancel_in_progress: true}
 			triggers: {
-				schedule: ["0 3 * * *"]
 				workflow_dispatch: true
 			}
 			stages: [

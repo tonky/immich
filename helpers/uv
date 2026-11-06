@@ -51,8 +51,13 @@ if [ -f "$project/uv.lock" ] && [[ "$(< "$project/uv.lock")" == *'name = "opencv
   shopt -u nullglob
   [ ${#gui[@]} -eq 0 ] || sync+=(--reinstall-package opencv-python-headless)
 fi
+# One sync per project at a time: lint and typecheck run `uv run` side by side on one
+# .venv, and two syncs racing there fail to install a wheel (greenlet's headers). The lock
+# is the checkout's, not $TMPDIR's: enact gives each shard a TMPDIR of its own.
 if command -v flock >/dev/null 2>&1; then
-  flock "${TMPDIR:-/tmp}/immich-uv-sync-$(id -u)-$(printf '%s' "$project" | cksum | cut -d' ' -f1).lock" "$uv" "${sync[@]}"
+  locks="$REPO_ROOT/.enact/state/locks"
+  mkdir -p "$locks"
+  flock -o "$locks/uv-sync-$(printf '%s' "$(cd "$project" && pwd -P)" | cksum | cut -d' ' -f1).lock" "$uv" "${sync[@]}"
 else
   "$uv" "${sync[@]}"
 fi
