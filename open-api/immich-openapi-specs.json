@@ -33945,11 +33945,6 @@
       },
       "UserConfigOAuthDto": {
         "properties": {
-          "accountManagementUrl": {
-            "default": "",
-            "description": "Account management URL",
-            "type": "string"
-          },
           "autoLaunch": {
             "description": "Auto launch",
             "type": "boolean"

@@ -303,8 +303,7 @@ const AdminConfigSchemaWithVisibility = z
         accountManagementUrl: emptyOrUrl('Account management URL must be an empty string or a valid URL')
           .describe('Account management URL')
           .optional()
-          .default('')
-          .meta({ visibility: User }),
+          .default(''),
         scope: z.string().describe('Scope'),
         prompt: z.string().describe('OAuth prompt parameter (e.g. select_account, login, consent)'),
         endSessionEndpoint: emptyOrUrl('endSessionEndpoint must be an empty string or a valid URL').describe(
