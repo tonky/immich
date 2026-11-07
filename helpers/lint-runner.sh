@@ -224,4 +224,4 @@ if [ "$failed" -ne 0 ]; then
   exit 1
 fi
 
-echo "✓ Incremental lint suite passed cleanly."
+echo "✓ Incremental lint suite clean."

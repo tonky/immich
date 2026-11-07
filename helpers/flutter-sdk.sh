@@ -46,5 +46,7 @@ if [ ! -f "$root/.enact-ready" ]; then
 fi
 
 export FLUTTER_ROOT="$root"
-export PATH="$root/bin:$PATH"
+# native_core's build hook drives cargo only through rustup: helpers/rustup-shim answers
+# with the env's toolchain.
+export PATH="$REPO_ROOT/helpers/rustup-shim:$root/bin:$PATH"
 exec "$@"

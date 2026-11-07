@@ -2,8 +2,8 @@
   "platforms": {
     "aarch64-darwin": {
       "binding": {
-        "environment_sha256": "9d91b65f5215b5c9db9c2d7f391b047eaaaecbcdfd01e52ce1f31cd376c329e3",
-        "inventory_sha256": "d2555d195a91c8e2fecd74ef59e28b39df6dbda14b380bf52aa91b6381235322",
+        "environment_sha256": "6a08de31102d141b8816b08cedbafc58d68dcbdadb606fc1da9ce9dee068825b",
+        "inventory_sha256": "b41e669b42a84a8571bf56e356b4c43f7ad7f404bf5a63c5c4e9a63316ad300e",
         "profile": null,
         "version": 2
       },
@@ -166,6 +166,9 @@
             "rv03agpf25pj2lvq6apvpqpva9fx63l2-perl5.42.0-URI-5.21",
             "vsjb6j453nqc5k4djkrg08ms74ilq435-perl5.42.0-HTTP-Date-6.06"
           ]
+        },
+        {
+          "hash_name": "2dz6xprrljd53rwpf92mi8qw7zj12chy-dcm-1.39.1"
         },
         {
           "hash_name": "2k3ykxbw5ijc9inba9fpa5fac7lislk0-perl5.42.0-Encode-Locale-1.05",
@@ -471,9 +474,6 @@
           "references": [
             "7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2"
           ]
-        },
-        {
-          "hash_name": "7fvkljs9jij7qvxhagl0mhh7fjfh7z4b-dcm-1.39.1"
         },
         {
           "hash_name": "7r160i3gca967vnnsx9qkazinqhsqrxp-ncurses-6.6",
@@ -2863,7 +2863,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "bb8ad587ccb21045f1100faffb237a056140cc5ccbfffe8bce15ff21cf463481"
+        "projectSha256": "347c41472865f298a0101da8489ab322f7b104a75fef6695cfe46bcc1e469a4b"
       },
       "environment": {
         "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/vhwfx333xlnnyfv141sj288vpfhfnn51-rust-1.99.1/etc",
@@ -3050,7 +3050,7 @@
             "xmb14n7f9yh8dyvqchlcyjzwp62wdnnb-bash-interactive-5.3p9-dev",
             "y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11"
           ],
-          "closure": "7fvkljs9jij7qvxhagl0mhh7fjfh7z4b-dcm-1.39.1",
+          "closure": "2dz6xprrljd53rwpf92mi8qw7zj12chy-dcm-1.39.1",
           "version": "1.39.1"
         },
         "extism-js": {
@@ -3754,8 +3754,8 @@
     },
     "aarch64-linux": {
       "binding": {
-        "environment_sha256": "9d91b65f5215b5c9db9c2d7f391b047eaaaecbcdfd01e52ce1f31cd376c329e3",
-        "inventory_sha256": "4b5f321fbb6f202ec73449ba89e93b21c170ff532f6b2343babe892a83533c76",
+        "environment_sha256": "6a08de31102d141b8816b08cedbafc58d68dcbdadb606fc1da9ce9dee068825b",
+        "inventory_sha256": "6187f8010a20772063c21daac707f9fe45e98e14b35dadcba066fd685abac4b5",
         "profile": null,
         "version": 2
       },
@@ -5763,6 +5763,9 @@
           ]
         },
         {
+          "hash_name": "nsnm1yc8nxr15449vh8gf150m0m4rxby-immich-ffigen-libc-headers-1.0.0"
+        },
+        {
           "hash_name": "nv5ad7yha549hsyziblw3db9xm4s6apw-libxslt-1.1.45-bin",
           "nar_hash": "sha256:0l7c1kvl267b4p7b657kdjg3l3lhbsb4bxvs7my99mlkn8wn1a7r",
           "nar_size": 79104,
@@ -6623,6 +6626,40 @@
             204
           ],
           "extism-js": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "immich-ffigen-libc-headers": [
             197,
             248,
             168,
@@ -7523,6 +7560,39 @@
             },
             {
               "constraint": {
+                "attr": "glibc",
+                "context": "profiles.dev",
+                "output": "dev",
+                "system": "aarch64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "glibc",
+                "name": "glibc",
+                "origin": {
+                  "Channel": {
+                    "build": 329281154,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "bin": "/nix/store/z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin",
+                  "debug": "/nix/store/xq79pkgs6m7ww54ddqsd1i86xawzgcrv-glibc-2.42-61-debug",
+                  "dev": "/nix/store/11azz9spqc81walgg0mq9wjxrgbi4xqz-glibc-2.42-61-dev",
+                  "getent": "/nix/store/4iw5j5yf5982bi3w8406787572gixki8-glibc-2.42-61-getent",
+                  "out": "/nix/store/1bdzriipn18184zpwh2lfdabk2gqcgxn-glibc-2.42-61",
+                  "static": "/nix/store/q98qshrf9k4f1jm9y80j0l2s2ff32fhd-glibc-2.42-61-static"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/z1nc673qnmvbqxqwv93pfhc956vcfvyk-glibc-2.42-61-bin"
+                ],
+                "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "glibcLocales",
                 "context": "profiles.dev",
                 "output": null,
@@ -8330,7 +8400,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "bb8ad587ccb21045f1100faffb237a056140cc5ccbfffe8bce15ff21cf463481"
+        "projectSha256": "347c41472865f298a0101da8489ab322f7b104a75fef6695cfe46bcc1e469a4b"
       },
       "environment": {
         "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/62kjw6cqqgdv78f2pajgkypy8642068n-rust-1.99.1/etc",
@@ -8344,6 +8414,7 @@
         "E2E_AUTH_SERVER_HOST": "127.0.0.1",
         "E2E_AUTH_SERVER_PORT": "2286",
         "E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
+        "ENACT_FFIGEN_LIBC_INCLUDE": "$ENVE_STORE_DIR/nsnm1yc8nxr15449vh8gf150m0m4rxby-immich-ffigen-libc-headers-1.0.0/share/ffigen/include",
         "ENVE_SERVICE_E2E_AUTH_SERVER_HOST": "127.0.0.1",
         "ENVE_SERVICE_E2E_AUTH_SERVER_PORT": "2286",
         "ENVE_SERVICE_E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
@@ -8595,6 +8666,50 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "4.9"
+        },
+        "immich-ffigen-libc-headers": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "11azz9spqc81walgg0mq9wjxrgbi4xqz-glibc-2.42-61-dev",
+            "1ry8ms2dz2ggmind11cwcxba1bsiih8p-bash-interactive-5.3p9-dev",
+            "9bhf1ff1kwhmyynws5jkjp8k7pkh6kix-coreutils-9.11",
+            "rprpkkhvvf36qgpxhdjb7nmq26ayhf3f-bash-interactive-5.3p9"
+          ],
+          "closure": "nsnm1yc8nxr15449vh8gf150m0m4rxby-immich-ffigen-libc-headers-1.0.0",
+          "version": "1.0.0"
         },
         "immich-postgres-locales": {
           "buildIdentity": [
@@ -9212,8 +9327,8 @@
     },
     "x86_64-linux": {
       "binding": {
-        "environment_sha256": "9d91b65f5215b5c9db9c2d7f391b047eaaaecbcdfd01e52ce1f31cd376c329e3",
-        "inventory_sha256": "6cc22839132513e164eb764291a0a698c6a546994d07860439cfc0e8c5830415",
+        "environment_sha256": "6a08de31102d141b8816b08cedbafc58d68dcbdadb606fc1da9ce9dee068825b",
+        "inventory_sha256": "f40c7ba5646019c0a066fd98793696c6ffa2c9c68b8993af25c108dc7788f297",
         "profile": null,
         "version": 2
       },
@@ -10106,6 +10221,9 @@
             "2zs4bbi72plfm8j6zxf1js4f3yc4yzwy-libffi-3.5.2",
             "aj7zqrfxvg96ldyph7fly6qgprcm2krv-libffi-3.5.2-dev"
           ]
+        },
+        {
+          "hash_name": "aq5w8by55pwvz7scbq58mmlclzspbav9-immich-ffigen-libc-headers-1.0.0"
         },
         {
           "hash_name": "arwxx05v5p0lh75a6qx7h8dsp6pil31n-clang-wrapper-21.1.8",
@@ -11580,6 +11698,9 @@
           ]
         },
         {
+          "hash_name": "vcskq595g9fn2q3yplq8bywab6qipk9n-dcm-1.39.1"
+        },
+        {
           "hash_name": "vg3wx5csgpsix6b76n71nkrlj52q9018-unbound-1.25.0-lib",
           "nar_hash": "sha256:1by2g7r164ygmkc8ym86589ask0iwdf5zbh4z04d6d496n6apkqs",
           "nar_size": 1182016,
@@ -11590,9 +11711,6 @@
             "vg3wx5csgpsix6b76n71nkrlj52q9018-unbound-1.25.0-lib",
             "y56aqb1m3y5davn6hsv4jfbml78qw4mv-gmp-with-cxx-6.3.0"
           ]
-        },
-        {
-          "hash_name": "vk0xnpvf0xj6irjxbx2mrqb56lwhcwfb-dcm-1.39.1"
         },
         {
           "hash_name": "vkh1q0n1pnb83jhza0zwjwglp2946s90-perl5.42.0-HTML-Tagset-3.20",
@@ -12166,6 +12284,40 @@
             204
           ],
           "flutter": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "immich-ffigen-libc-headers": [
             197,
             248,
             168,
@@ -13066,6 +13218,39 @@
             },
             {
               "constraint": {
+                "attr": "glibc",
+                "context": "profiles.dev",
+                "output": "dev",
+                "system": "x86_64-linux",
+                "version": null
+              },
+              "package": {
+                "attr_path": "glibc",
+                "name": "glibc",
+                "origin": {
+                  "Channel": {
+                    "build": 329281159,
+                    "evaluation": 1826513,
+                    "release": "nixpkgs/nixpkgs-26.11pre1020805.89570f24e97e/"
+                  }
+                },
+                "outputs": {
+                  "bin": "/nix/store/bsh7n2nx8ndmm1mmww6v2h4851nalj13-glibc-2.42-61-bin",
+                  "debug": "/nix/store/064aav9qq5cszj4vw0q9z35pf9mjrj5w-glibc-2.42-61-debug",
+                  "dev": "/nix/store/15h9askp4k1lx44d9871wid23j2a8ijp-glibc-2.42-61-dev",
+                  "getent": "/nix/store/nacdc243fq2l9csjcbb1d2pzb14pfq8b-glibc-2.42-61-getent",
+                  "out": "/nix/store/57iz36553175g3178pvxjij8z5rcsd4n-glibc-2.42-61",
+                  "static": "/nix/store/b5qr6vlws4ifz9y5b98rn08iif41imv8-glibc-2.42-61-static"
+                },
+                "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
+                "store_paths": [
+                  "/nix/store/bsh7n2nx8ndmm1mmww6v2h4851nalj13-glibc-2.42-61-bin"
+                ],
+                "version": "2.42"
+              }
+            },
+            {
+              "constraint": {
                 "attr": "glibcLocales",
                 "context": "profiles.dev",
                 "output": null,
@@ -13873,7 +14058,7 @@
           }
         },
         "lockSourcePath": "enve.lock",
-        "projectSha256": "bb8ad587ccb21045f1100faffb237a056140cc5ccbfffe8bce15ff21cf463481"
+        "projectSha256": "347c41472865f298a0101da8489ab322f7b104a75fef6695cfe46bcc1e469a4b"
       },
       "environment": {
         "CLIPPY_CONF_DIR": "$ENVE_STORE_DIR/91cv66nmk22ywpgcwsnny9hsrzib8jzk-rust-1.99.1/etc",
@@ -13887,6 +14072,7 @@
         "E2E_AUTH_SERVER_HOST": "127.0.0.1",
         "E2E_AUTH_SERVER_PORT": "2286",
         "E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
+        "ENACT_FFIGEN_LIBC_INCLUDE": "$ENVE_STORE_DIR/aq5w8by55pwvz7scbq58mmlclzspbav9-immich-ffigen-libc-headers-1.0.0/share/ffigen/include",
         "ENVE_SERVICE_E2E_AUTH_SERVER_HOST": "127.0.0.1",
         "ENVE_SERVICE_E2E_AUTH_SERVER_PORT": "2286",
         "ENVE_SERVICE_E2E_AUTH_SERVER_URL": "http://127.0.0.1:2286",
@@ -14066,7 +14252,7 @@
             "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9",
             "ilblcn1dkvzghcr2yk3av6jxn5rk1iqw-patchelf-0.15.2"
           ],
-          "closure": "vk0xnpvf0xj6irjxbx2mrqb56lwhcwfb-dcm-1.39.1",
+          "closure": "vcskq595g9fn2q3yplq8bywab6qipk9n-dcm-1.39.1",
           "version": "1.39.1"
         },
         "extism-js": {
@@ -14235,6 +14421,50 @@
             "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775"
           },
           "version": "4.9"
+        },
+        "immich-ffigen-libc-headers": {
+          "buildIdentity": [
+            197,
+            248,
+            168,
+            50,
+            163,
+            231,
+            99,
+            220,
+            218,
+            125,
+            92,
+            190,
+            121,
+            2,
+            204,
+            22,
+            161,
+            9,
+            134,
+            253,
+            123,
+            148,
+            128,
+            84,
+            102,
+            65,
+            187,
+            77,
+            252,
+            184,
+            84,
+            204
+          ],
+          "buildInputs": [
+            "15h9askp4k1lx44d9871wid23j2a8ijp-glibc-2.42-61-dev",
+            "9ypz3flqsrl5xl495mm8h645gadjsxi1-coreutils-9.11",
+            "bvsy09r85z0q1m30p87s1bf4ikb0s84i-bash-interactive-5.3p9-dev",
+            "cgjr3kj3hs7ngznyws5qfg16c8scpys0-bash-interactive-5.3p9"
+          ],
+          "closure": "aq5w8by55pwvz7scbq58mmlclzspbav9-immich-ffigen-libc-headers-1.0.0",
+          "version": "1.0.0"
         },
         "immich-postgres-locales": {
           "buildIdentity": [

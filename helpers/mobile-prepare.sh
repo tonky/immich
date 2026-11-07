@@ -22,7 +22,7 @@ if [ -f "$STAMP" ] \
   && [ -d "$REPO_ROOT/mobile/test/drift/main/generated" ] \
   && [ -f "$REPO_ROOT/mobile/lib/generated/codegen_loader.g.dart" ] \
   && [ -f "$REPO_ROOT/mobile/lib/generated/translations.g.dart" ] \
-  && [ -f "$REPO_ROOT/native/native_core/lib/src/native_core_bindings.g.dart" ]; then
+  && [ -f "$REPO_ROOT/native/native_core/lib/src/bindings.g.dart" ]; then
   exit 0
 fi
 
@@ -67,7 +67,14 @@ export PATH="$SHIM_DIR:$PATH"
   cd "$REPO_ROOT/native/native_core"
   cargo build -p native_core_ffi
   flutter pub get
-  dart run ffigen --config ffigen.yaml
+  # libclang has its resource headers but no libc ones on Linux: enve.cue's
+  # ffigenLibcHeaders exports glibc's for ffigen alone, after the resource dir as a
+  # system include would be. macOS's Xcode libclang finds its SDK as before.
+  ffigen_opts=()
+  if [ -n "${ENACT_FFIGEN_LIBC_INCLUDE:-}" ]; then
+    ffigen_opts=(--compiler-opts "-idirafter $ENACT_FFIGEN_LIBC_INCLUDE")
+  fi
+  dart run ffigen --config ffigen.yaml "${ffigen_opts[@]}"
 )
 
 (

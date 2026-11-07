@@ -61,7 +61,7 @@ pipeline: schema.#Pipeline & {
 			watch_paths: [
 				"enve.cue", "enve.lock", "helpers/vchord/**", ".enact/**", "cue.mod/**",
 				"helpers/trace/**",
-				".github/workflows/ci.yml", ".github/workflows/nightly.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
+				".github/workflows/ci.yml", "bin/linux-x86_64/**", "bin/linux-aarch64/**", "bin/macos-aarch64/**", "bin/enact", "bin/enve",
 			]
 			depends_on:      []
 			workspace_scope: include_dependencies: true
@@ -295,7 +295,7 @@ pipeline: schema.#Pipeline & {
 		mobile: _tsComponent & {
 			name: "@immich/mobile", title: "Immich Mobile Application", kind: "app", domain: "clients", root: "mobile"
 			uses: [{protocol: schema.#Protocol.Http, target: "base", title: "Syncs media & albums via REST API"}]
-			watch_paths:     ["mobile/**", "helpers/mobile-prepare.sh", "helpers/flutter-sdk.sh"]
+			watch_paths:     ["mobile/**", "helpers/mobile-prepare.sh", "helpers/flutter-sdk.sh", "helpers/rustup-shim/**"]
 			depends_on:      [components.root, components.openapi, components.native]
 			workspace_scope: include: ["mobile", "open-api", "native", "i18n"]
 			// Flutter and dcm are X64-only on Linux (enve.cue).

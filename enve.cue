@@ -180,6 +180,30 @@ let postgresLocales = schema.#PackageSpec & {
 	exports: LOCALE_ARCHIVE: "$out/lib/locale/locale-archive"
 }
 
+// ffigen parses native_core.h with the env's libclang, which brings its resource headers
+// (stddef.h, stdint.h) but no libc ones, and the hosts have no glibc-devel (immich U40).
+// glibc's headers (with the kernel ones it propagates) reach ffigen by this export alone:
+// as a profile input they would join every compile's CPATH, ahead of libstdc++'s own
+// headers, whose #include_next <stdlib.h> then misses.
+let ffigenLibcHeaders = schema.#PackageSpec & {
+	pname:   "immich-ffigen-libc-headers"
+	version: "1.0.0"
+	platforms: ["linux"]
+	buildInputs: [{pname: "glibc", attr: "glibc.dev"}]
+	buildScript: """
+		set -eu
+		include="$out/share/ffigen/include"
+		mkdir -p "$include"
+		IFS=:
+		for dir in ${CPATH:-}; do
+			[ -d "$dir" ] && cp -Rsn "$dir/." "$include/"
+		done
+		unset IFS
+		[ -e "$include/stdlib.h" ] || { echo "glibc's dev headers missing from the inputs" >&2; exit 1; }
+		"""
+	exports: ENACT_FFIGEN_LIBC_INCLUDE: "$out/share/ffigen/include"
+}
+
 let pgBuildInputs = [
 	pkgs.postgresql_14,
 	{pname: "postgresql", attr: "postgresql_14.dev", version: "14"},
@@ -461,6 +485,13 @@ let _dcm_1_39_1 = schema.#ArchiveBuildSpec & {
 		mkdir -p "$out/bin" "$out/libexec"
 		cp "$(find "$src" -type f -name dcm | head -n 1)" "$out/libexec/dcm"
 		chmod 0755 "$out/libexec/dcm"
+		# dcm is a Dart AOT executable: the runtime finds its appended snapshot through a
+		# 16-byte trailer (offset, magic 0xf6f6dcdc) at the end of the file. patchelf
+		# appends segments after it, and the runtime then runs as a bare dartaotruntime
+		# (`dcm analyze`: "analyze is not an AOT snapshot"). The snapshot keeps its offset,
+		# so the trailer goes back at the end.
+		trailer=$(mktemp)
+		tail -c 16 "$out/libexec/dcm" > "$trailer"
 		if [ "$(uname -s)" = Linux ]; then
 			auto-patchelf --paths "$out/libexec" --libs $(printf '%s' "$LIBRARY_PATH" | tr ':' ' ')
 			root=$(cd /nix/store && pwd -P)
@@ -476,14 +507,21 @@ let _dcm_1_39_1 = schema.#ArchiveBuildSpec & {
 				done
 				[ "$fixed" = "$rpath" ] || patchelf --set-rpath "$fixed" "$elf"
 			fi
+			if [ "$(od -An -tx1 -j8 -N8 "$trailer" | tr -d ' \n')" = dcdcf6f600000000 ] \
+				&& [ "$(tail -c 16 "$elf" | od -An -tx1)" != "$(od -An -tx1 "$trailer")" ]; then
+				cat "$trailer" >> "$elf"
+			fi
 		fi
+		rm -f "$trailer"
 		cat > "$out/bin/dcm" << 'EOF'
 		#!/bin/sh
 		export PATH="$PATH:/usr/sbin"
 		exec "$(dirname "$0")/../libexec/dcm" "$@"
 		EOF
 		chmod 0755 "$out/bin/dcm"
-		"$out/bin/dcm" --version
+		# A bare dartaotruntime answers --version too, with the Dart SDK's.
+		version=$("$out/bin/dcm" --version)
+		case "$version" in "DCM version"*) ;; *) echo "dcm lost its snapshot: $version" >&2; exit 1 ;; esac
 		"""#
 }
 
@@ -493,7 +531,7 @@ profiles: dev: schema.#Profile & {
 		pnpm, nodejs, pkgs.python & {version: "3.12"}, ffmpeg, uv, extismJs, binaryen,
 		_rust_1_99_1, _flutter_3_47_2, _dcm_1_39_1,
 		{pname: "jdk21_headless"}, {pname: "patch"}, {pname: "findutils"}, {pname: "gnused"},
-		{pname: "libclang", attr: "libclang.lib"},
+		{pname: "libclang", attr: "libclang.lib"}, ffigenLibcHeaders,
 		pkgs.valkey & {version: "9"},
 		{pname: "perl"}, {pname: "unzip"}, {pname: "shellcheck"},
 		{pname: "bash"}, {pname: "flock"}, {pname: "git"}, {pname: "curl"}, {pname: "coreutils"}, {pname: "gawk"},

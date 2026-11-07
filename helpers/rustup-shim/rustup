@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# rustup - The env's Rust toolchain answering native_toolchain_rust's rustup calls
+# ==============================================================================
+# native_core's Dart build hook (native_toolchain_rust) runs on every `dart run` and
+# `flutter test` in mobile, and only drives cargo through rustup: `rustup show
+# active-toolchain`, then `rustup run <channel> cargo build ...`. The hosts have no
+# rustup, and a host one would download the toolchain: enve.cue's rust is the one
+# native/rust-toolchain.toml pins, so this runs it, refusing any other channel.
+set -euo pipefail
+
+have="$(rustc --version | awk '{print $2}')"
+case "${1:-}" in
+  show)
+    echo "${have} (enve)"
+    ;;
+  run)
+    channel="${2:?rustup run needs a toolchain}"
+    if [ "${channel}" != "${have}" ]; then
+      echo "❌ [rustup shim] ${channel} requested, the env's rust is ${have}: bump enve.cue's rust" >&2
+      exit 1
+    fi
+    shift 2
+    exec "$@"
+    ;;
+  *)
+    echo "❌ [rustup shim] unsupported: rustup $*" >&2
+    exit 1
+    ;;
+esac

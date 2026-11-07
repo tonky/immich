@@ -104,7 +104,6 @@ jobs:
     runs-on:
     - self-hosted
     - Linux
-    - X64
     - tonky-ci
     - tonky-ci-s
     timeout-minutes: 15
@@ -203,6 +202,7 @@ jobs:
           i18n
           helpers/mobile-prepare.sh
           helpers/flutter-sdk.sh
+          helpers/rustup-shim
           packages/plugin-sdk
           packages/sdk/src
           server
@@ -254,6 +254,7 @@ jobs:
           i18n
           helpers/mobile-prepare.sh
           helpers/flutter-sdk.sh
+          helpers/rustup-shim
           packages/plugin-sdk
           packages/sdk/src
           server
@@ -506,7 +507,6 @@ jobs:
     runs-on:
     - self-hosted
     - Linux
-    - X64
     - tonky-ci
     - tonky-ci-s
     timeout-minutes: 5
@@ -726,7 +726,6 @@ jobs:
     runs-on:
     - self-hosted
     - Linux
-    - X64
     - tonky-ci
     - tonky-ci-s
     timeout-minutes: 10
@@ -892,7 +891,6 @@ jobs:
     runs-on:
     - self-hosted
     - Linux
-    - X64
     - tonky-ci
     - tonky-ci-s
     timeout-minutes: 5
